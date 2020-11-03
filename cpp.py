@@ -1,0 +1,26 @@
+# C++ primitive types (not replaced with mask token)
+CPP_PRIM_TYPES = [
+    'bool',
+    'char',
+    'int',
+    'float',
+    'double',
+    'void',
+    'wchar_t',
+    'unsigned char',
+    'signed char',
+    'unsigned int',
+    'signed int',
+    'short int',
+    'unsigned short int',
+    'signed short int',
+    'long int',
+    'signed long int',
+    'unsigned long int',
+    'long long int',
+    'unsigned long long int',
+    'long double',
+    'std::string',
+    'std::array',
+    'std::vector'
+]
