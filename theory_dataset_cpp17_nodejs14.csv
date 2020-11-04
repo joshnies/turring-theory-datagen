@@ -1,0 +1,58 @@
+source,target
+bool %AI_VAR_NAME%;,let %AI_VAR_NAME%;
+bool %AI_VAR_NAME% = %AI_VAL%;,let %AI_VAR_NAME% = %AI_VAL%;
+char %AI_VAR_NAME%;,let %AI_VAR_NAME%;
+char %AI_VAR_NAME% = %AI_VAL%;,let %AI_VAR_NAME% = %AI_VAL%;
+int %AI_VAR_NAME%;,let %AI_VAR_NAME%;
+int %AI_VAR_NAME% = %AI_VAL%;,let %AI_VAR_NAME% = %AI_VAL%;
+float %AI_VAR_NAME%;,let %AI_VAR_NAME%;
+float %AI_VAR_NAME% = %AI_VAL%;,let %AI_VAR_NAME% = %AI_VAL%;
+double %AI_VAR_NAME%;,let %AI_VAR_NAME%;
+double %AI_VAR_NAME% = %AI_VAL%;,let %AI_VAR_NAME% = %AI_VAL%;
+void %AI_VAR_NAME%;,let %AI_VAR_NAME%;
+void %AI_VAR_NAME% = %AI_VAL%;,let %AI_VAR_NAME% = %AI_VAL%;
+wchar_t %AI_VAR_NAME%;,let %AI_VAR_NAME%;
+wchar_t %AI_VAR_NAME% = %AI_VAL%;,let %AI_VAR_NAME% = %AI_VAL%;
+unsigned char %AI_VAR_NAME%;,let %AI_VAR_NAME%;
+unsigned char %AI_VAR_NAME% = %AI_VAL%;,let %AI_VAR_NAME% = %AI_VAL%;
+signed char %AI_VAR_NAME%;,let %AI_VAR_NAME%;
+signed char %AI_VAR_NAME% = %AI_VAL%;,let %AI_VAR_NAME% = %AI_VAL%;
+unsigned int %AI_VAR_NAME%;,let %AI_VAR_NAME%;
+unsigned int %AI_VAR_NAME% = %AI_VAL%;,let %AI_VAR_NAME% = %AI_VAL%;
+signed int %AI_VAR_NAME%;,let %AI_VAR_NAME%;
+signed int %AI_VAR_NAME% = %AI_VAL%;,let %AI_VAR_NAME% = %AI_VAL%;
+short int %AI_VAR_NAME%;,let %AI_VAR_NAME%;
+short int %AI_VAR_NAME% = %AI_VAL%;,let %AI_VAR_NAME% = %AI_VAL%;
+unsigned short int %AI_VAR_NAME%;,let %AI_VAR_NAME%;
+unsigned short int %AI_VAR_NAME% = %AI_VAL%;,let %AI_VAR_NAME% = %AI_VAL%;
+signed short int %AI_VAR_NAME%;,let %AI_VAR_NAME%;
+signed short int %AI_VAR_NAME% = %AI_VAL%;,let %AI_VAR_NAME% = %AI_VAL%;
+long int %AI_VAR_NAME%;,let %AI_VAR_NAME%;
+long int %AI_VAR_NAME% = %AI_VAL%;,let %AI_VAR_NAME% = %AI_VAL%;
+signed long int %AI_VAR_NAME%;,let %AI_VAR_NAME%;
+signed long int %AI_VAR_NAME% = %AI_VAL%;,let %AI_VAR_NAME% = %AI_VAL%;
+unsigned long int %AI_VAR_NAME%;,let %AI_VAR_NAME%;
+unsigned long int %AI_VAR_NAME% = %AI_VAL%;,let %AI_VAR_NAME% = %AI_VAL%;
+long long int %AI_VAR_NAME%;,let %AI_VAR_NAME%;
+long long int %AI_VAR_NAME% = %AI_VAL%;,let %AI_VAR_NAME% = %AI_VAL%;
+unsigned long long int %AI_VAR_NAME%;,let %AI_VAR_NAME%;
+unsigned long long int %AI_VAR_NAME% = %AI_VAL%;,let %AI_VAR_NAME% = %AI_VAL%;
+long double %AI_VAR_NAME%;,let %AI_VAR_NAME%;
+long double %AI_VAR_NAME% = %AI_VAL%;,let %AI_VAR_NAME% = %AI_VAL%;
+std::string %AI_VAR_NAME%;,let %AI_VAR_NAME%;
+std::string %AI_VAR_NAME% = %AI_VAL%;,let %AI_VAR_NAME% = %AI_VAL%;
+std::array %AI_VAR_NAME%;,let %AI_VAR_NAME%;
+std::array %AI_VAR_NAME% = %AI_VAL%;,let %AI_VAR_NAME% = %AI_VAL%;
+std::vector %AI_VAR_NAME%;,let %AI_VAR_NAME%;
+std::vector %AI_VAR_NAME% = %AI_VAL%;,let %AI_VAR_NAME% = %AI_VAL%;
+%AI_VAR_NAME% = %AI_VAL%;,%AI_VAR_NAME% = %AI_VAL%;
+"short int* %AI_FUNC_NAME%(std::array %AI_ARG_NAME% = %AI_VAL%, long int* %AI_ARG_NAME% = %AI_VAL%, signed short int %AI_ARG_NAME%, long long int* %AI_ARG_NAME%, unsigned char %AI_ARG_NAME%) {}","const %AI_FUNC_NAME% => ( %AI_ARG_NAME%, %AI_ARG_NAME%, %AI_ARG_NAME%, %AI_ARG_NAME%, %AI_ARG_NAME% ) {  }"
+"long int %AI_FUNC_NAME%(unsigned short int %AI_ARG_NAME% = %AI_VAL%, unsigned int %AI_ARG_NAME% = %AI_VAL%, std::vector* %AI_ARG_NAME% = %AI_VAL%, std::vector* %AI_ARG_NAME% = %AI_VAL%) {}","const %AI_FUNC_NAME% => ( %AI_ARG_NAME%, %AI_ARG_NAME%, %AI_ARG_NAME%, %AI_ARG_NAME% ) {  }"
+"char* %AI_FUNC_NAME%(signed short int* %AI_ARG_NAME% = %AI_VAL%, unsigned char* %AI_ARG_NAME% = %AI_VAL%, double %AI_ARG_NAME%, unsigned short int %AI_ARG_NAME%) {%AI_EXTRACTION%}","const %AI_FUNC_NAME% => ( %AI_ARG_NAME%, %AI_ARG_NAME%, %AI_ARG_NAME%, %AI_ARG_NAME% ) { %AI_EXTRACTION% }"
+"unsigned int %AI_FUNC_NAME%(unsigned long int* %AI_ARG_NAME% = %AI_VAL%, double %AI_ARG_NAME%) {}","const %AI_FUNC_NAME% => ( %AI_ARG_NAME%, %AI_ARG_NAME% ) {  }"
+signed short int* %AI_FUNC_NAME%(char* %AI_ARG_NAME%) {},const %AI_FUNC_NAME% => ( %AI_ARG_NAME% ) {  }
+class %AI_CLASS_NAME% {%AI_EXTRACTION%},class %AI_CLASS_NAME% {%AI_EXTRACTION%}
+"abstract class %AI_CLASS_NAME% : public %AI_INHERITED_CLASS_NAME%, private %AI_INHERITED_CLASS_NAME%, public %AI_INHERITED_CLASS_NAME% {%AI_EXTRACTION%}",class %AI_CLASS_NAME% {%AI_EXTRACTION%}
+"class %AI_CLASS_NAME% : protected %AI_INHERITED_CLASS_NAME%, private %AI_INHERITED_CLASS_NAME%, protected %AI_INHERITED_CLASS_NAME%, public %AI_INHERITED_CLASS_NAME% {%AI_EXTRACTION%}",class %AI_CLASS_NAME% {%AI_EXTRACTION%}
+"abstract class %AI_CLASS_NAME% : protected %AI_INHERITED_CLASS_NAME%, public %AI_INHERITED_CLASS_NAME%, private %AI_INHERITED_CLASS_NAME%, protected %AI_INHERITED_CLASS_NAME% {}",class %AI_CLASS_NAME% {}
+abstract class %AI_CLASS_NAME% {%AI_EXTRACTION%},class %AI_CLASS_NAME% {%AI_EXTRACTION%}
