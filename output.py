@@ -13,7 +13,7 @@ def to_csv(arrs, file_path):
         data.extend(a)
 
     try:
-        with open(file_path, 'w') as csv_file:
+        with open(file_path, 'w', newline='') as csv_file:
             writer = csv.DictWriter(csv_file, fieldnames=CSV_COLUMNS)
             writer.writeheader()
 

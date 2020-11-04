@@ -1,11 +1,12 @@
+from constants import AI_VAR_NAME
 from cpp import CPP_PRIM_TYPES
 
 
 def gen_var_def_pair(t: str):
     """Generate a variable pair."""
 
-    source = f'{t} %AI_VAR_NAME%;'
-    target = 'let %AI_VAR_NAME%'
+    source = f'{t} {AI_VAR_NAME};'
+    target = f'let {AI_VAR_NAME};'
     return source, target
 
 
