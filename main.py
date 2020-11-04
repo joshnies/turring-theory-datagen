@@ -7,6 +7,7 @@ from class_constructs import gen_class_constructs
 from imports import gen_path_imports
 from output import to_csv
 
+GENERIC_VAR_DEFS_COUNT = 1000
 FUNC_COUNT = 200000
 FUNC_CALL_COUNT = 500000
 CLASS_COUNT = 1000
@@ -14,7 +15,7 @@ CLASS_CONSTRUCTS_COUNT = 10000
 OUTPUT_FILE_PATH = 'theory_dataset_cpp17_nodejs14.csv'
 
 # Generate data
-var_defs = gen_var_defs()
+var_defs = gen_var_defs(generic_count=GENERIC_VAR_DEFS_COUNT)
 var_assigns = gen_var_assigns()
 funcs = gen_funcs(FUNC_COUNT)
 func_calls = gen_func_calls(FUNC_CALL_COUNT)
