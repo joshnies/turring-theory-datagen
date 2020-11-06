@@ -9,19 +9,19 @@ from class_constructs import gen_class_constructs
 from imports import gen_path_imports
 from output import to_csv
 
-# Cloud training
-# GENERIC_VAR_DEFS_COUNT = 1000
-# FUNC_COUNT = 200000
-# FUNC_CALL_COUNT = 500000
-# CLASS_COUNT = 1000
-# CLASS_CONSTRUCTS_COUNT = 10000
+# Cloud (full) dataset
+GENERIC_VAR_DEFS_COUNT = 1000
+FUNC_COUNT = 200000
+FUNC_CALL_COUNT = 500000
+CLASS_COUNT = 1000
+CLASS_CONSTRUCTS_COUNT = 10000
 
-# Local training
-GENERIC_VAR_DEFS_COUNT = 200
-FUNC_COUNT = 10000
-FUNC_CALL_COUNT = 20000
-CLASS_COUNT = 200
-CLASS_CONSTRUCTS_COUNT = 500
+# Local (slimmed) dataset
+# GENERIC_VAR_DEFS_COUNT = 200
+# FUNC_COUNT = 10000
+# FUNC_CALL_COUNT = 20000
+# CLASS_COUNT = 200
+# CLASS_CONSTRUCTS_COUNT = 500
 
 OUTPUT_FILE_PATH = os.path.join('output', 'theory_dataset_cpp17_nodejs14.csv')
 
