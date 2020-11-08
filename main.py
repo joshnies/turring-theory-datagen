@@ -1,5 +1,6 @@
 import os
 
+from try_catch_blocks import gen_try_catch_blocks
 from var_defs import gen_var_defs
 from var_assigns import gen_var_assigns
 from funcs import gen_funcs
@@ -45,12 +46,13 @@ switch_data = gen_switch_data()
 jump_stmts = gen_jump_statements()
 classes = gen_classes(CLASS_COUNT)
 class_constructs = gen_class_constructs(CLASS_CONSTRUCTS_COUNT)
+try_catch_blocks = gen_try_catch_blocks()
 path_imports = gen_path_imports()
 comments = gen_comments()
 
 # Output data to CSV file
 to_csv(
     [var_defs, var_assigns, funcs, func_calls, conditional_structs, loop_structs, for_loop_inputs, switch_data,
-     jump_stmts, classes, class_constructs, path_imports, comments], OUTPUT_FILE_PATH)
+     jump_stmts, classes, class_constructs, try_catch_blocks, path_imports, comments], OUTPUT_FILE_PATH)
 
 print('Output to {}'.format(OUTPUT_FILE_PATH))
