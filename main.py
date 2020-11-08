@@ -1,5 +1,6 @@
 import os
 
+from conditional_structures import gen_conditional_structs
 from var_defs import gen_var_defs
 from var_assigns import gen_var_assigns
 from funcs import gen_funcs
@@ -32,11 +33,13 @@ var_defs = gen_var_defs(generic_count=GENERIC_VAR_DEFS_COUNT)
 var_assigns = gen_var_assigns()
 funcs = gen_funcs(FUNC_COUNT)
 func_calls = gen_func_calls(FUNC_CALL_COUNT)
+conditional_structs = gen_conditional_structs()
 classes = gen_classes(CLASS_COUNT)
 class_constructs = gen_class_constructs(CLASS_CONSTRUCTS_COUNT)
 path_imports = gen_path_imports()
 
 # Output data to CSV file
-to_csv([var_defs, var_assigns, funcs, func_calls, classes, class_constructs, path_imports], OUTPUT_FILE_PATH)
+to_csv([var_defs, var_assigns, funcs, func_calls, conditional_structs, classes, class_constructs, path_imports],
+       OUTPUT_FILE_PATH)
 
 print('Output to {}'.format(OUTPUT_FILE_PATH))

@@ -29,7 +29,7 @@ def gen_func_pair():
     args = []
 
     # Generate func args
-    for i in range(arg_count):
+    for _ in range(arg_count):
         args.append(gen_func_arg_pair())
 
     source_args = []
@@ -53,7 +53,7 @@ def gen_funcs(count):
 
     data = []
 
-    for i in range(count):
+    for _ in range(count):
         (source, target) = gen_func_pair()
         item = {'source': source, 'target': target}
 
