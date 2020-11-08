@@ -2,6 +2,7 @@ import os
 
 from conditional_structures import gen_conditional_structs
 from for_loop_inputs import gen_for_loop_inputs
+from jump_statements import gen_jump_statements
 from loop_structures import gen_loop_structs
 from switch_structures import gen_switch_data
 from var_defs import gen_var_defs
@@ -40,13 +41,14 @@ conditional_structs = gen_conditional_structs()
 loop_structs = gen_loop_structs()
 for_loop_inputs = gen_for_loop_inputs()
 switch_data = gen_switch_data()
+jump_stmts = gen_jump_statements()
 classes = gen_classes(CLASS_COUNT)
 class_constructs = gen_class_constructs(CLASS_CONSTRUCTS_COUNT)
 path_imports = gen_path_imports()
 
 # Output data to CSV file
 to_csv(
-    [var_defs, var_assigns, funcs, func_calls, conditional_structs, loop_structs, for_loop_inputs, switch_data, classes,
-     class_constructs, path_imports], OUTPUT_FILE_PATH)
+    [var_defs, var_assigns, funcs, func_calls, conditional_structs, loop_structs, for_loop_inputs, switch_data,
+     jump_stmts, classes, class_constructs, path_imports], OUTPUT_FILE_PATH)
 
 print('Output to {}'.format(OUTPUT_FILE_PATH))

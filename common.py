@@ -16,3 +16,12 @@ def gen_val_list():
         vals.append(AI_VAL)
 
     return join(vals, ', ')
+
+
+def gen_item(source, target=None):
+    """Generate dataset item."""
+
+    if target is None:
+        target = source
+
+    return {'source': source, 'target': target}
