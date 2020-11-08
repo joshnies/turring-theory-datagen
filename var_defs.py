@@ -44,6 +44,8 @@ def gen_var_defs(generic_count):
         t = gen_cpp_generic_type()
         (source, target) = gen_var_def_pair(t, has_default_value=bool(random.getrandbits(1)))
         item = {'source': source, 'target': target}
-        data.append(item)
+
+        if item not in data:
+            data.append(item)
 
     return data

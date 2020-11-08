@@ -41,6 +41,8 @@ def gen_classes(count):
     for i in range(count):
         (source, target) = gen_class_pair()
         item = {'source': source, 'target': target}
-        data.append(item)
+
+        if item not in data:
+            data.append(item)
 
     return data

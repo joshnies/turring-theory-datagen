@@ -56,6 +56,8 @@ def gen_funcs(count):
     for i in range(count):
         (source, target) = gen_func_pair()
         item = {'source': source, 'target': target}
-        data.append(item)
+
+        if item not in data:
+            data.append(item)
 
     return data

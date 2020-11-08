@@ -18,6 +18,8 @@ def gen_class_constructs(count):
     for i in range(count):
         construct = gen_class_construct_pair()
         item = {'source': construct, 'target': construct}
-        data.append(item)
+
+        if item not in data:
+            data.append(item)
 
     return data
