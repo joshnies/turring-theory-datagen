@@ -21,6 +21,7 @@ def gen_func_arg_pair():
 def gen_func_pair():
     """Generate a function pair."""
 
+    abstract = 'abstract ' if bool(random.getrandbits(1)) else ''
     source_return_type = random.choice(CPP_PRIM_TYPES)
     pointer = '*' if bool(random.getrandbits(1)) else ''
     body = AI_EXTRACTION if bool(random.getrandbits(1)) else ''
@@ -43,7 +44,7 @@ def gen_func_pair():
     target_args_str = join(target_args, ', ')
 
     # Generate final functions
-    source_func = f'{source_return_type}{pointer} {AI_FUNC_NAME}({source_args_str}) {{{body}}}'
+    source_func = f'{abstract}{source_return_type}{pointer} {AI_FUNC_NAME}({source_args_str}) {{{body}}}'
     target_func = f'const {AI_FUNC_NAME} => ( {target_args_str} ) {{ {body} }}'
     return source_func, target_func
 
