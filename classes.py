@@ -17,14 +17,14 @@ def gen_class_pair():
     abstract = 'abstract ' if bool(random.getrandbits(1)) else ''
 
     # Generate generics
-    generics_range = range(0, 11)
+    generics_range = range(0, 4)
     generics_count = random.choices(generics_range, weights=(75, 15, 10, 5), k=1)[0]
     generics = []
 
     for i in range(generics_count):
         generics.append(random.choice(AI_GENERIC))
 
-    generics = join(generics, ', ')
+    generics = '<' + join(generics, ', ') + '>'
 
     # Generate inheritance
     inheritance_range = range(0, 11)
