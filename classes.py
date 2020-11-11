@@ -22,7 +22,7 @@ def gen_class_pair():
     generics = []
 
     for i in range(generics_count):
-        generics.append(random.choice(AI_GENERIC))
+        generics.append(AI_GENERIC)
 
     generics = '<' + join(generics, ', ') + '>'
 
