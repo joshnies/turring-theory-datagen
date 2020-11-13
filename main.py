@@ -16,21 +16,32 @@ from imports import gen_path_imports
 from comments import gen_comments
 from output import to_csv
 
-# Full dataset
+# Training dataset
 GENERIC_VAR_DEFS_COUNT = 1000
 FUNC_COUNT = 200000
 FUNC_CALL_COUNT = 500000
 CLASS_COUNT = 1000
 CLASS_CONSTRUCTS_COUNT = 10000
 
-# Slim dataset
+# Validation dataset
+# GENERIC_VAR_DEFS_COUNT = 200
+# FUNC_COUNT = 40000
+# FUNC_CALL_COUNT = 100000
+# CLASS_COUNT = 200
+# CLASS_CONSTRUCTS_COUNT = 2000
+
+# Slim training dataset
 # GENERIC_VAR_DEFS_COUNT = 200
 # FUNC_COUNT = 10000
 # FUNC_CALL_COUNT = 20000
 # CLASS_COUNT = 200
 # CLASS_CONSTRUCTS_COUNT = 500
 
-OUTPUT_FILE_PATH = os.path.join('output', 'theory_data_cpp17_nodejs14.csv')
+# Training dataset file path
+OUTPUT_FILE_PATH = os.path.join('output', 'theory_train_data_cpp17_nodejs14.csv')
+
+# Validation dataset file path
+# OUTPUT_FILE_PATH = os.path.join('output', 'theory_valid_data_cpp17_nodejs14.csv')
 
 print('Generating...')
 
