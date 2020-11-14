@@ -45,7 +45,7 @@ def gen_func_pair():
 
     # Generate final functions
     source_func = f'{abstract}{source_return_type}{pointer} {AI_FUNC_NAME}({source_args_str}) {{{body}}}'
-    target_func = f'const {AI_FUNC_NAME} => ( {target_args_str} ) {{ {body} }}'
+    target_func = f'const {AI_FUNC_NAME} = ({target_args_str}) => {{{body}}}'
     return source_func, target_func
 
 
