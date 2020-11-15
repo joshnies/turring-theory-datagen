@@ -2,7 +2,8 @@ import random
 
 from common import gen_val_list
 from constants import AI_STMT_OBJ
-from utils import join, join_rand, gen_provided_generics
+from generics import gen_provided_generics
+from utils import join, join_rand
 
 
 def gen_func_call_obj():

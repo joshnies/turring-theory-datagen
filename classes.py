@@ -1,7 +1,8 @@
 import random
 
 from constants import AI_CLASS_NAME, AI_EXTRACTION, AI_INHERITED_CLASS_NAME, AI_GENERIC
-from utils import join, gen_type_generics
+from generics import gen_type_generics
+from utils import join
 
 
 def gen_class_inheritance():
