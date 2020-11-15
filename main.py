@@ -1,5 +1,6 @@
 import os
 
+from cout import gen_couts
 from try_catch_blocks import gen_try_catch_blocks
 from var_defs import gen_var_defs
 from var_assigns import gen_var_assigns
@@ -60,10 +61,11 @@ class_constructs = gen_class_constructs(CLASS_CONSTRUCTS_COUNT)
 try_catch_blocks = gen_try_catch_blocks()
 path_imports = gen_path_imports()
 comments = gen_comments()
+couts = gen_couts()
 
 # Output data to CSV file
 to_csv(
     [var_defs, var_assigns, funcs, func_calls, conditional_structs, loop_structs, for_loop_inputs, switch_data,
-     jump_stmts, classes, class_constructs, try_catch_blocks, path_imports, comments], OUTPUT_FILE_PATH)
+     jump_stmts, classes, class_constructs, try_catch_blocks, path_imports, comments, couts], OUTPUT_FILE_PATH)
 
 print('Output to {}'.format(OUTPUT_FILE_PATH))
