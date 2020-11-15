@@ -1,7 +1,7 @@
 import random
 
 from constants import AI_CLASS_NAME, AI_EXTRACTION, AI_INHERITED_CLASS_NAME, AI_GENERIC
-from utils import join
+from utils import join, gen_type_generics
 
 
 def gen_class_inheritance():
@@ -17,14 +17,7 @@ def gen_class_pair():
     abstract = 'abstract ' if bool(random.getrandbits(1)) else ''
 
     # Generate generics
-    generics_range = range(0, 4)
-    generics_count = random.choices(generics_range, weights=(75, 15, 10, 5), k=1)[0]
-    generics = []
-
-    for i in range(generics_count):
-        generics.append(AI_GENERIC)
-
-    generics = '<' + join(generics, ', ') + '>'
+    generics = gen_type_generics()
 
     # Generate inheritance
     inheritance_range = range(0, 11)
@@ -40,7 +33,7 @@ def gen_class_pair():
     body = AI_EXTRACTION if bool(random.getrandbits(1)) else ''
 
     source = f'{abstract}class {AI_CLASS_NAME}{generics}{inheritance_prefix}{inheritance} {{{body}}}'
-    target = f'class {AI_CLASS_NAME}{generics} {{{body}}}'
+    target = f'class {AI_CLASS_NAME} {{{body}}}'
     return source, target
 
 

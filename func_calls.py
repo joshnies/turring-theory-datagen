@@ -2,7 +2,7 @@ import random
 
 from common import gen_val_list
 from constants import AI_STMT_OBJ
-from utils import join, join_rand
+from utils import join, join_rand, gen_provided_generics
 
 
 def gen_func_call_obj():
@@ -12,7 +12,10 @@ def gen_func_call_obj():
     func_call_markers = ['(', ')'] if is_func_call else ['', '']
     args = gen_val_list() if is_func_call else ''
 
-    obj = f'{AI_STMT_OBJ}{func_call_markers[0]}{args}{func_call_markers[1]}'
+    # Generate generics
+    generics = gen_provided_generics() if is_func_call else ''
+
+    obj = f'{AI_STMT_OBJ}{generics}{func_call_markers[0]}{args}{func_call_markers[1]}'
     return obj
 
 
