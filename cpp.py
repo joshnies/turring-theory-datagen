@@ -1,8 +1,9 @@
 import random
 
-# C++ primitive types (not replaced with mask token)
+from constants import AI_USER_TYPE
 from utils import join
 
+# C++ primitive types (not replaced with mask token)
 CPP_PRIM_TYPES = [
     'bool',
     'char',
@@ -29,6 +30,7 @@ CPP_PRIM_TYPES = [
     'std::vector'
 ]
 
+# C++ generic types
 CPP_GENERIC_TYPES = [
     'std::array',
     'std::vector'
@@ -38,12 +40,18 @@ CPP_GENERIC_TYPES = [
 def gen_cpp_generic_type():
     """Generates a random C++ type with generic arguments."""
 
-    base_type = random.choice(CPP_GENERIC_TYPES)
+    generic_types = CPP_GENERIC_TYPES
+    generic_types.append(AI_USER_TYPE)
+
+    prim_types = CPP_PRIM_TYPES
+    prim_types.append(AI_USER_TYPE)
+
+    base_type = random.choice(generic_types)
     args = []
 
     # Generate generic args
     for i in range(1, 5):
-        args.append(random.choice(CPP_PRIM_TYPES))
+        args.append(random.choice(prim_types))
 
     args = join(args, ', ')
 
