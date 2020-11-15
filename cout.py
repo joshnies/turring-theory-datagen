@@ -14,7 +14,7 @@ def __gen_cout_pair(use_std, num_vals):
         source_vals.append(f'<< {AI_VAL}')
         target_vals.append(f'${{{AI_VAL}}}')
 
-    source = f'{std}cout {join(source_vals, "")} << {std}endl;'
+    source = f'{std}cout {join(source_vals, " ")} << {std}endl;'
     target = f'console.log(`{join(target_vals, "")}`);'
     return source, target
 
