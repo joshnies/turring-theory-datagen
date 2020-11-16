@@ -14,7 +14,7 @@ def __gen_try_catch_block_pair(t):
 def gen_try_catch_blocks():
     """Generate all try-catch block data."""
 
-    types = CPP_PRIM_TYPES
+    types = CPP_PRIM_TYPES.copy()
     types.append(AI_USER_TYPE)
     data = []
 

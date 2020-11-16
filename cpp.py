@@ -40,10 +40,10 @@ CPP_GENERIC_TYPES = [
 def gen_cpp_generic_type():
     """Generates a random C++ type with generic arguments."""
 
-    generic_types = CPP_GENERIC_TYPES
+    generic_types = CPP_GENERIC_TYPES.copy()
     generic_types.append(AI_USER_TYPE)
 
-    prim_types = CPP_PRIM_TYPES
+    prim_types = CPP_PRIM_TYPES.copy()
     prim_types.append(AI_USER_TYPE)
 
     base_type = random.choice(generic_types)

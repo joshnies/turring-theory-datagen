@@ -27,7 +27,7 @@ def gen_provided_generics():
     generics = []
     generics_range = range(0, 4)
     generics_count = random.choices(generics_range, weights=(75, 15, 10, 5), k=1)[0]
-    generic_types = CPP_PRIM_TYPES
+    generic_types = CPP_PRIM_TYPES.copy()
     generic_types.append(AI_USER_TYPE)
 
     for i in range(generics_count):
