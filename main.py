@@ -31,13 +31,6 @@ CLASS_CONSTRUCTS_COUNT = 10000
 # CLASS_COUNT = 200
 # CLASS_CONSTRUCTS_COUNT = 2000
 
-# Slim training dataset
-# GENERIC_VAR_DEFS_COUNT = 200
-# FUNC_COUNT = 10000
-# FUNC_CALL_COUNT = 20000
-# CLASS_COUNT = 200
-# CLASS_CONSTRUCTS_COUNT = 500
-
 # Training dataset file path
 OUTPUT_FILE_PATH = os.path.join('output', 'theory_train_data_cpp17_nodejs14.csv')
 
