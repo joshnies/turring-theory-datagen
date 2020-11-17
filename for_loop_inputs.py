@@ -1,3 +1,4 @@
+from tqdm import tqdm
 from constants import AI_USER_TYPE, AI_VAL, AI_CONDITION, AI_EXTRACTION
 from cpp import CPP_PRIM_TYPES
 
@@ -16,7 +17,7 @@ def gen_for_loop_inputs():
     data = []
 
     # Generate "for" loop input pairs for pre-defined types
-    for t in CPP_PRIM_TYPES:
+    for t in tqdm(CPP_PRIM_TYPES, desc='Generating "for" loop inputs'):
         (source, target) = gen_for_loop_input_pair(t)
         item = {'source': source, 'target': target}
         data.append(item)

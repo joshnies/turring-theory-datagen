@@ -1,4 +1,6 @@
 import random
+
+from tqdm import tqdm
 from constants import AI_VAR_NAME, AI_VAL, AI_USER_TYPE
 from cpp import CPP_PRIM_TYPES, gen_cpp_generic_type
 
@@ -19,7 +21,7 @@ def gen_var_defs(generic_count):
     data = []
 
     # Generate variable definition pairs for pre-defined types
-    for t in CPP_PRIM_TYPES:
+    for t in tqdm(CPP_PRIM_TYPES, desc='Generating variable definitions (primitive types)'):
         # No default value
         (source, target) = gen_var_def_pair(t, has_default_value=False)
         item = {'source': source, 'target': target}
@@ -40,7 +42,7 @@ def gen_var_defs(generic_count):
     data.append(item)
 
     # Generate generic variable definition pairs
-    for _ in range(generic_count):
+    for _ in tqdm(range(generic_count), desc='Generating variable definitions (generic types)'):
         t = gen_cpp_generic_type()
         (source, target) = gen_var_def_pair(t, has_default_value=bool(random.getrandbits(1)))
         item = {'source': source, 'target': target}

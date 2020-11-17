@@ -1,3 +1,4 @@
+from tqdm import tqdm
 from common import gen_val_list
 from constants import AI_CLASS_NAME
 
@@ -15,7 +16,7 @@ def gen_class_constructs(count):
 
     data = []
 
-    for i in range(count):
+    for _ in tqdm(range(count), desc='Generating class construction statements'):
         construct = gen_class_construct_pair()
         item = {'source': construct, 'target': construct}
 

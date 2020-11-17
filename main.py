@@ -1,6 +1,7 @@
 import os
 
 from cout import gen_couts
+from cpp import CPP_PRIM_TYPES
 from try_catch_blocks import gen_try_catch_blocks
 from var_defs import gen_var_defs
 from var_assigns import gen_var_assigns
@@ -25,11 +26,11 @@ CLASS_COUNT = 1000
 CLASS_CONSTRUCTS_COUNT = 10000
 
 # Validation dataset
-# GENERIC_VAR_DEFS_COUNT = 200
-# FUNC_COUNT = 40000
-# FUNC_CALL_COUNT = 100000
-# CLASS_COUNT = 200
-# CLASS_CONSTRUCTS_COUNT = 2000
+# GENERIC_VAR_DEFS_COUNT = 50
+# FUNC_COUNT = 500
+# FUNC_CALL_COUNT = 1000
+# CLASS_COUNT = 50
+# CLASS_CONSTRUCTS_COUNT = 100
 
 # Training dataset file path
 OUTPUT_FILE_PATH = os.path.join('output', 'theory_train_data_cpp17_nodejs14.csv')
@@ -37,7 +38,8 @@ OUTPUT_FILE_PATH = os.path.join('output', 'theory_train_data_cpp17_nodejs14.csv'
 # Validation dataset file path
 # OUTPUT_FILE_PATH = os.path.join('output', 'theory_valid_data_cpp17_nodejs14.csv')
 
-print('Generating...')
+total = GENERIC_VAR_DEFS_COUNT + FUNC_COUNT + FUNC_CALL_COUNT + CLASS_COUNT + CLASS_CONSTRUCTS_COUNT + len(
+    CPP_PRIM_TYPES) + 1
 
 # Generate data
 var_defs = gen_var_defs(generic_count=GENERIC_VAR_DEFS_COUNT)

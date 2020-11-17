@@ -1,3 +1,4 @@
+from tqdm import tqdm
 from common import gen_item
 from constants import AI_EXTRACTION, AI_VAR_NAME, AI_USER_TYPE
 from cpp import CPP_PRIM_TYPES
@@ -18,7 +19,7 @@ def gen_try_catch_blocks():
     types.append(AI_USER_TYPE)
     data = []
 
-    for t in types:
+    for t in tqdm(types, desc='Generating try-catch blocks'):
         (source, target) = __gen_try_catch_block_pair(t)
         data.append(gen_item(source, target))
 

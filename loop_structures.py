@@ -1,3 +1,4 @@
+from tqdm import tqdm
 from constants import AI_EXTRACTION, AI_CONDITION, AI_FOR_LOOP_EXTRACTION, AI_VAR_NAME, AI_USER_TYPE
 from cpp import CPP_PRIM_TYPES
 
@@ -39,7 +40,7 @@ def gen_loop_structs():
     data.append(item)
 
     # Generate primitive type "foreach" loop structures
-    for t in CPP_PRIM_TYPES:
+    for t in tqdm(CPP_PRIM_TYPES, desc='Generating loop structures (primitive types)'):
         (source, target) = gen_foreach_pair(t)
         item = {'source': source, 'target': target}
         data.append(item)

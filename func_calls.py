@@ -1,5 +1,6 @@
 import random
 
+from tqdm import tqdm
 from common import gen_val_list
 from constants import AI_STMT_OBJ
 from generics import gen_provided_generics
@@ -44,7 +45,7 @@ def gen_func_calls(count):
 
     data = []
 
-    for i in range(count):
+    for _ in tqdm(range(count), desc='Generating function calls'):
         (source, target) = gen_func_call_pair()
         item = {'source': source, 'target': target}
 

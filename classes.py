@@ -1,5 +1,6 @@
 import random
 
+from tqdm import tqdm
 from constants import AI_CLASS_NAME, AI_EXTRACTION, AI_INHERITED_CLASS_NAME, AI_GENERIC
 from generics import gen_type_generics
 from utils import join
@@ -43,7 +44,7 @@ def gen_classes(count):
 
     data = []
 
-    for i in range(count):
+    for _ in tqdm(range(count), desc='Generating classes'):
         (source, target) = gen_class_pair()
         item = {'source': source, 'target': target}
 

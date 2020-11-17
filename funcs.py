@@ -1,5 +1,6 @@
 import random
 
+from tqdm import tqdm
 from constants import AI_VAL, AI_EXTRACTION, AI_ARG_NAME, AI_FUNC_NAME
 from cpp import CPP_PRIM_TYPES
 from utils import join
@@ -54,7 +55,7 @@ def gen_funcs(count):
 
     data = []
 
-    for _ in range(count):
+    for _ in tqdm(range(count), desc='Generating functions'):
         (source, target) = gen_func_pair()
         item = {'source': source, 'target': target}
 

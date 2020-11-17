@@ -6,6 +6,8 @@ CSV_COLUMNS = ['source', 'target']
 def to_csv(arrs, file_path):
     """Output CSV file."""
 
+    print('\nWriting to CSV file...')
+
     # Merge data
     data = []
 
