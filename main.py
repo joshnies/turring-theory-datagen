@@ -1,8 +1,5 @@
-import os
+import argparse
 
-from cout import gen_couts
-from cpp import CPP_PRIM_TYPES
-from try_catch_blocks import gen_try_catch_blocks
 from var_defs import gen_var_defs
 from var_assigns import gen_var_assigns
 from funcs import gen_funcs
@@ -14,45 +11,34 @@ from switch_structures import gen_switch_data
 from jump_statements import gen_jump_statements
 from classes import gen_classes
 from class_constructs import gen_class_constructs
+from try_catch_blocks import gen_try_catch_blocks
 from imports import gen_path_imports
 from comments import gen_comments
+from cout import gen_couts
 from output import to_csv
 
-# Training dataset
-GENERIC_VAR_DEFS_COUNT = 1000
-FUNC_COUNT = 200000
-FUNC_CALL_COUNT = 500000
-CLASS_COUNT = 1000
-CLASS_CONSTRUCTS_COUNT = 10000
-
-# Validation dataset
-# GENERIC_VAR_DEFS_COUNT = 50
-# FUNC_COUNT = 500
-# FUNC_CALL_COUNT = 1000
-# CLASS_COUNT = 50
-# CLASS_CONSTRUCTS_COUNT = 100
-
-# Training dataset file path
-OUTPUT_FILE_PATH = os.path.join('output', 'theory_train_data_cpp17_nodejs14.csv')
-
-# Validation dataset file path
-# OUTPUT_FILE_PATH = os.path.join('output', 'theory_valid_data_cpp17_nodejs14.csv')
-
-total = GENERIC_VAR_DEFS_COUNT + FUNC_COUNT + FUNC_CALL_COUNT + CLASS_COUNT + CLASS_CONSTRUCTS_COUNT + len(
-    CPP_PRIM_TYPES) + 1
+# Parse args
+parser = argparse.ArgumentParser(description='Generate Theory dataset.')
+parser.add_argument('-o', '--out', help='Output file path', required=True)
+parser.add_argument('--generic-var-defs', help='Number of generic variable definitions', type=int, required=True)
+parser.add_argument('--functions', help='Number of functions', type=int, required=True)
+parser.add_argument('--function-calls', help='Number of function calls', type=int, required=True)
+parser.add_argument('--classes', help='Number of classes', type=int, required=True)
+parser.add_argument('--class-constructs', help='Number of class construction statements', type=int, required=True)
+args = parser.parse_args()
 
 # Generate data
-var_defs = gen_var_defs(generic_count=GENERIC_VAR_DEFS_COUNT)
+var_defs = gen_var_defs(generic_count=args.generic_var_defs)
 var_assigns = gen_var_assigns()
-funcs = gen_funcs(FUNC_COUNT)
-func_calls = gen_func_calls(FUNC_CALL_COUNT)
+funcs = gen_funcs(args.functions)
+func_calls = gen_func_calls(args.function_calls)
 conditional_structs = gen_conditional_structs()
 loop_structs = gen_loop_structs()
 for_loop_inputs = gen_for_loop_inputs()
 switch_data = gen_switch_data()
 jump_stmts = gen_jump_statements()
-classes = gen_classes(CLASS_COUNT)
-class_constructs = gen_class_constructs(CLASS_CONSTRUCTS_COUNT)
+classes = gen_classes(args.classes)
+class_constructs = gen_class_constructs(args.class_constructs)
 try_catch_blocks = gen_try_catch_blocks()
 path_imports = gen_path_imports()
 comments = gen_comments()
@@ -61,6 +47,6 @@ couts = gen_couts()
 # Output data to CSV file
 to_csv(
     [var_defs, var_assigns, funcs, func_calls, conditional_structs, loop_structs, for_loop_inputs, switch_data,
-     jump_stmts, classes, class_constructs, try_catch_blocks, path_imports, comments, couts], OUTPUT_FILE_PATH)
+     jump_stmts, classes, class_constructs, try_catch_blocks, path_imports, comments, couts], args.out)
 
-print('Output to {}'.format(OUTPUT_FILE_PATH))
+print('Output to {}'.format(args.out))
