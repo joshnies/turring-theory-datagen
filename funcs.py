@@ -58,8 +58,6 @@ def gen_funcs(count):
     for _ in tqdm(range(count), desc='Generating functions'):
         (source, target) = gen_func_pair()
         item = {'source': source, 'target': target}
-
-        if item not in data:
-            data.append(item)
+        data.append(item)
 
     return data

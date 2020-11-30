@@ -1,5 +1,7 @@
 import argparse
 
+from common import deduplicate
+from imports import gen_path_imports
 from var_defs import gen_var_defs
 from var_assigns import gen_var_assigns
 from funcs import gen_funcs
@@ -12,8 +14,8 @@ from jump_statements import gen_jump_statements
 from classes import gen_classes
 from class_constructs import gen_class_constructs
 from try_catch_blocks import gen_try_catch_blocks
-from imports import gen_path_imports
 from comments import gen_comments
+from bool_expressions import gen_bool_expressions
 from cout import gen_couts
 from output import to_csv
 
@@ -28,25 +30,28 @@ parser.add_argument('--class-constructs', help='Number of class construction sta
 args = parser.parse_args()
 
 # Generate data
-var_defs = gen_var_defs(generic_count=args.generic_var_defs)
-var_assigns = gen_var_assigns()
-funcs = gen_funcs(args.functions)
-func_calls = gen_func_calls(args.function_calls)
-conditional_structs = gen_conditional_structs()
-loop_structs = gen_loop_structs()
-for_loop_inputs = gen_for_loop_inputs()
-switch_data = gen_switch_data()
-jump_stmts = gen_jump_statements()
-classes = gen_classes(args.classes)
-class_constructs = gen_class_constructs(args.class_constructs)
-try_catch_blocks = gen_try_catch_blocks()
-path_imports = gen_path_imports()
-comments = gen_comments()
-couts = gen_couts()
+data = list()
+data.extend(gen_path_imports())
+data.extend(gen_var_defs(generic_count=args.generic_var_defs))
+data.extend(gen_var_assigns())
+data.extend(gen_funcs(args.functions))
+data.extend(gen_func_calls(args.function_calls))
+data.extend(gen_conditional_structs())
+data.extend(gen_loop_structs())
+data.extend(gen_for_loop_inputs())
+data.extend(gen_switch_data())
+data.extend(gen_jump_statements())
+data.extend(gen_classes(args.classes))
+data.extend(gen_class_constructs(args.class_constructs))
+data.extend(gen_try_catch_blocks())
+data.extend(gen_comments())
+data.extend(gen_bool_expressions())
+data.extend(gen_couts())
+
+# Deduplicate data
+data = deduplicate(data)
 
 # Output data to CSV file
-to_csv(
-    [var_defs, var_assigns, funcs, func_calls, conditional_structs, loop_structs, for_loop_inputs, switch_data,
-     jump_stmts, classes, class_constructs, try_catch_blocks, path_imports, comments, couts], args.out)
+to_csv(data, args.out)
 
 print('Output to {}'.format(args.out))

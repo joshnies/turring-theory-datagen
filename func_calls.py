@@ -48,8 +48,6 @@ def gen_func_calls(count):
     for _ in tqdm(range(count), desc='Generating function calls'):
         (source, target) = gen_func_call_pair()
         item = {'source': source, 'target': target}
-
-        if item not in data:
-            data.append(item)
+        data.append(item)
 
     return data
