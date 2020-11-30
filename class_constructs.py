@@ -19,8 +19,6 @@ def gen_class_constructs(count):
     for _ in tqdm(range(count), desc='Generating class construction statements'):
         construct = gen_class_construct_pair()
         item = {'source': construct, 'target': construct}
-
-        if item not in data:
-            data.append(item)
+        data.append(item)
 
     return data

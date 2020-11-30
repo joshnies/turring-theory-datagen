@@ -47,8 +47,6 @@ def gen_classes(count):
     for _ in tqdm(range(count), desc='Generating classes'):
         (source, target) = gen_class_pair()
         item = {'source': source, 'target': target}
-
-        if item not in data:
-            data.append(item)
+        data.append(item)
 
     return data

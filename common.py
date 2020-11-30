@@ -25,3 +25,9 @@ def gen_item(source, target=None):
         target = source
 
     return {'source': source, 'target': target}
+
+
+def deduplicate(data):
+    """Deduplicate data."""
+
+    return [dict(t) for t in {tuple(d.items()) for d in data}]
