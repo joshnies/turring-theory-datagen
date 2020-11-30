@@ -1,5 +1,5 @@
-from common import gen_item
-from constants import AI_VAL
+from data_gen.common import gen_item
+from data_gen.mask_tokens import AI_VAL
 
 
 def gen_jump_statements():

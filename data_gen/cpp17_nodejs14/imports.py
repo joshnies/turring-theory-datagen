@@ -1,5 +1,5 @@
-from common import gen_item
-from constants import AI_IMPORT
+from data_gen.common import gen_item
+from data_gen.mask_tokens import AI_IMPORT
 
 
 def gen_path_imports():

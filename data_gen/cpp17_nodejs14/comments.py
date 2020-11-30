@@ -1,5 +1,5 @@
-from common import gen_item
-from constants import AI_COPY
+from data_gen.common import gen_item
+from data_gen.mask_tokens import AI_COPY
 
 
 def gen_comments():

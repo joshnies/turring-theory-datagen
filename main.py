@@ -1,23 +1,23 @@
 import argparse
 
-from common import deduplicate
-from imports import gen_path_imports
-from var_defs import gen_var_defs
-from var_assigns import gen_var_assigns
-from funcs import gen_funcs
-from func_calls import gen_func_calls
-from conditional_structures import gen_conditional_structs
-from loop_structures import gen_loop_structs
-from for_loop_inputs import gen_for_loop_inputs
-from switch_structures import gen_switch_data
-from jump_statements import gen_jump_statements
-from classes import gen_classes
-from class_constructs import gen_class_constructs
-from try_catch_blocks import gen_try_catch_blocks
-from comments import gen_comments
-from bool_expressions import gen_bool_expressions
-from cout import gen_couts
-from output import to_csv
+from data_gen.common import deduplicate
+from data_gen.cpp17_nodejs14.imports import gen_path_imports
+from data_gen.cpp17_nodejs14.var_defs import gen_var_defs
+from data_gen.cpp17_nodejs14.var_assigns import gen_var_assigns
+from data_gen.cpp17_nodejs14.funcs import gen_funcs
+from data_gen.cpp17_nodejs14.func_calls import gen_func_calls
+from data_gen.cpp17_nodejs14.conditional_structures import gen_conditional_structs
+from data_gen.cpp17_nodejs14.loop_structures import gen_loop_structs
+from data_gen.cpp17_nodejs14.for_loop_inputs import gen_for_loop_inputs
+from data_gen.cpp17_nodejs14.switch_structures import gen_switch_data
+from data_gen.cpp17_nodejs14.jump_statements import gen_jump_statements
+from data_gen.cpp17_nodejs14.classes import gen_classes
+from data_gen.cpp17_nodejs14.class_constructs import gen_class_constructs
+from data_gen.cpp17_nodejs14.try_catch_blocks import gen_try_catch_blocks
+from data_gen.cpp17_nodejs14.comments import gen_comments
+from data_gen.cpp17_nodejs14.bool_expressions import gen_bool_expressions
+from data_gen.cpp17_nodejs14.cout import gen_couts
+from data_gen.output import to_csv
 
 # Parse args
 parser = argparse.ArgumentParser(description='Generate Theory dataset.')

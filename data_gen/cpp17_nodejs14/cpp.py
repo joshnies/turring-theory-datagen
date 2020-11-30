@@ -1,7 +1,7 @@
 import random
 
-from constants import AI_USER_TYPE
-from utils import join
+from data_gen.mask_tokens import AI_USER_TYPE
+from data_gen.utils import join
 
 # C++ primitive types (not replaced with mask token)
 CPP_PRIM_TYPES = [

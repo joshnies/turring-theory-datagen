@@ -1,6 +1,6 @@
 from tqdm import tqdm
-from constants import AI_EXTRACTION, AI_CONDITION, AI_FOR_LOOP_EXTRACTION, AI_VAR_NAME, AI_USER_TYPE
-from cpp import CPP_PRIM_TYPES
+from data_gen.mask_tokens import AI_EXTRACTION, AI_CONDITION, AI_FOR_LOOP_EXTRACTION, AI_VAR_NAME, AI_USER_TYPE
+from data_gen.cpp17_nodejs14.cpp import CPP_PRIM_TYPES
 
 
 def gen_for_pair():

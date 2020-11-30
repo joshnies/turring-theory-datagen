@@ -1,4 +1,4 @@
-from constants import AI_CONDITION, AI_EXTRACTION
+from data_gen.mask_tokens import AI_CONDITION, AI_EXTRACTION
 
 
 def gen_switch_pair():

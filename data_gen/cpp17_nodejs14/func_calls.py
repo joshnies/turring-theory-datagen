@@ -1,10 +1,10 @@
 import random
 
 from tqdm import tqdm
-from common import gen_val_list
-from constants import AI_STMT_OBJ
-from generics import gen_provided_generics
-from utils import join, join_rand
+from data_gen.common import gen_val_list
+from data_gen.mask_tokens import AI_STMT_OBJ
+from data_gen.cpp17_nodejs14.generics import gen_provided_generics
+from data_gen.utils import join, join_rand
 
 
 def gen_func_call_obj():
