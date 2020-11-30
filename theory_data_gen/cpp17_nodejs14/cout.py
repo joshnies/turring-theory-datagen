@@ -1,6 +1,6 @@
-from data_gen.common import gen_item
-from data_gen.mask_tokens import AI_VAL
-from data_gen.utils import join
+from theory_data_gen.common import gen_item
+from theory_data_gen.mask_tokens import AI_VAL
+from theory_data_gen.utils import join
 
 
 def __gen_cout_pair(use_std, num_vals):

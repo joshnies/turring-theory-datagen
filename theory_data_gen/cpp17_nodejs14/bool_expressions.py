@@ -1,5 +1,5 @@
-from data_gen.common import gen_item
-from data_gen.mask_tokens import AI_EXTRACTION
+from theory_data_gen.common import gen_item
+from theory_data_gen.mask_tokens import AI_EXTRACTION
 
 
 def gen_bool_expressions():

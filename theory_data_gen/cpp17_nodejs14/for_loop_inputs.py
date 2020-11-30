@@ -1,6 +1,6 @@
 from tqdm import tqdm
-from data_gen.mask_tokens import AI_USER_TYPE, AI_VAL, AI_CONDITION, AI_EXTRACTION
-from data_gen.cpp17_nodejs14.cpp import CPP_PRIM_TYPES
+from theory_data_gen.mask_tokens import AI_USER_TYPE, AI_VAL, AI_CONDITION, AI_EXTRACTION
+from theory_data_gen.cpp17_nodejs14.cpp import CPP_PRIM_TYPES
 
 
 def gen_for_loop_input_pair(t):

@@ -1,9 +1,9 @@
 import random
 
 from tqdm import tqdm
-from data_gen.mask_tokens import AI_VAL, AI_EXTRACTION, AI_ARG_NAME, AI_FUNC_NAME
-from data_gen.cpp17_nodejs14.cpp import CPP_PRIM_TYPES
-from data_gen.utils import join
+from theory_data_gen.mask_tokens import AI_VAL, AI_EXTRACTION, AI_ARG_NAME, AI_FUNC_NAME
+from theory_data_gen.cpp17_nodejs14.cpp import CPP_PRIM_TYPES
+from theory_data_gen.utils import join
 
 
 def gen_func_arg_pair():

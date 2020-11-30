@@ -1,7 +1,7 @@
 from tqdm import tqdm
-from data_gen.common import gen_item
-from data_gen.mask_tokens import AI_EXTRACTION, AI_VAR_NAME, AI_USER_TYPE
-from data_gen.cpp17_nodejs14.cpp import CPP_PRIM_TYPES
+from theory_data_gen.common import gen_item
+from theory_data_gen.mask_tokens import AI_EXTRACTION, AI_VAR_NAME, AI_USER_TYPE
+from theory_data_gen.cpp17_nodejs14.cpp import CPP_PRIM_TYPES
 
 
 def __gen_try_catch_block_pair(t):

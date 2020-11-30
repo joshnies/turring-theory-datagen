@@ -1,4 +1,4 @@
-from data_gen.mask_tokens import AI_CONDITION, AI_EXTRACTION
+from theory_data_gen.mask_tokens import AI_CONDITION, AI_EXTRACTION
 
 
 def gen_switch_pair():

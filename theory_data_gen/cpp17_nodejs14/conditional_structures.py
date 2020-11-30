@@ -1,4 +1,4 @@
-from data_gen.mask_tokens import AI_EXTRACTION, AI_CONDITION
+from theory_data_gen.mask_tokens import AI_EXTRACTION, AI_CONDITION
 
 
 def gen_if_pair():

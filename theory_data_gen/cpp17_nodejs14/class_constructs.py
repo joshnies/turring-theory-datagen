@@ -1,6 +1,6 @@
 from tqdm import tqdm
-from data_gen.common import gen_val_list
-from data_gen.mask_tokens import AI_CLASS_NAME
+from theory_data_gen.common import gen_val_list
+from theory_data_gen.mask_tokens import AI_CLASS_NAME
 
 
 def gen_class_construct_pair():

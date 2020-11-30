@@ -1,4 +1,4 @@
-from data_gen.mask_tokens import AI_VAR_NAME, AI_VAL
+from theory_data_gen.mask_tokens import AI_VAR_NAME, AI_VAL
 
 
 def gen_var_assigns():

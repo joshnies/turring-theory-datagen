@@ -1,9 +1,9 @@
 import random
 
 from tqdm import tqdm
-from data_gen.mask_tokens import AI_CLASS_NAME, AI_EXTRACTION, AI_INHERITED_CLASS_NAME
-from data_gen.cpp17_nodejs14.generics import gen_type_generics
-from data_gen.utils import join
+from theory_data_gen.mask_tokens import AI_CLASS_NAME, AI_EXTRACTION, AI_INHERITED_CLASS_NAME
+from theory_data_gen.cpp17_nodejs14.generics import gen_type_generics
+from theory_data_gen.utils import join
 
 
 def gen_class_inheritance():

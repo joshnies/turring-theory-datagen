@@ -1,23 +1,23 @@
 import argparse
 
-from data_gen.common import deduplicate
-from data_gen.cpp17_nodejs14.imports import gen_path_imports
-from data_gen.cpp17_nodejs14.var_defs import gen_var_defs
-from data_gen.cpp17_nodejs14.var_assigns import gen_var_assigns
-from data_gen.cpp17_nodejs14.funcs import gen_funcs
-from data_gen.cpp17_nodejs14.func_calls import gen_func_calls
-from data_gen.cpp17_nodejs14.conditional_structures import gen_conditional_structs
-from data_gen.cpp17_nodejs14.loop_structures import gen_loop_structs
-from data_gen.cpp17_nodejs14.for_loop_inputs import gen_for_loop_inputs
-from data_gen.cpp17_nodejs14.switch_structures import gen_switch_data
-from data_gen.cpp17_nodejs14.jump_statements import gen_jump_statements
-from data_gen.cpp17_nodejs14.classes import gen_classes
-from data_gen.cpp17_nodejs14.class_constructs import gen_class_constructs
-from data_gen.cpp17_nodejs14.try_catch_blocks import gen_try_catch_blocks
-from data_gen.cpp17_nodejs14.comments import gen_comments
-from data_gen.cpp17_nodejs14.bool_expressions import gen_bool_expressions
-from data_gen.cpp17_nodejs14.cout import gen_couts
-from data_gen.output import to_csv
+from theory_data_gen.common import deduplicate
+from theory_data_gen.cpp17_nodejs14.imports import gen_path_imports
+from theory_data_gen.cpp17_nodejs14.var_defs import gen_var_defs
+from theory_data_gen.cpp17_nodejs14.var_assigns import gen_var_assigns
+from theory_data_gen.cpp17_nodejs14.funcs import gen_funcs
+from theory_data_gen.cpp17_nodejs14.func_calls import gen_func_calls
+from theory_data_gen.cpp17_nodejs14.conditional_structures import gen_conditional_structs
+from theory_data_gen.cpp17_nodejs14.loop_structures import gen_loop_structs
+from theory_data_gen.cpp17_nodejs14.for_loop_inputs import gen_for_loop_inputs
+from theory_data_gen.cpp17_nodejs14.switch_structures import gen_switch_data
+from theory_data_gen.cpp17_nodejs14.jump_statements import gen_jump_statements
+from theory_data_gen.cpp17_nodejs14.classes import gen_classes
+from theory_data_gen.cpp17_nodejs14.class_constructs import gen_class_constructs
+from theory_data_gen.cpp17_nodejs14.try_catch_blocks import gen_try_catch_blocks
+from theory_data_gen.cpp17_nodejs14.comments import gen_comments
+from theory_data_gen.cpp17_nodejs14.bool_expressions import gen_bool_expressions
+from theory_data_gen.cpp17_nodejs14.cout import gen_couts
+from theory_data_gen.output import to_csv
 
 # Parse args
 parser = argparse.ArgumentParser(description='Generate Theory dataset.')

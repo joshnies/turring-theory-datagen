@@ -1,7 +1,7 @@
 import random
 
-from data_gen.mask_tokens import AI_VAL
-from data_gen.utils import join
+from theory_data_gen.mask_tokens import AI_VAL
+from theory_data_gen.utils import join
 
 
 def gen_val_list():

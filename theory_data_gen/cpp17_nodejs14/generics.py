@@ -1,8 +1,8 @@
 import random
 
-from data_gen.mask_tokens import AI_GENERIC, AI_USER_TYPE
-from data_gen.cpp17_nodejs14.cpp import CPP_PRIM_TYPES
-from data_gen.utils import join
+from theory_data_gen.mask_tokens import AI_GENERIC, AI_USER_TYPE
+from theory_data_gen.cpp17_nodejs14.cpp import CPP_PRIM_TYPES
+from theory_data_gen.utils import join
 
 
 def gen_type_generics():
