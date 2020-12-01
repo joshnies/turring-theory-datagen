@@ -12,7 +12,7 @@ def gen_bool_expressions():
         '!=': '!=='
     }
 
-    same_ops = ['>=', '<=', '&&', '||']
+    same_ops = ['>', '<', '>=', '<=', '&&', '||']
 
     for src_op in ops_map:
         data.append(
