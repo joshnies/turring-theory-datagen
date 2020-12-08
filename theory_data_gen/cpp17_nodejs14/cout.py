@@ -1,5 +1,4 @@
-from theory_data_gen.common import gen_item
-from theory_data_gen.mask_tokens import AI_VAL
+from theory_data_gen.common import gen_item, gen_mask_token
 from theory_data_gen.utils import join
 
 
@@ -10,9 +9,10 @@ def __gen_cout_pair(use_std, num_vals):
     source_vals = []
     target_vals = []
 
-    for _ in range(num_vals):
-        source_vals.append(f'<< {AI_VAL}')
-        target_vals.append(f'${{{AI_VAL}}}')
+    for i in range(num_vals):
+        m = gen_mask_token(i)
+        source_vals.append(f'<< {m}')
+        target_vals.append(f'${{{m}}}')
 
     source = f'{std}cout {join(source_vals, " ")} << {std}endl;'
     target = f'console.log(`{join(target_vals, "")}`);'
