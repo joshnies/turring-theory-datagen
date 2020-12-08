@@ -4,7 +4,7 @@ from tqdm import tqdm
 
 from common import gen_mask_token
 from theory_data_gen.mask_tokens import AI_VAR_NAME, AI_VAL, AI_USER_TYPE
-from theory_data_gen.cpp17_nodejs14.cpp import CPP_PRIM_TYPES, gen_cpp_generic_type
+from theory_data_gen.cpp_17_nodejs_14.cpp import CPP_PRIM_TYPES, gen_cpp_generic_type
 
 
 def gen_var_def_pair(t: str, has_default_value: bool):

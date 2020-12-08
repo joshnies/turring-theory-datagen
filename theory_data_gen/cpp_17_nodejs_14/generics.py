@@ -1,7 +1,7 @@
 import random
 
 from mask_tokens import MASK_TOKEN
-from theory_data_gen.cpp17_nodejs14.cpp import CPP_PRIM_TYPES
+from theory_data_gen.cpp_17_nodejs_14.cpp import CPP_PRIM_TYPES
 from theory_data_gen.utils import join
 
 
