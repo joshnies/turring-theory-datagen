@@ -1,6 +1,6 @@
 from tqdm import tqdm
 
-from mask_tokens import MASK_TOKEN
+from constants import MASK_TOKEN
 from theory_data_gen.common import gen_val_list, gen_mask_token, add_mask_indices
 
 

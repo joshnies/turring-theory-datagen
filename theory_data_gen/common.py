@@ -1,7 +1,7 @@
 import random
 import re
 
-from theory_data_gen.mask_tokens import MASK_TOKEN
+from theory_data_gen.constants import MASK_TOKEN
 from theory_data_gen.utils import join
 
 
