@@ -1,16 +1,16 @@
-from theory_data_gen.mask_tokens import AI_CONDITION, AI_EXTRACTION
+from common import gen_mask_token
 
 
 def gen_switch_pair():
     """Generate "switch" structure pair."""
 
-    return f'switch ({AI_CONDITION}) {{{AI_EXTRACTION}}}'
+    return f'switch ({gen_mask_token(0)}) {{'
 
 
 def gen_case_pair():
     """Generate "case" statement pair."""
 
-    return f'case {AI_CONDITION}:'
+    return f'case {gen_mask_token(0)}:'
 
 
 def gen_default_case_pair():

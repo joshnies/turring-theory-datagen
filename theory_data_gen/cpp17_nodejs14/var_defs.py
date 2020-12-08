@@ -1,6 +1,8 @@
 import random
 
 from tqdm import tqdm
+
+from common import gen_mask_token
 from theory_data_gen.mask_tokens import AI_VAR_NAME, AI_VAL, AI_USER_TYPE
 from theory_data_gen.cpp17_nodejs14.cpp import CPP_PRIM_TYPES, gen_cpp_generic_type
 
@@ -8,10 +10,12 @@ from theory_data_gen.cpp17_nodejs14.cpp import CPP_PRIM_TYPES, gen_cpp_generic_t
 def gen_var_def_pair(t: str, has_default_value: bool):
     """Generate a variable definition pair."""
 
-    default_value = f' = {AI_VAL}' if has_default_value else ''
+    m_0 = gen_mask_token(0)
 
-    source = f'{t} {AI_VAR_NAME}{default_value};'
-    target = f'let {AI_VAR_NAME}{default_value};'
+    default_value = f' = {gen_mask_token(1)}' if has_default_value else ''
+
+    source = f'{t} {m_0}{default_value};'
+    target = f'let {m_0}{default_value};'
     return source, target
 
 

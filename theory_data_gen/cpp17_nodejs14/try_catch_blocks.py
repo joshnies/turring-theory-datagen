@@ -1,14 +1,27 @@
 from tqdm import tqdm
-from theory_data_gen.common import gen_item
-from theory_data_gen.mask_tokens import AI_EXTRACTION, AI_VAR_NAME, AI_USER_TYPE
+from theory_data_gen.common import gen_item, gen_mask_token
+from theory_data_gen.mask_tokens import AI_USER_TYPE
 from theory_data_gen.cpp17_nodejs14.cpp import CPP_PRIM_TYPES
 
 
-def __gen_try_catch_block_pair(t):
-    """Generate try-catch block pair."""
+def __gen_try_struct():
+    """Generate "try" structure."""
 
-    source = f'try {{{AI_EXTRACTION}}} catch ({t} {AI_VAR_NAME}) {{{AI_EXTRACTION}}}'
-    target = f'try {{{AI_EXTRACTION}}} catch ({AI_VAR_NAME}) {{{AI_EXTRACTION}}}'
+    return f'try {{'
+
+
+def __gen_catch_struct_pair(t=None):
+    """Generate "catch" structure pair."""
+
+    # Generate mask tokens
+    m_type = gen_mask_token(0) if t is None else t
+    base_m_idx = 0 if t is None else -1
+
+    m_var_name = gen_mask_token(base_m_idx + 1)
+
+    # Generate "catch" structure pair
+    source = f'catch ({m_type} {m_var_name}) {{'
+    target = f'catch ({m_var_name}) {{'
     return source, target
 
 
@@ -17,10 +30,13 @@ def gen_try_catch_blocks():
 
     types = CPP_PRIM_TYPES.copy()
     types.append(AI_USER_TYPE)
-    data = []
+    data = list()
 
-    for t in tqdm(types, desc='Generating try-catch blocks'):
-        (source, target) = __gen_try_catch_block_pair(t)
+    # Generate "try" structure
+    data.append(gen_item(__gen_try_struct()))
+
+    for t in tqdm(types, desc='Generating "catch" structures'):
+        (source, target) = __gen_catch_struct_pair(t)
         data.append(gen_item(source, target))
 
     return data
