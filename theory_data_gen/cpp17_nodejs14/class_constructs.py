@@ -1,12 +1,16 @@
 from tqdm import tqdm
-from theory_data_gen.common import gen_val_list, gen_mask_token
+
+from mask_tokens import MASK_TOKEN
+from theory_data_gen.common import gen_val_list, gen_mask_token, add_mask_indices
 
 
 def gen_class_construct_pair():
     """Generate a class construction pair."""
 
-    args, _ = gen_val_list(mask_index=1)
-    construct = f'new {gen_mask_token(0)}({args});'
+    args = gen_val_list()
+    construct = f'new {MASK_TOKEN}({args});'
+    construct, _ = add_mask_indices(construct)
+
     return construct
 
 

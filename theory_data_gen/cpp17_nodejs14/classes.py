@@ -1,16 +1,17 @@
 import random
 from tqdm import tqdm
 
-from common import gen_mask_token
+from common import gen_mask_token, add_mask_indices
+from mask_tokens import MASK_TOKEN
 from theory_data_gen.cpp17_nodejs14.generics import gen_type_generics
 from theory_data_gen.utils import join
 
 
-def gen_class_inheritance(mask_index):
+def gen_class_inheritance():
     """Generate a C++ class inheritance sequence."""
 
     access_modifier = random.choice(['public', 'private', 'protected'])
-    return f'{access_modifier} {gen_mask_token(mask_index)}'
+    return f'{access_modifier} {MASK_TOKEN}'
 
 
 def gen_class_pair():
@@ -22,7 +23,7 @@ def gen_class_pair():
     abstract = 'abstract ' if bool(random.getrandbits(1)) else ''
 
     # Generate generics
-    generics, last_mask_idx = gen_type_generics(1)
+    generics = gen_type_generics()
 
     # Generate inheritance
     inheritance_range = range(0, 11)
@@ -31,11 +32,13 @@ def gen_class_pair():
     inheritance = []
 
     for i in range(inheritance_count):
-        inheritance.append(gen_class_inheritance(i + last_mask_idx + 1))
+        inheritance.append(gen_class_inheritance())
 
     inheritance = join(inheritance, ', ')
 
     source = f'{abstract}class {m_class_name}{generics}{inheritance_prefix}{inheritance} {{'
+    source, _ = add_mask_indices(source, start_index=1)
+
     target = f'class {m_class_name} {{'
     return source, target
 
