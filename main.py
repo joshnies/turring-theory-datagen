@@ -31,7 +31,7 @@ args = parser.parse_args()
 
 # Generate data
 data = list()
-data.extend(gen_path_imports(permutations=100))
+data.extend(gen_path_imports())
 data.extend(gen_var_defs(generic_count=args.generic_var_defs))
 data.extend(gen_var_assigns())
 data.extend(gen_funcs(args.functions))
