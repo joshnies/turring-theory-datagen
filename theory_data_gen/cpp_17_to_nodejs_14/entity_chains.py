@@ -6,8 +6,8 @@ from theory_data_gen.cpp_17_to_nodejs_14.generics import gen_provided_generics
 from theory_data_gen.utils import join, join_rand
 
 
-def gen_func_call_obj(mask_index: int):
-    """Generates an object or function call for a pair."""
+def __gen_entity(mask_index: int):
+    """Generates an entity (object or function call) for an entity chain pair."""
 
     # Generate mask tokens
     m_name = gen_mask_token(mask_index)
@@ -28,8 +28,8 @@ def gen_func_call_obj(mask_index: int):
     return obj, last_mask_index
 
 
-def gen_func_call_pair():
-    """Generate a function call pair."""
+def __gen_entity_chain_pair():
+    """Generate an entity chain pair."""
 
     length_range = range(1, 11)
     length = random.choices(length_range, weights=(80, 70, 60, 40, 30, 20, 5, 4, 3, 2), k=1)[0]
@@ -39,7 +39,7 @@ def gen_func_call_pair():
     next_mask_index = 0
 
     for i in range(length):
-        obj, last_mask_index = gen_func_call_obj(next_mask_index)
+        obj, last_mask_index = __gen_entity(next_mask_index)
         next_mask_index = last_mask_index + 1
         objs.append(obj)
 
@@ -51,13 +51,13 @@ def gen_func_call_pair():
     return source, target
 
 
-def gen_func_calls(count):
-    """Generate all function call data."""
+def gen_entity_chains(count):
+    """Generate all entity chains."""
 
     data = []
 
-    for _ in tqdm(range(count), desc='Generating function calls'):
-        (source, target) = gen_func_call_pair()
+    for _ in tqdm(range(count), desc='Generating entity chains'):
+        (source, target) = __gen_entity_chain_pair()
         item = {'source': source, 'target': target}
         data.append(item)
 

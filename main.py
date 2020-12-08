@@ -5,7 +5,7 @@ from theory_data_gen.cpp_17_to_nodejs_14.imports import gen_path_imports
 from theory_data_gen.cpp_17_to_nodejs_14.var_defs import gen_var_defs
 from theory_data_gen.cpp_17_to_nodejs_14.var_assigns import gen_var_assigns
 from theory_data_gen.cpp_17_to_nodejs_14.funcs import gen_funcs
-from theory_data_gen.cpp_17_to_nodejs_14.func_calls import gen_func_calls
+from theory_data_gen.cpp_17_to_nodejs_14.entity_chains import gen_entity_chains
 from theory_data_gen.cpp_17_to_nodejs_14.conditional_structures import gen_conditional_structs
 from theory_data_gen.cpp_17_to_nodejs_14.loop_structures import gen_loop_structs
 from theory_data_gen.cpp_17_to_nodejs_14.for_loop_inputs import gen_for_loop_inputs
@@ -35,7 +35,7 @@ data.extend(gen_path_imports())
 data.extend(gen_var_defs(generic_count=args.generic_var_defs))
 data.extend(gen_var_assigns())
 data.extend(gen_funcs(args.functions))
-data.extend(gen_func_calls(args.function_calls))
+data.extend(gen_entity_chains(args.function_calls))
 data.extend(gen_conditional_structs())
 data.extend(gen_loop_structs())
 data.extend(gen_for_loop_inputs())
