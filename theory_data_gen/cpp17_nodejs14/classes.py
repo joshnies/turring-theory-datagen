@@ -22,7 +22,7 @@ def gen_class_pair():
     abstract = 'abstract ' if bool(random.getrandbits(1)) else ''
 
     # Generate generics
-    generics = gen_type_generics()
+    generics, last_mask_idx = gen_type_generics(1)
 
     # Generate inheritance
     inheritance_range = range(0, 11)
@@ -31,7 +31,7 @@ def gen_class_pair():
     inheritance = []
 
     for i in range(inheritance_count):
-        inheritance.append(gen_class_inheritance(i + 1))
+        inheritance.append(gen_class_inheritance(i + last_mask_idx + 1))
 
     inheritance = join(inheritance, ', ')
 

@@ -1,7 +1,7 @@
 import random
 
 from tqdm import tqdm
-from theory_data_gen.common import gen_val_list, gen_mask_token
+from theory_data_gen.common import gen_val_list, gen_mask_token, add_mask_indices
 from theory_data_gen.cpp17_nodejs14.generics import gen_provided_generics
 from theory_data_gen.utils import join, join_rand
 
@@ -15,12 +15,16 @@ def gen_func_call_obj(mask_index: int):
     # Generate data
     is_func_call = bool(random.getrandbits(1))
     func_call_markers = ['(', ')'] if is_func_call else ['', '']
-    args, last_mask_index = gen_val_list(mask_index + 1) if is_func_call else ('', mask_index)
+    args = gen_val_list() if is_func_call else ''
 
     # Generate generics
     generics = gen_provided_generics() if is_func_call else ''
 
     obj = f'{m_name}{generics}{func_call_markers[0]}{args}{func_call_markers[1]}'
+
+    # Index mask tokens
+    obj, last_mask_index = add_mask_indices(obj, start_index=mask_index + 1)
+
     return obj, last_mask_index
 
 

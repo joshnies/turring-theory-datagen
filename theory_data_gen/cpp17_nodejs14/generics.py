@@ -1,6 +1,6 @@
 import random
 
-from theory_data_gen.mask_tokens import AI_GENERIC, AI_USER_TYPE
+from mask_tokens import MASK_TOKEN
 from theory_data_gen.cpp17_nodejs14.cpp import CPP_PRIM_TYPES
 from theory_data_gen.utils import join
 
@@ -13,7 +13,7 @@ def gen_type_generics():
     generics_count = random.choices(generics_range, weights=(75, 15, 10, 5), k=1)[0]
 
     for i in range(generics_count):
-        generics.append(AI_GENERIC)
+        generics.append(MASK_TOKEN)
 
     if generics_count > 0:
         return '<' + join(generics, ', ') + '>'
@@ -28,7 +28,7 @@ def gen_provided_generics():
     generics_range = range(0, 4)
     generics_count = random.choices(generics_range, weights=(75, 15, 10, 5), k=1)[0]
     generic_types = CPP_PRIM_TYPES.copy()
-    generic_types.append(AI_USER_TYPE)
+    generic_types.append(MASK_TOKEN)
 
     for i in range(generics_count):
         generics.append(random.choice(generic_types))

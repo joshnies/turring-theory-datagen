@@ -1,4 +1,5 @@
 import random
+import re
 
 from theory_data_gen.mask_tokens import AI_VAL, MASK_TOKEN
 from theory_data_gen.utils import join
@@ -10,7 +11,7 @@ def gen_mask_token(i):
     return MASK_TOKEN.replace('n', str(i), 1)
 
 
-def gen_val_list(mask_index: int):
+def gen_val_list():
     """Generate a value list."""
 
     # TODO: Add support for arithmetic values
@@ -22,9 +23,9 @@ def gen_val_list(mask_index: int):
 
     # Generate value list
     for i in range(val_count):
-        vals.append(gen_mask_token(mask_index + i))
+        vals.append(MASK_TOKEN)
 
-    return join(vals, ', '), mask_index + val_count - 1
+    return join(vals, ', ')
 
 
 def gen_item(source, target=None):
@@ -40,3 +41,19 @@ def deduplicate(data):
     """Deduplicate data."""
 
     return [dict(t) for t in {tuple(d.items()) for d in data}]
+
+
+def add_mask_indices(seq: str, start_index=0):
+    """
+    Add indices to generic mask tokens in a sequence.
+
+    :returns Tuple of sequence with indexed mask tokens, and last mask index.
+    """
+
+    result = seq
+    count = len(re.findall(MASK_TOKEN, seq))
+
+    for i in range(count):
+        result = result.replace(MASK_TOKEN, gen_mask_token(start_index + i), 1)
+
+    return result, start_index + count - 1
