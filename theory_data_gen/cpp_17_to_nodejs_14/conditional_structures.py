@@ -1,15 +1,19 @@
-def __gen_if_struct():
+from tqdm import tqdm
+
+from theory_data_gen.common import gen_item
+from .arithmetic import gen_arithmetic
+
+
+def __gen_if_pair(has_else=False):
     """Generate "if" structure."""
 
-    # TODO: Add random boolean expression as condition
-    return 'if () {{'
+    source_condition, target_condition = gen_arithmetic(should_add_mask_indices=True, only_bool=True)
+    else_token = 'else ' if has_else else ''
 
+    source = f'{else_token}if ({source_condition}) {{'
+    target = f'{else_token}if ({target_condition}) {{'
 
-def __gen_else_if_struct():
-    """Generate "else if" structure."""
-
-    # TODO: Add random boolean expression as condition
-    return 'else if () {{'
+    return source, target
 
 
 def __gen_else_struct():
@@ -18,20 +22,20 @@ def __gen_else_struct():
     return 'else {{'
 
 
-def gen_conditional_structs():
+def gen_conditional_structs(count: int):
     """Generate conditional structures."""
 
     data = []
 
     # Generate "if" structure
-    if_struct = __gen_if_struct()
-    item = {'source': if_struct, 'target': if_struct}
-    data.append(item)
+    for _ in tqdm(range(count), desc='Generating "if" structures'):
+        source, target = __gen_if_pair()
+        data.append(gen_item(source, target))
 
     # Generate "else if" structure
-    else_if_struct = __gen_else_if_struct()
-    item = {'source': else_if_struct, 'target': else_if_struct}
-    data.append(item)
+    for _ in tqdm(range(count), desc='Generating "else if" structures'):
+        source, target = __gen_if_pair(has_else=True)
+        data.append(gen_item(source, target))
 
     # Generate "else" structure
     else_struct = __gen_else_struct()
