@@ -1,43 +1,48 @@
+import random
+
 from tqdm import tqdm
 
-from theory_data_gen.common import gen_mask_token
+from theory_data_gen.common import gen_mask_token, add_mask_indices, gen_item
+from .arithmetic import gen_arithmetic
 from .cpp import CPP_PRIM_TYPES
 
 
-def __gen_for_loop_input_pair(t=None, use_increment=False):
+def __gen_for_loop_input_pair(use_increment=False):
     """Generate "for" loop input pair."""
 
     # Generate mask tokens
-    m_type = gen_mask_token(0) if t is None else t
-    base_m_idx = 0 if t is None else -1
+    type_is_masked = bool(random.getrandbits(1))
+    t = gen_mask_token(0) if type_is_masked is None else random.choice(CPP_PRIM_TYPES)
+    base_m_idx = 0 if type_is_masked else -1
 
     m_iteratee = gen_mask_token(base_m_idx + 1)
     m_iteratee_def_val = gen_mask_token(base_m_idx + 2)
-    m_condition = gen_mask_token(base_m_idx + 3)
+    next_mask_index = base_m_idx + 3
 
     inc_dec = '++' if use_increment else '--'
 
     # Generate "for" loop input pair
-    # TODO: Replace "AI_CONDITION" with a random boolean expression
-    source = f'{m_type} {m_iteratee} = {m_iteratee_def_val}; {m_condition}; {m_iteratee}{inc_dec}'
-    target = f'let {m_iteratee} = {m_iteratee_def_val}; {m_condition}; {m_iteratee}{inc_dec}'
+    source_condition, target_condition = gen_arithmetic(only_bool=True)
+
+    # General source/target
+    source = f'{t} {m_iteratee} = {m_iteratee_def_val}; {source_condition}; {m_iteratee}{inc_dec}'
+    target = f'let {m_iteratee} = {m_iteratee_def_val}; {target_condition}; {m_iteratee}{inc_dec}'
+
+    # Add mask indices
+    source, _ = add_mask_indices(source, next_mask_index)
+    target, _ = add_mask_indices(target, next_mask_index)
+
     return source, target
 
 
-def gen_for_loop_inputs():
+def gen_for_loop_inputs(count: int):
     """Generate "for" loop inputs."""
 
     data = []
 
-    # Generate "for" loop input pairs for pre-defined types
-    for t in tqdm(CPP_PRIM_TYPES, desc='Generating "for" loop inputs'):
-        (source, target) = __gen_for_loop_input_pair(t)
-        item = {'source': source, 'target': target}
-        data.append(item)
-
-    # Generate "for" loop input pair for user type
-    (source, target) = __gen_for_loop_input_pair()
-    item = {'source': source, 'target': target}
-    data.append(item)
+    # Generate "for" loop input pairs
+    for _ in tqdm(range(count), desc='Generating "for" loop inputs'):
+        source, target = __gen_for_loop_input_pair()
+        data.append(gen_item(source, target))
 
     return data
