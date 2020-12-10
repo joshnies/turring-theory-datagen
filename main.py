@@ -5,13 +5,14 @@ from theory_data_gen.cpp_17_to_nodejs_14.imports import gen_imports
 from theory_data_gen.cpp_17_to_nodejs_14.vars import gen_vars
 from theory_data_gen.cpp_17_to_nodejs_14.funcs import gen_funcs
 from theory_data_gen.cpp_17_to_nodejs_14.entity_chains import gen_entity_chains
+from theory_data_gen.cpp_17_to_nodejs_14.classes import gen_classes
+from theory_data_gen.cpp_17_to_nodejs_14.class_constructs import gen_class_constructs
 from theory_data_gen.cpp_17_to_nodejs_14.conditional_structures import gen_conditional_structs
 from theory_data_gen.cpp_17_to_nodejs_14.loop_structures import gen_loops
 from theory_data_gen.cpp_17_to_nodejs_14.for_loop_inputs import gen_for_loop_inputs
 from theory_data_gen.cpp_17_to_nodejs_14.switch_structures import gen_switch_data
 from theory_data_gen.cpp_17_to_nodejs_14.jump_statements import gen_jump_statements
-from theory_data_gen.cpp_17_to_nodejs_14.classes import gen_classes
-from theory_data_gen.cpp_17_to_nodejs_14.class_constructs import gen_class_constructs
+from cpp_17_to_nodejs_14.return_statements import gen_returns
 from theory_data_gen.cpp_17_to_nodejs_14.try_catch_blocks import gen_try_catch_blocks
 from theory_data_gen.cpp_17_to_nodejs_14.comments import gen_comments
 from theory_data_gen.cpp_17_to_nodejs_14.cout import gen_couts
@@ -33,6 +34,10 @@ parser.add_argument('--conditionals', help='Number of conditional structures', t
 parser.add_argument('--loops', help='Number of loops', type=int, required=True)
 parser.add_argument('--for-loop-inputs', help='Number of rogue "for" loop inputs', type=int, required=True)
 parser.add_argument('--arithmetic', help='Number of arithmetic expressions', type=int, required=True)
+parser.add_argument('--ref-returns', help='Number of reference-based "return" statements (e.g. "return myVar;")',
+                    type=int, required=True)
+parser.add_argument('--exp-returns', help='Number of expression-based "return" statements (e.g. "return 1 + 2;")',
+                    type=int, required=True)
 args = parser.parse_args()
 
 # Generate data
@@ -48,6 +53,7 @@ data.extend(gen_loops(args.loops))
 data.extend(gen_for_loop_inputs(args.for_loop_inputs))
 data.extend(gen_switch_data())
 data.extend(gen_jump_statements())
+data.extend(gen_returns(ref_count=args.ref_returns, exp_count=args.exp_returns))
 data.extend(gen_try_catch_blocks())
 data.extend(gen_comments())
 data.extend(gen_couts())
