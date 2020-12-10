@@ -2,8 +2,7 @@ import argparse
 
 from theory_data_gen.common import deduplicate
 from theory_data_gen.cpp_17_to_nodejs_14.imports import gen_imports
-from theory_data_gen.cpp_17_to_nodejs_14.var_defs import gen_var_defs
-from theory_data_gen.cpp_17_to_nodejs_14.var_assigns import gen_var_assigns
+from theory_data_gen.cpp_17_to_nodejs_14.vars import gen_vars
 from theory_data_gen.cpp_17_to_nodejs_14.funcs import gen_funcs
 from theory_data_gen.cpp_17_to_nodejs_14.entity_chains import gen_entity_chains
 from theory_data_gen.cpp_17_to_nodejs_14.conditional_structures import gen_conditional_structs
@@ -25,13 +24,13 @@ parser = argparse.ArgumentParser(description='Generate Theory dataset.')
 parser.add_argument('-o', '--out', help='Output file path', required=True)
 parser.add_argument('--generic-var-defs', help='Number of variable definitions that use a generic type', type=int,
                     required=True)
-parser.add_argument('--var-assigns', help='Number of variable assignments', type=int, required=True)
+parser.add_argument('--vars', help='Number of variables', type=int, required=True)
 parser.add_argument('--functions', help='Number of functions', type=int, required=True)
 parser.add_argument('--entity-chains', help='Number of entity chains', type=int, required=True)
 parser.add_argument('--classes', help='Number of classes', type=int, required=True)
 parser.add_argument('--class-constructs', help='Number of class construction statements', type=int, required=True)
 parser.add_argument('--conditionals', help='Number of conditional structures', type=int, required=True)
-parser.add_argument('--loops', help='Number of loop structures', type=int, required=True)
+parser.add_argument('--loops', help='Number of loops', type=int, required=True)
 parser.add_argument('--for-loop-inputs', help='Number of rogue "for" loop inputs', type=int, required=True)
 parser.add_argument('--arithmetic', help='Number of arithmetic expressions', type=int, required=True)
 args = parser.parse_args()
@@ -39,8 +38,7 @@ args = parser.parse_args()
 # Generate data
 data = list()
 data.extend(gen_imports())
-data.extend(gen_var_defs(generic_count=args.generic_var_defs))
-data.extend(gen_var_assigns(args.var_assigns))
+data.extend(gen_vars(args.vars))
 data.extend(gen_funcs(args.functions))
 data.extend(gen_entity_chains(args.entity_chains))
 data.extend(gen_classes(args.classes))
