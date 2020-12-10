@@ -7,12 +7,18 @@ from theory_data_gen.utils import join_rand
 from .cpp import CPP_BOOL_OPS
 
 
-def gen_arithmetic(should_add_mask_indices=False):
+def gen_arithmetic(should_add_mask_indices=False, only_bool=False):
     """Generate an arithmetic expression. Can contain boolean operators."""
 
-    # Get ops
-    ops = ARITHMETIC_OPS.copy()
+    # Get operators
+    ops = []
+
+    if not only_bool:
+        ops.extend(ARITHMETIC_OPS)
+
     ops.extend(CPP_BOOL_OPS)
+
+    # Add spacing to operators
     ops = list(map(lambda o: f' {o} ', ops))
 
     # Generate value list
