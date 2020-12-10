@@ -35,6 +35,9 @@ CPP_GENERIC_TYPES = [
     'std::vector'
 ]
 
+# C++ chain notation operators
+CPP_CHAIN_OPS = ['.', '->', '::']
+
 
 def gen_cpp_generic_type():
     """Generates a random C++ type with generic arguments."""

@@ -3,6 +3,7 @@ import random
 from tqdm import tqdm
 from theory_data_gen.common import gen_val_list, gen_mask_token, add_mask_indices
 from theory_data_gen.utils import join, join_rand
+from .cpp import CPP_CHAIN_OPS
 from .generics import gen_provided_generics
 
 
@@ -43,7 +44,7 @@ def __gen_entity_chain_pair():
         next_mask_index = last_mask_index + 1
         objs.append(obj)
 
-    source_objs = join_rand(objs, ['.', '->', '::'])
+    source_objs = join_rand(objs, CPP_CHAIN_OPS)
     target_objs = join(objs, '.')
 
     source = f'{source_objs};'
