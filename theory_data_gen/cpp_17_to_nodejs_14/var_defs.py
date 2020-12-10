@@ -2,8 +2,8 @@ import random
 
 from tqdm import tqdm
 
-from common import gen_mask_token
-from theory_data_gen.cpp_17_to_nodejs_14.cpp import CPP_PRIM_TYPES, gen_cpp_generic_type
+from theory_data_gen.common import gen_mask_token
+from .cpp import CPP_PRIM_TYPES, gen_cpp_generic_type
 
 
 def gen_var_def_pair(t=None, has_default_value=False):

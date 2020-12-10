@@ -1,7 +1,7 @@
 from tqdm import tqdm
 
-from constants import MASK_TOKEN
-from theory_data_gen.common import gen_val_list, gen_mask_token, add_mask_indices
+from theory_data_gen.common import gen_val_list, add_mask_indices
+from theory_data_gen.constants import MASK_TOKEN
 
 
 def gen_class_construct_pair():

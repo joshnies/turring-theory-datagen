@@ -1,10 +1,11 @@
 import random
+
 from tqdm import tqdm
 
-from common import gen_mask_token, add_mask_indices
-from constants import MASK_TOKEN
-from theory_data_gen.cpp_17_to_nodejs_14.generics import gen_type_generics
+from theory_data_gen.common import gen_mask_token, add_mask_indices
+from theory_data_gen.constants import MASK_TOKEN
 from theory_data_gen.utils import join
+from .generics import gen_type_generics
 
 
 def gen_class_inheritance():

@@ -1,4 +1,4 @@
-from common import gen_mask_token
+from theory_data_gen.common import gen_mask_token
 
 
 def gen_switch_pair():

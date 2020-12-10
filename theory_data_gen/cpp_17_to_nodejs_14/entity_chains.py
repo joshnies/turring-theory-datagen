@@ -2,8 +2,8 @@ import random
 
 from tqdm import tqdm
 from theory_data_gen.common import gen_val_list, gen_mask_token, add_mask_indices
-from theory_data_gen.cpp_17_to_nodejs_14.generics import gen_provided_generics
 from theory_data_gen.utils import join, join_rand
+from .generics import gen_provided_generics
 
 
 def __gen_entity(mask_index: int):

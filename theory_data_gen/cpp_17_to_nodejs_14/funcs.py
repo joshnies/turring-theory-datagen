@@ -2,7 +2,7 @@ import random
 
 from tqdm import tqdm
 
-from common import gen_mask_token
+from theory_data_gen.common import gen_mask_token
 from theory_data_gen.cpp_17_to_nodejs_14.cpp import CPP_PRIM_TYPES
 from theory_data_gen.utils import join
 

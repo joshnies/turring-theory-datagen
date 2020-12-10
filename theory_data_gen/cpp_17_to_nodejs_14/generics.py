@@ -1,8 +1,8 @@
 import random
 
-from constants import MASK_TOKEN
-from theory_data_gen.cpp_17_to_nodejs_14.cpp import CPP_PRIM_TYPES
+from theory_data_gen.constants import MASK_TOKEN
 from theory_data_gen.utils import join
+from .cpp import CPP_PRIM_TYPES
 
 
 def gen_type_generics():
