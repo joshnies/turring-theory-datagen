@@ -15,42 +15,45 @@ def __gen_entity(mask_token_args_only=False):
     # Generate data
     is_func_call = bool(random.getrandbits(1))
     func_call_markers = ['(', ')'] if is_func_call else ['', '']
-    args = gen_val_list(entity_chain_callback=gen_entity_chain_pair,
-                        mask_token_args_only=mask_token_args_only) if is_func_call else ''
+    source_args, target_args = gen_val_list(entity_chain_callback=gen_entity_chain_pair,
+                                            mask_token_args_only=mask_token_args_only) if is_func_call else ('', '')
 
     # Generate generics
     generics = gen_provided_generics() if is_func_call else ''
 
-    obj = f'{MASK_TOKEN}{generics}{func_call_markers[0]}{args}{func_call_markers[1]}'
+    # Generate final output
+    source = f'{MASK_TOKEN}{generics}{func_call_markers[0]}{source_args}{func_call_markers[1]}'
+    target = f'{MASK_TOKEN}{generics}{func_call_markers[0]}{target_args}{func_call_markers[1]}'
 
-    return obj
+    return source, target
 
 
 def gen_entity_chain_pair(add_semicolon=True, mask_token_args_only=False, should_add_mask_indices=True):
     """Generate an entity chain pair."""
 
-    entities = []
+    source_entities = []
+    target_entities = []
     length_range = range(1, 11)
     length = random.choices(length_range, weights=(80, 70, 60, 40, 30, 20, 5, 4, 3, 2), k=1)[0]
 
     # Generate entities
     for i in range(length):
-        entities.append(__gen_entity(mask_token_args_only=mask_token_args_only))
+        s, t = __gen_entity(mask_token_args_only=mask_token_args_only)
+        source_entities.append(s)
+        target_entities.append(t)
 
-    source_entities = join_rand(entities, CPP_CHAIN_OPS)
+    source = join_rand(source_entities, CPP_CHAIN_OPS)
+    target = join(target_entities, '.')
 
+    # Add mask indices
     if should_add_mask_indices:
-        source_entities, _ = add_mask_indices(source_entities)
-
-    target_entities = join(entities, '.')
-
-    if should_add_mask_indices:
-        target_entities, _ = add_mask_indices(target_entities)
+        source, _ = add_mask_indices(source)
+        target, _ = add_mask_indices(target)
 
     semicolon = ';' if add_semicolon else ''
 
-    source = f'{source_entities}{semicolon}'
-    target = f'{target_entities}{semicolon}'
+    source = f'{source}{semicolon}'
+    target = f'{target}{semicolon}'
     return source, target
 
 
