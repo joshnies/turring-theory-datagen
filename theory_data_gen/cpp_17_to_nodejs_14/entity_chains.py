@@ -52,7 +52,7 @@ def __gen_entity_chain_pair():
 
 
 def gen_entity_chains(count):
-    """Generate all entity chains."""
+    """Generate entity chains."""
 
     data = []
 

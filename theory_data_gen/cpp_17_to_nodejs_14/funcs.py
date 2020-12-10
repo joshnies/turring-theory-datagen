@@ -7,7 +7,7 @@ from theory_data_gen.cpp_17_to_nodejs_14.cpp import CPP_PRIM_TYPES
 from theory_data_gen.utils import join
 
 
-def gen_func_arg_pair(mask_index=1):
+def __gen_func_arg_pair(mask_index=1):
     """Generate a function argument pair."""
 
     # Generate mask tokens
@@ -30,7 +30,7 @@ def gen_func_arg_pair(mask_index=1):
     return (source_arg, target_arg), last_mask_index
 
 
-def gen_func_pair():
+def __gen_func_pair():
     """Generate a function pair."""
 
     abstract = 'abstract ' if bool(random.getrandbits(1)) else ''
@@ -44,7 +44,7 @@ def gen_func_pair():
     next_arg_mask_index = 1
 
     for _ in range(arg_count):
-        arg_pair, last_mask_index = gen_func_arg_pair(next_arg_mask_index)
+        arg_pair, last_mask_index = __gen_func_arg_pair(next_arg_mask_index)
         next_arg_mask_index = last_mask_index + 1
         args.append(arg_pair)
 
@@ -68,12 +68,12 @@ def gen_func_pair():
 
 
 def gen_funcs(count):
-    """Generate all function data."""
+    """Generate functions."""
 
     data = []
 
     for _ in tqdm(range(count), desc='Generating functions'):
-        (source, target) = gen_func_pair()
+        (source, target) = __gen_func_pair()
         item = {'source': source, 'target': target}
         data.append(item)
 

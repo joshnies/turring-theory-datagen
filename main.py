@@ -1,7 +1,7 @@
 import argparse
 
 from theory_data_gen.common import deduplicate
-from theory_data_gen.cpp_17_to_nodejs_14.imports import gen_path_imports
+from theory_data_gen.cpp_17_to_nodejs_14.imports import gen_imports
 from theory_data_gen.cpp_17_to_nodejs_14.var_defs import gen_var_defs
 from theory_data_gen.cpp_17_to_nodejs_14.var_assigns import gen_var_assigns
 from theory_data_gen.cpp_17_to_nodejs_14.funcs import gen_funcs
@@ -17,12 +17,14 @@ from theory_data_gen.cpp_17_to_nodejs_14.try_catch_blocks import gen_try_catch_b
 from theory_data_gen.cpp_17_to_nodejs_14.comments import gen_comments
 from theory_data_gen.cpp_17_to_nodejs_14.bool_expressions import gen_bool_expressions
 from theory_data_gen.cpp_17_to_nodejs_14.cout import gen_couts
+from theory_data_gen.cpp_17_to_nodejs_14.rogue_entities import gen_rogue_entities
 from theory_data_gen.output import to_csv
 
 # Parse args
 parser = argparse.ArgumentParser(description='Generate Theory dataset.')
 parser.add_argument('-o', '--out', help='Output file path', required=True)
-parser.add_argument('--generic-var-defs', help='Number of variable definitions that use a generic type', type=int, required=True)
+parser.add_argument('--generic-var-defs', help='Number of variable definitions that use a generic type', type=int,
+                    required=True)
 parser.add_argument('--functions', help='Number of functions', type=int, required=True)
 parser.add_argument('--entity-chains', help='Number of entity chains', type=int, required=True)
 parser.add_argument('--classes', help='Number of classes', type=int, required=True)
@@ -31,7 +33,7 @@ args = parser.parse_args()
 
 # Generate data
 data = list()
-data.extend(gen_path_imports())
+data.extend(gen_imports())
 data.extend(gen_var_defs(generic_count=args.generic_var_defs))
 data.extend(gen_var_assigns())
 data.extend(gen_funcs(args.functions))
@@ -47,6 +49,7 @@ data.extend(gen_try_catch_blocks())
 data.extend(gen_comments())
 data.extend(gen_bool_expressions())
 data.extend(gen_couts())
+data.extend(gen_rogue_entities())
 
 # Deduplicate data
 data = deduplicate(data)

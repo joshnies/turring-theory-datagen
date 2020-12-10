@@ -23,7 +23,7 @@ def gen_var_def_pair(t=None, has_default_value=False):
 
 
 def gen_var_defs(generic_count):
-    """Generate all variable definition data."""
+    """Generate variable definitions."""
 
     data = []
 

@@ -2,7 +2,7 @@ from theory_data_gen.common import gen_item, gen_mask_token
 
 
 def gen_jump_statements():
-    """Generate all jump statement data."""
+    """Generate jump statements."""
 
     break_stmt = 'break;'
     continue_stmt = 'continue;'

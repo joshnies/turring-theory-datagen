@@ -4,7 +4,7 @@ from theory_data_gen.common import gen_mask_token
 from .cpp import CPP_PRIM_TYPES
 
 
-def gen_for_loop_input_pair(t=None, use_increment=False):
+def __gen_for_loop_input_pair(t=None, use_increment=False):
     """Generate "for" loop input pair."""
 
     # Generate mask tokens
@@ -25,18 +25,18 @@ def gen_for_loop_input_pair(t=None, use_increment=False):
 
 
 def gen_for_loop_inputs():
-    """Generate all "for" loop inputs."""
+    """Generate "for" loop inputs."""
 
     data = []
 
     # Generate "for" loop input pairs for pre-defined types
     for t in tqdm(CPP_PRIM_TYPES, desc='Generating "for" loop inputs'):
-        (source, target) = gen_for_loop_input_pair(t)
+        (source, target) = __gen_for_loop_input_pair(t)
         item = {'source': source, 'target': target}
         data.append(item)
 
     # Generate "for" loop input pair for user type
-    (source, target) = gen_for_loop_input_pair()
+    (source, target) = __gen_for_loop_input_pair()
     item = {'source': source, 'target': target}
     data.append(item)
 

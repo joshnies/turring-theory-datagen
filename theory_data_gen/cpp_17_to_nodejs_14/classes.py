@@ -45,7 +45,7 @@ def gen_class_pair():
 
 
 def gen_classes(count):
-    """Generate all class data."""
+    """Generate classes."""
 
     data = []
 
