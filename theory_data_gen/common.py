@@ -1,8 +1,8 @@
 import random
 import re
 
-from theory_data_gen.mask_tokens import AI_VAL, MASK_TOKEN
-from theory_data_gen.utils import join
+from .constants import MASK_TOKEN
+from .utils import join
 
 
 def gen_mask_token(i):

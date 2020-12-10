@@ -1,10 +1,20 @@
 # Theory Data Generator
-### C++17 to Node.js 14.x
 
 Data generator for the Turring Theory translation neural network.
-Generates both the training and validation datasets.
 
 ## Run
 ```sh
-python main.py
+python main.py \
+  # Output file path
+  -o output/dataset.csv \
+  # Number of variable definitions that use a generic type
+  --generic-var-defs 50 \
+  # Number of functions
+  --functions 500 \
+  # Number of entity chains
+  --entity-chains 1000 \
+  # Number of classes
+  --classes 50 \
+  # Number of class construction statements
+  --class-constructs 100
 ```

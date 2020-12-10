@@ -2,25 +2,28 @@ import random
 
 from tqdm import tqdm
 
-from common import gen_mask_token
-from theory_data_gen.mask_tokens import AI_VAR_NAME, AI_VAL, AI_USER_TYPE
-from theory_data_gen.cpp17_nodejs14.cpp import CPP_PRIM_TYPES, gen_cpp_generic_type
+from theory_data_gen.common import gen_mask_token
+from .cpp import CPP_PRIM_TYPES, gen_cpp_generic_type
 
 
-def gen_var_def_pair(t: str, has_default_value: bool):
+def gen_var_def_pair(t=None, has_default_value=False):
     """Generate a variable definition pair."""
 
-    m_0 = gen_mask_token(0)
+    # Generate mask tokens
+    m_type = gen_mask_token(0) if t is None else t
+    base_mask_idx = 0 if t is None else -1
+    m_var_name = gen_mask_token(base_mask_idx + 1)
 
-    default_value = f' = {gen_mask_token(1)}' if has_default_value else ''
+    # Generate var def pair
+    default_value = f' = {gen_mask_token(base_mask_idx + 2)}' if has_default_value else ''
 
-    source = f'{t} {m_0}{default_value};'
-    target = f'let {m_0}{default_value};'
+    source = f'{m_type} {m_var_name}{default_value};'
+    target = f'let {m_var_name}{default_value};'
     return source, target
 
 
 def gen_var_defs(generic_count):
-    """Generate all variable definition data."""
+    """Generate variable definitions."""
 
     data = []
 
@@ -37,11 +40,11 @@ def gen_var_defs(generic_count):
         data.append(item)
 
     # Generate user type variable definition pair
-    (source, target) = gen_var_def_pair(AI_USER_TYPE, has_default_value=False)
+    (source, target) = gen_var_def_pair(has_default_value=False)
     item = {'source': source, 'target': target}
     data.append(item)
 
-    (source, target) = gen_var_def_pair(AI_USER_TYPE, has_default_value=True)
+    (source, target) = gen_var_def_pair(has_default_value=True)
     item = {'source': source, 'target': target}
     data.append(item)
 

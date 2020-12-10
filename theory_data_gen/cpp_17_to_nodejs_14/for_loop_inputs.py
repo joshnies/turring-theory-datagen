@@ -1,11 +1,10 @@
 from tqdm import tqdm
 
-from common import gen_mask_token
-from theory_data_gen.mask_tokens import AI_CONDITION
-from theory_data_gen.cpp17_nodejs14.cpp import CPP_PRIM_TYPES
+from theory_data_gen.common import gen_mask_token
+from .cpp import CPP_PRIM_TYPES
 
 
-def gen_for_loop_input_pair(t=None, use_increment=False):
+def __gen_for_loop_input_pair(t=None, use_increment=False):
     """Generate "for" loop input pair."""
 
     # Generate mask tokens
@@ -14,29 +13,30 @@ def gen_for_loop_input_pair(t=None, use_increment=False):
 
     m_iteratee = gen_mask_token(base_m_idx + 1)
     m_iteratee_def_val = gen_mask_token(base_m_idx + 2)
+    m_condition = gen_mask_token(base_m_idx + 3)
 
     inc_dec = '++' if use_increment else '--'
 
     # Generate "for" loop input pair
     # TODO: Replace "AI_CONDITION" with a random boolean expression
-    source = f'{m_type} {m_iteratee} = {m_iteratee_def_val}; {AI_CONDITION}; {m_iteratee}{inc_dec}'
-    target = f'let {m_iteratee} = {m_iteratee_def_val}; {AI_CONDITION}; {m_iteratee}{inc_dec}'
+    source = f'{m_type} {m_iteratee} = {m_iteratee_def_val}; {m_condition}; {m_iteratee}{inc_dec}'
+    target = f'let {m_iteratee} = {m_iteratee_def_val}; {m_condition}; {m_iteratee}{inc_dec}'
     return source, target
 
 
 def gen_for_loop_inputs():
-    """Generate all "for" loop inputs."""
+    """Generate "for" loop inputs."""
 
     data = []
 
     # Generate "for" loop input pairs for pre-defined types
     for t in tqdm(CPP_PRIM_TYPES, desc='Generating "for" loop inputs'):
-        (source, target) = gen_for_loop_input_pair(t)
+        (source, target) = __gen_for_loop_input_pair(t)
         item = {'source': source, 'target': target}
         data.append(item)
 
     # Generate "for" loop input pair for user type
-    (source, target) = gen_for_loop_input_pair()
+    (source, target) = __gen_for_loop_input_pair()
     item = {'source': source, 'target': target}
     data.append(item)
 

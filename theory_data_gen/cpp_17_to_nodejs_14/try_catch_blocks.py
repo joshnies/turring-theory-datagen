@@ -1,7 +1,7 @@
 from tqdm import tqdm
+
 from theory_data_gen.common import gen_item, gen_mask_token
-from theory_data_gen.mask_tokens import AI_USER_TYPE
-from theory_data_gen.cpp17_nodejs14.cpp import CPP_PRIM_TYPES
+from .cpp import CPP_PRIM_TYPES
 
 
 def __gen_try_struct():
@@ -29,7 +29,7 @@ def gen_try_catch_blocks():
     """Generate all try-catch block data."""
 
     types = CPP_PRIM_TYPES.copy()
-    types.append(AI_USER_TYPE)
+    types.append(gen_mask_token(0))
     data = list()
 
     # Generate "try" structure

@@ -20,7 +20,7 @@ def __gen_cout_pair(use_std, num_vals):
 
 
 def gen_couts():
-    """Generate all console output statement data."""
+    """Generate console output statements."""
 
     data = []
 

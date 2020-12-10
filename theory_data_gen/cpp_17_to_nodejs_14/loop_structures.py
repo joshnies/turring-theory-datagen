@@ -1,17 +1,17 @@
 from tqdm import tqdm
 
-from common import gen_mask_token
-from theory_data_gen.cpp17_nodejs14.cpp import CPP_PRIM_TYPES
+from theory_data_gen.common import gen_mask_token
+from .cpp import CPP_PRIM_TYPES
 
 
-def gen_for_pair():
-    """Generate "for" loop structure pair."""
+def __gen_for_struct():
+    """Generate "for" loop structure."""
 
     # TODO: Add random "for" expression as condition
-    return f'for () {{'
+    return 'for () {{'
 
 
-def gen_foreach_pair(t=None):
+def __gen_foreach_pair(t=None):
     """Generate "foreach" loop structure pair."""
 
     # Generate mask tokens
@@ -27,47 +27,47 @@ def gen_foreach_pair(t=None):
     return source, target
 
 
-def gen_while_pair():
-    """Generate "while" loop structure pair."""
+def __gen_while_struct():
+    """Generate "while" loop structure."""
 
     # TODO: Add random boolean expression as condition
-    return f'while () {{'
+    return 'while () {{'
 
 
-def gen_do_struct():
-    """Generate "do" structure pair."""
+def __gen_do_struct():
+    """Generate "do" structure."""
 
-    return f'do {{'
+    return 'do {{'
 
 
 def gen_loop_structs():
-    """Generate all loop structure data."""
+    """Generate loop structures."""
 
     data = []
 
     # Generate "for" loop structure
-    for_loop = gen_for_pair()
+    for_loop = __gen_for_struct()
     item = {'source': for_loop, 'target': for_loop}
     data.append(item)
 
     # Generate primitive type "foreach" loop structures
     for t in tqdm(CPP_PRIM_TYPES, desc='Generating loop structures (primitive types)'):
-        (source, target) = gen_foreach_pair(t)
+        (source, target) = __gen_foreach_pair(t)
         item = {'source': source, 'target': target}
         data.append(item)
 
     # Generate user type "foreach" loop structures
-    (source, target) = gen_foreach_pair()
+    (source, target) = __gen_foreach_pair()
     item = {'source': source, 'target': target}
     data.append(item)
 
     # Generate "while" loop structure
-    while_loop = gen_while_pair()
+    while_loop = __gen_while_struct()
     item = {'source': while_loop, 'target': while_loop}
     data.append(item)
 
     # Generate "do" structure
-    do_struct = gen_do_struct()
+    do_struct = __gen_do_struct()
     item = {'source': do_struct, 'target': do_struct}
     data.append(item)
 
