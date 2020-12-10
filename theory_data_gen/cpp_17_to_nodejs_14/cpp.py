@@ -38,6 +38,9 @@ CPP_GENERIC_TYPES = [
 # C++ chain notation operators
 CPP_CHAIN_OPS = ['.', '->', '::']
 
+# C++ boolean operators
+CPP_BOOL_OPS = ['==', '!=', '>', '>=', '<', '<=', '&&', '||']
+
 
 def gen_cpp_generic_type():
     """Generates a random C++ type with generic arguments."""

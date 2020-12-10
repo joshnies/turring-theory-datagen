@@ -15,9 +15,8 @@ from theory_data_gen.cpp_17_to_nodejs_14.classes import gen_classes
 from theory_data_gen.cpp_17_to_nodejs_14.class_constructs import gen_class_constructs
 from theory_data_gen.cpp_17_to_nodejs_14.try_catch_blocks import gen_try_catch_blocks
 from theory_data_gen.cpp_17_to_nodejs_14.comments import gen_comments
-from theory_data_gen.cpp_17_to_nodejs_14.bool_expressions import gen_bool_expressions
-from theory_data_gen.cpp_17_to_nodejs_14.arithmetic import gen_arithmetic
 from theory_data_gen.cpp_17_to_nodejs_14.cout import gen_couts
+from cpp_17_to_nodejs_14.arithmetic import gen_rogue_arithmetic
 from theory_data_gen.cpp_17_to_nodejs_14.rogue_entities import gen_rogue_entities
 from theory_data_gen.output import to_csv
 
@@ -49,8 +48,8 @@ data.extend(gen_classes(args.classes))
 data.extend(gen_class_constructs(args.class_constructs))
 data.extend(gen_try_catch_blocks())
 data.extend(gen_comments())
-data.extend(gen_bool_expressions())
 data.extend(gen_couts())
+data.extend(gen_rogue_arithmetic(args.arithmetic))
 data.extend(gen_rogue_entities())
 
 # Deduplicate data
