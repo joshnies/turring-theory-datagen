@@ -4,7 +4,7 @@ from tqdm import tqdm
 from theory_data_gen.common import add_mask_indices, gen_item
 from theory_data_gen.constants import MASK_TOKEN
 from .arithmetic import gen_arithmetic
-from .cpp import CPP_PRIM_TYPES
+from .cpp import CPP_PRIM_TYPES, gen_cpp_generic_type
 from .entity_chains import gen_entity_chain_pair
 
 
@@ -16,7 +16,16 @@ def __gen_var():
     types.append(MASK_TOKEN)
 
     has_type = bool(random.getrandbits(1))
-    src_decl = random.choice(types) + ' ' if has_type else ''
+    is_generic = random.choice(range(10)) == 0
+
+    src_decl = ''
+
+    if has_type:
+        if is_generic:
+            src_decl = gen_cpp_generic_type() + ' '
+        else:
+            src_decl = random.choice(types) + ' '
+
     tar_decl = 'let ' if has_type else ''
 
     # Generate default values
