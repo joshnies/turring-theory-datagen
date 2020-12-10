@@ -1,31 +1,12 @@
-import random
 import re
 
 from .constants import MASK_TOKEN
-from .utils import join
 
 
 def gen_mask_token(i):
     """Generate mask token with index."""
 
     return MASK_TOKEN.replace('n', str(i), 1)
-
-
-def gen_val_list():
-    """Generate a value list."""
-
-    # TODO: Add support for arithmetic values
-    # TODO: Add support for entity chain values
-
-    val_range = range(0, 11)
-    val_count = random.choices(val_range, weights=(80, 70, 60, 40, 30, 20, 5, 4, 3, 2, 1), k=1)[0]
-    vals = []
-
-    # Generate value list
-    for i in range(val_count):
-        vals.append(MASK_TOKEN)
-
-    return join(vals, ', ')
 
 
 def gen_item(source, target=None):
