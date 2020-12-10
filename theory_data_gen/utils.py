@@ -1,7 +1,8 @@
 import random
+from typing import List
 
 
-def join(iterator, separator):
+def join(iterator: List[str], separator: str) -> str:
     """Join items in an iterator with a given separator."""
 
     it = map(str, iterator)
@@ -14,7 +15,7 @@ def join(iterator, separator):
     return string
 
 
-def join_rand(iterator, separators):
+def join_rand(iterator: List[str], separators: List[str]) -> str:
     """Join items in an iterator with a random separator."""
 
     it = map(str, iterator)

@@ -16,6 +16,7 @@ from theory_data_gen.cpp_17_to_nodejs_14.class_constructs import gen_class_const
 from theory_data_gen.cpp_17_to_nodejs_14.try_catch_blocks import gen_try_catch_blocks
 from theory_data_gen.cpp_17_to_nodejs_14.comments import gen_comments
 from theory_data_gen.cpp_17_to_nodejs_14.bool_expressions import gen_bool_expressions
+from theory_data_gen.cpp_17_to_nodejs_14.arithmetic import gen_arithmetic
 from theory_data_gen.cpp_17_to_nodejs_14.cout import gen_couts
 from theory_data_gen.cpp_17_to_nodejs_14.rogue_entities import gen_rogue_entities
 from theory_data_gen.output import to_csv
@@ -29,6 +30,7 @@ parser.add_argument('--functions', help='Number of functions', type=int, require
 parser.add_argument('--entity-chains', help='Number of entity chains', type=int, required=True)
 parser.add_argument('--classes', help='Number of classes', type=int, required=True)
 parser.add_argument('--class-constructs', help='Number of class construction statements', type=int, required=True)
+parser.add_argument('--arithmetic', help='Number of arithmetic expressions', type=int, required=True)
 args = parser.parse_args()
 
 # Generate data
