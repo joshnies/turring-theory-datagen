@@ -7,7 +7,7 @@ from theory_data_gen.cpp_17_to_nodejs_14.var_assigns import gen_var_assigns
 from theory_data_gen.cpp_17_to_nodejs_14.funcs import gen_funcs
 from theory_data_gen.cpp_17_to_nodejs_14.entity_chains import gen_entity_chains
 from theory_data_gen.cpp_17_to_nodejs_14.conditional_structures import gen_conditional_structs
-from theory_data_gen.cpp_17_to_nodejs_14.loop_structures import gen_loop_structs
+from theory_data_gen.cpp_17_to_nodejs_14.loop_structures import gen_loops
 from theory_data_gen.cpp_17_to_nodejs_14.for_loop_inputs import gen_for_loop_inputs
 from theory_data_gen.cpp_17_to_nodejs_14.switch_structures import gen_switch_data
 from theory_data_gen.cpp_17_to_nodejs_14.jump_statements import gen_jump_statements
@@ -31,6 +31,7 @@ parser.add_argument('--entity-chains', help='Number of entity chains', type=int,
 parser.add_argument('--classes', help='Number of classes', type=int, required=True)
 parser.add_argument('--class-constructs', help='Number of class construction statements', type=int, required=True)
 parser.add_argument('--conditionals', help='Number of conditional structures', type=int, required=True)
+parser.add_argument('--loops', help='Number of loop structures', type=int, required=True)
 parser.add_argument('--for-loop-inputs', help='Number of rogue "for" loop inputs', type=int, required=True)
 parser.add_argument('--arithmetic', help='Number of arithmetic expressions', type=int, required=True)
 args = parser.parse_args()
@@ -45,7 +46,7 @@ data.extend(gen_entity_chains(args.entity_chains))
 data.extend(gen_classes(args.classes))
 data.extend(gen_class_constructs(args.class_constructs))
 data.extend(gen_conditional_structs(args.conditionals))
-data.extend(gen_loop_structs())
+data.extend(gen_loops(args.loops))
 data.extend(gen_for_loop_inputs(args.for_loop_inputs))
 data.extend(gen_switch_data())
 data.extend(gen_jump_statements())

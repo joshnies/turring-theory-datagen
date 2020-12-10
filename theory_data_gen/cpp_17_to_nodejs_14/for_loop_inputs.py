@@ -7,7 +7,7 @@ from .arithmetic import gen_arithmetic
 from .cpp import CPP_PRIM_TYPES
 
 
-def __gen_for_loop_input_pair(use_increment=False):
+def gen_for_loop_input_pair(use_increment=False):
     """Generate "for" loop input pair."""
 
     # Generate mask tokens
@@ -42,7 +42,7 @@ def gen_for_loop_inputs(count: int):
 
     # Generate "for" loop input pairs
     for _ in tqdm(range(count), desc='Generating "for" loop inputs'):
-        source, target = __gen_for_loop_input_pair()
+        source, target = gen_for_loop_input_pair()
         data.append(gen_item(source, target))
 
     return data
