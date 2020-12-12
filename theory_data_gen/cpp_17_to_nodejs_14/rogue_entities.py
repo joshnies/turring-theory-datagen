@@ -1,4 +1,4 @@
-from theory_data_gen.common import gen_item
+from theory_data_gen.common import gen_item, gen_mask_token
 
 
 def gen_rogue_entities():
@@ -11,5 +11,9 @@ def gen_rogue_entities():
         gen_item('('),
         gen_item(')'),
         gen_item(');'),
-        gen_item(';')
+        gen_item(';'),
+        gen_item(f'{gen_mask_token(0)},'),
+        gen_item(f'{gen_mask_token(0)};'),
+        gen_item(f'{gen_mask_token(0)})'),
+        gen_item(f'{gen_mask_token(0)}}}')
     ]
