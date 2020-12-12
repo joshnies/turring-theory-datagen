@@ -6,7 +6,7 @@ from .entity_chains import gen_entity_chain_pair
 from .val_lists import gen_val_list
 
 
-def __gen_class_construct_pair():
+def gen_class_construct_pair():
     """Generate a class construction pair."""
 
     source_args, target_args = gen_val_list(entity_chain_callback=gen_entity_chain_pair)
@@ -26,7 +26,7 @@ def gen_class_constructs(count):
     data = []
 
     for _ in tqdm(range(count), desc='Generating class construction statements'):
-        source, target = __gen_class_construct_pair()
+        source, target = gen_class_construct_pair()
         data.append(gen_item(source, target))
 
     return data

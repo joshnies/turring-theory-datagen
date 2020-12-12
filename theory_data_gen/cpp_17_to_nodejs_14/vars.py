@@ -4,6 +4,7 @@ from tqdm import tqdm
 from theory_data_gen.common import add_mask_indices, gen_item
 from theory_data_gen.constants import MASK_TOKEN
 from .arithmetic import gen_arithmetic
+from .class_constructs import gen_class_construct_pair
 from .cpp import CPP_PRIM_TYPES, gen_cpp_generic_type
 from .entity_chains import gen_entity_chain_pair
 
@@ -29,7 +30,7 @@ def __gen_var():
     tar_decl = 'let ' if has_type else ''
 
     # Generate default values
-    selection = random.choice(range(3))
+    selection = random.choice(range(4))
 
     if selection == 0:
         # Mask token
@@ -39,9 +40,12 @@ def __gen_var():
     elif selection == 1:
         # Arithmetic/boolean expression
         source_def_val, target_def_val = gen_arithmetic()
-    else:
+    elif selection == 2:
         # Entity chain
         source_def_val, target_def_val = gen_entity_chain_pair(add_semicolon=False, should_add_mask_indices=False)
+    else:
+        # Class construct
+        source_def_val, target_def_val = gen_class_construct_pair()
 
     # Generate source/target
     source = f'{src_decl}{MASK_TOKEN} = {source_def_val};'
