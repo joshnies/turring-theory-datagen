@@ -2,7 +2,7 @@ import random
 
 from tqdm import tqdm
 
-from theory_data_gen.common import gen_mask_token
+from theory_data_gen.common import gen_mask_token, gen_item
 from theory_data_gen.cpp_17_to_nodejs_14.cpp import CPP_PRIM_TYPES
 from theory_data_gen.utils import join
 
@@ -30,8 +30,8 @@ def __gen_func_arg_pair(mask_index=1):
     return (source_arg, target_arg), last_mask_index
 
 
-def __gen_func_pair():
-    """Generate a function pair."""
+def __gen_func_pairs():
+    """Generate function pairs."""
 
     abstract = 'abstract ' if bool(random.getrandbits(1)) else ''
     source_return_type = random.choice(CPP_PRIM_TYPES)
@@ -61,10 +61,22 @@ def __gen_func_pair():
     # Generate mask tokens
     m_func_name = gen_mask_token(0)
 
-    # Generate final functions
-    source_func = f'{abstract}{source_return_type}{pointer} {m_func_name}({source_args_str}) {{'
-    target_func = f'const {m_func_name} = ({target_args_str}) => {{'
-    return source_func, target_func
+    # Generate function signatures
+    # Without ending "{"
+    pair_wo_open_bracket = gen_item(f'{abstract}{source_return_type}{pointer} {m_func_name}({source_args_str})',
+                                    f'const {m_func_name} = ({target_args_str}) =>')
+
+    # With ending "{"
+    pair_w_open_bracket = gen_item(pair_wo_open_bracket['source'] + ' {{', pair_wo_open_bracket['target'] + ' {{')
+
+    # With open arg list (e.g. "void main (")
+    pair_open_args = gen_item(f'{abstract}{source_return_type}{pointer} {m_func_name}(', f'const {m_func_name} = (')
+
+    return [
+        pair_wo_open_bracket,
+        pair_w_open_bracket,
+        pair_open_args
+    ]
 
 
 def gen_funcs(count):
@@ -73,8 +85,7 @@ def gen_funcs(count):
     data = []
 
     for _ in tqdm(range(count), desc='Generating functions'):
-        (source, target) = __gen_func_pair()
-        item = {'source': source, 'target': target}
-        data.append(item)
+        items = __gen_func_pairs()
+        data.extend(items)
 
     return data
