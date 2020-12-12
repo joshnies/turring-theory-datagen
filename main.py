@@ -34,9 +34,7 @@ parser.add_argument('--conditionals', help='Number of conditional structures', t
 parser.add_argument('--loops', help='Number of loops', type=int, required=True)
 parser.add_argument('--for-loop-inputs', help='Number of rogue "for" loop inputs', type=int, required=True)
 parser.add_argument('--arithmetic', help='Number of arithmetic expressions', type=int, required=True)
-parser.add_argument('--ref-returns', help='Number of reference-based "return" statements (e.g. "return myVar;")',
-                    type=int, required=True)
-parser.add_argument('--exp-returns', help='Number of expression-based "return" statements (e.g. "return 1 + 2;")',
+parser.add_argument('--returns', help='Number of "return" statements',
                     type=int, required=True)
 args = parser.parse_args()
 
@@ -53,7 +51,7 @@ data.extend(gen_loops(args.loops))
 data.extend(gen_for_loop_inputs(args.for_loop_inputs))
 data.extend(gen_switch_data())
 data.extend(gen_jump_statements())
-data.extend(gen_returns(ref_count=args.ref_returns, exp_count=args.exp_returns))
+data.extend(gen_returns(args.returns))
 data.extend(gen_try_catch_blocks())
 data.extend(gen_comments())
 data.extend(gen_couts())

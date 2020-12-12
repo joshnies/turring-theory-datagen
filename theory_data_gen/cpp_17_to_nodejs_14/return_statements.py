@@ -31,17 +31,15 @@ def gen_return():
     return source, target
 
 
-def gen_returns(ref_count: int, exp_count: int):
+def gen_returns(count: int):
     """Generate return statements."""
 
-    data = []
-
-    # Generate reference "return" statements
-    for i in tqdm(range(ref_count), desc='Generating reference-based "return" statements'):
-        data.append(gen_item(f'return {gen_mask_token(i)};'))
+    data = [
+        gen_item(f'return {gen_mask_token(0)};')
+    ]
 
     # Generate expression-based "return" statements
-    for _ in tqdm(range(exp_count), desc='Generating expression-based "return" statements'):
+    for _ in tqdm(range(count), desc='Generating "return" statements'):
         source, target = gen_return()
         data.append(gen_item(source, target))
 
