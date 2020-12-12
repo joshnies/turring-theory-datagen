@@ -6,12 +6,13 @@ from .entity_chains import gen_entity_chain_pair
 from .val_lists import gen_val_list
 
 
-def gen_class_construct_pair():
+def gen_class_construct_pair(add_semicolon=True):
     """Generate a class construction pair."""
 
     source_args, target_args = gen_val_list(entity_chain_callback=gen_entity_chain_pair)
-    source = f'new {MASK_TOKEN}({source_args});'
-    target = f'new {MASK_TOKEN}({target_args});'
+    semicolon = ';' if add_semicolon else ''
+    source = f'new {MASK_TOKEN}({source_args}){semicolon}'
+    target = f'new {MASK_TOKEN}({target_args}){semicolon}'
 
     # Add mask indices
     source = add_mask_indices(source)

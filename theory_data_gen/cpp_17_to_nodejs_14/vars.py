@@ -45,7 +45,7 @@ def __gen_var():
         source_def_val, target_def_val = gen_entity_chain_pair(add_semicolon=False, should_add_mask_indices=False)
     else:
         # Class construct
-        source_def_val, target_def_val = gen_class_construct_pair()
+        source_def_val, target_def_val = gen_class_construct_pair(add_semicolon=False)
 
     # Generate source/target
     source = f'{src_decl}{MASK_TOKEN} = {source_def_val};'
