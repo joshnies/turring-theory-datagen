@@ -1,7 +1,7 @@
 import random
 from tqdm import tqdm
 
-from theory_data_gen.common import gen_mask_token, gen_item
+from theory_data_gen.common import gen_mask_token, gen_item, add_open_bracket
 from .arithmetic import gen_arithmetic
 from .cpp import CPP_PRIM_TYPES
 from .for_loop_inputs import gen_for_loop_input_pair
@@ -12,10 +12,13 @@ def __gen_for_loop_pair():
 
     source_input, target_input = gen_for_loop_input_pair(bool(random.getrandbits(1)))
 
-    source = f'for ({source_input}) {{'
-    target = f'for ({target_input}) {{'
+    pair_wo_open_bracket = gen_item(f'for ({source_input})', f'for ({target_input})')
+    pair_w_open_bracket = add_open_bracket(pair_wo_open_bracket)
 
-    return source, target
+    return [
+        pair_wo_open_bracket,
+        pair_w_open_bracket
+    ]
 
 
 def __gen_foreach_pair(t=None):
@@ -29,9 +32,15 @@ def __gen_foreach_pair(t=None):
     m_iterator = gen_mask_token(base_m_idx + 2)
 
     # Generate foreach pair
-    source = f'for ({m_type} {m_iteratee} : {m_iterator}) {{'
-    target = f'for (let {m_iteratee} of {m_iterator}) {{'
-    return source, target
+    pair_wo_open_bracket = gen_item(f'for ({m_type} {m_iteratee} : {m_iterator})',
+                                    f'for (let {m_iteratee} of {m_iterator})')
+
+    pair_w_open_bracket = add_open_bracket(pair_wo_open_bracket)
+
+    return [
+        pair_wo_open_bracket,
+        pair_w_open_bracket
+    ]
 
 
 def __gen_while_loop_pair():
@@ -39,47 +48,53 @@ def __gen_while_loop_pair():
 
     source_condition, target_condition = gen_arithmetic(only_bool=True)
 
-    source = f'while ({source_condition}) {{'
-    target = f'while ({target_condition}) {{'
+    pair_wo_open_bracket = gen_item(f'while ({source_condition})', f'while ({target_condition})')
+    pair_w_open_bracket = add_open_bracket(pair_wo_open_bracket)
 
-    return source, target
+    return [
+        pair_wo_open_bracket,
+        pair_w_open_bracket
+    ]
 
 
 def __gen_do_struct():
     """Generate "do" structure."""
 
-    return 'do {'
+    pair_wo_open_bracket = gen_item('do')
+    pair_w_open_bracket = add_open_bracket(pair_wo_open_bracket)
+
+    return [
+        pair_wo_open_bracket,
+        pair_w_open_bracket
+    ]
 
 
 def gen_loops(count: int):
     """Generate loops."""
 
-    data = []
+    data = list()
 
     # Generate "for" loops
     for _ in tqdm(range(count), desc='Generating "for" loops'):
-        source, target = __gen_for_loop_pair()
-        data.append(gen_item(source, target))
+        items = __gen_for_loop_pair()
+        data.extend(items)
 
     # Generate primitive type "foreach" loop structures
     for t in tqdm(CPP_PRIM_TYPES, desc='Generating "foreach" loops'):
-        (source, target) = __gen_foreach_pair(t)
-        item = {'source': source, 'target': target}
-        data.append(item)
+        items = __gen_foreach_pair(t)
+        data.extend(items)
 
     # Generate user type "foreach" loop structures
-    (source, target) = __gen_foreach_pair()
-    item = {'source': source, 'target': target}
-    data.append(item)
+    items = __gen_foreach_pair()
+    data.extend(items)
 
     # Generate "while" loops
     for _ in tqdm(range(count), desc='Generating "while" loops'):
-        source, target = __gen_while_loop_pair()
-        data.append(gen_item(source, target))
+        items = __gen_while_loop_pair()
+        data.extend(items)
 
     # Generate "do" structure
-    do_struct = __gen_do_struct()
-    item = {'source': do_struct, 'target': do_struct}
-    data.append(item)
+    items = __gen_do_struct()
+    data.extend(items)
 
     return data

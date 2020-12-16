@@ -1,4 +1,4 @@
-from theory_data_gen.common import gen_item, gen_mask_token
+from theory_data_gen.common import gen_item
 
 
 def gen_jump_statements():
