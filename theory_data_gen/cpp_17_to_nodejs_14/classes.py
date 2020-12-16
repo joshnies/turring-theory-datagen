@@ -16,7 +16,7 @@ def gen_class_inheritance():
 
 
 def gen_class_pairs():
-    """Generate a class pair."""
+    """Generate class pairs."""
 
     # Generate mask tokens
     m_class_name = gen_mask_token(0)
@@ -42,12 +42,12 @@ def gen_class_pairs():
 
     target = f'class {m_class_name}'
 
-    pair_wo_open_bracket = gen_item(source, target)
-    pair_w_open_bracket = add_open_bracket(pair_wo_open_bracket)
+    item_wo_open_bracket = gen_item(source, target)
+    item_w_open_bracket = add_open_bracket(item_wo_open_bracket)
 
     return [
-        pair_wo_open_bracket,
-        pair_w_open_bracket
+        item_wo_open_bracket,
+        item_w_open_bracket
     ]
 
 

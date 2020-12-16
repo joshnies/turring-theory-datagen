@@ -1,10 +1,16 @@
-from theory_data_gen.common import gen_mask_token
+from theory_data_gen.common import gen_mask_token, gen_item, add_open_bracket
 
 
-def __gen_switch_struct():
+def __gen_switch_structs():
     """Generate "switch" structure."""
 
-    return f'switch ({gen_mask_token(0)}) {{'
+    item_wo_open_bracket = gen_item(f'switch ({gen_mask_token(0)})')
+    item_w_open_bracket = add_open_bracket(item_wo_open_bracket)
+
+    return [
+        item_wo_open_bracket,
+        item_w_open_bracket
+    ]
 
 
 def __gen_case():
@@ -25,9 +31,8 @@ def gen_switch_data():
     data = []
 
     # Generate "switch" structure
-    switch_struct = __gen_switch_struct()
-    item = {'source': switch_struct, 'target': switch_struct}
-    data.append(item)
+    items = __gen_switch_structs()
+    data.extend(items)
 
     # Generate switch case statement
     switch_case = __gen_case()

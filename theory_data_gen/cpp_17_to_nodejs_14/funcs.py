@@ -2,7 +2,7 @@ import random
 
 from tqdm import tqdm
 
-from theory_data_gen.common import gen_mask_token, gen_item
+from theory_data_gen.common import gen_mask_token, gen_item, add_open_bracket
 from theory_data_gen.cpp_17_to_nodejs_14.cpp import CPP_PRIM_TYPES
 from theory_data_gen.utils import join
 
@@ -63,19 +63,19 @@ def __gen_func_pairs():
 
     # Generate function signatures
     # Without ending "{"
-    pair_wo_open_bracket = gen_item(f'{abstract}{source_return_type}{pointer} {m_func_name}({source_args_str})',
+    item_wo_open_bracket = gen_item(f'{abstract}{source_return_type}{pointer} {m_func_name}({source_args_str})',
                                     f'const {m_func_name} = ({target_args_str}) =>')
 
     # With ending "{"
-    pair_w_open_bracket = gen_item(pair_wo_open_bracket['source'] + ' {', pair_wo_open_bracket['target'] + ' {')
+    item_w_open_bracket = add_open_bracket(item_wo_open_bracket)
 
     # With open arg list (e.g. "void main (")
-    pair_open_args = gen_item(f'{abstract}{source_return_type}{pointer} {m_func_name}(', f'const {m_func_name} = (')
+    item_open_args = gen_item(f'{abstract}{source_return_type}{pointer} {m_func_name}(', f'const {m_func_name} = (')
 
     return [
-        pair_wo_open_bracket,
-        pair_w_open_bracket,
-        pair_open_args
+        item_wo_open_bracket,
+        item_w_open_bracket,
+        item_open_args
     ]
 
 
