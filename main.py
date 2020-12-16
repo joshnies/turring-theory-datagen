@@ -34,13 +34,11 @@ except Exception:
     raise Exception()
 
 # Generate data
-data = list()
-
 if lvp == LVP.CPP_17_TO_NODEJS_14:
-    Cpp17ToNodeJS14Generator.generate(args)
+    data = Cpp17ToNodeJS14Generator.generate(args)
 elif lvp == LVP.JAVA_8_TO_NODEJS_14:
     # TODO: Implement JAVA_8_TO_NODEJS_14
-    pass
+    data = list()
 else:
     raise Exception(f'Unimplemented language-version pair "{lvp.value}".')
 
