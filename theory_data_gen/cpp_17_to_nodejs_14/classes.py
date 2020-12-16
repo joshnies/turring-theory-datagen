@@ -2,7 +2,7 @@ import random
 
 from tqdm import tqdm
 
-from theory_data_gen.common import gen_mask_token, add_mask_indices
+from theory_data_gen.common import gen_mask_token, add_mask_indices, add_open_bracket, gen_item
 from theory_data_gen.constants import MASK_TOKEN
 from theory_data_gen.utils import join
 from .generics import gen_type_generics
@@ -15,7 +15,7 @@ def gen_class_inheritance():
     return f'{access_modifier} {MASK_TOKEN}'
 
 
-def gen_class_pair():
+def gen_class_pairs():
     """Generate a class pair."""
 
     # Generate mask tokens
@@ -37,11 +37,18 @@ def gen_class_pair():
 
     inheritance = join(inheritance, ', ')
 
-    source = f'{abstract}class {m_class_name}{generics}{inheritance_prefix}{inheritance} {{'
+    source = f'{abstract}class {m_class_name}{generics}{inheritance_prefix}{inheritance}'
     source, _ = add_mask_indices(source, start_index=1)
 
-    target = f'class {m_class_name} {{'
-    return source, target
+    target = f'class {m_class_name}'
+
+    pair_wo_open_bracket = gen_item(source, target)
+    pair_w_open_bracket = add_open_bracket(pair_wo_open_bracket)
+
+    return [
+        pair_wo_open_bracket,
+        pair_w_open_bracket
+    ]
 
 
 def gen_classes(count):
@@ -50,8 +57,7 @@ def gen_classes(count):
     data = []
 
     for _ in tqdm(range(count), desc='Generating classes'):
-        (source, target) = gen_class_pair()
-        item = {'source': source, 'target': target}
-        data.append(item)
+        items = gen_class_pairs()
+        data.extend(items)
 
     return data
