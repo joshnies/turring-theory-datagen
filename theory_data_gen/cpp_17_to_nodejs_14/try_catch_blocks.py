@@ -7,7 +7,7 @@ from .cpp import CPP_PRIM_TYPES
 def __gen_try_struct():
     """Generate "try" structure."""
 
-    return f'try {{'
+    return 'try {'
 
 
 def __gen_catch_struct_pair(t=None):

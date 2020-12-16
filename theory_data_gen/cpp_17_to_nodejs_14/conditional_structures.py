@@ -19,7 +19,7 @@ def __gen_if_pair(has_else=False):
 def __gen_else_struct():
     """Generate "else" structure."""
 
-    return 'else {{'
+    return 'else {'
 
 
 def gen_conditional_structs(count: int):
@@ -38,8 +38,7 @@ def gen_conditional_structs(count: int):
         data.append(gen_item(source, target))
 
     # Generate "else" structure
-    else_struct = __gen_else_struct()
-    item = {'source': else_struct, 'target': else_struct}
+    item = gen_item(__gen_else_struct())
     data.append(item)
 
     return data

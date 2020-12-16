@@ -48,7 +48,7 @@ def __gen_while_loop_pair():
 def __gen_do_struct():
     """Generate "do" structure."""
 
-    return 'do {{'
+    return 'do {'
 
 
 def gen_loops(count: int):

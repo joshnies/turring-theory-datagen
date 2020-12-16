@@ -67,7 +67,7 @@ def __gen_func_pairs():
                                     f'const {m_func_name} = ({target_args_str}) =>')
 
     # With ending "{"
-    pair_w_open_bracket = gen_item(pair_wo_open_bracket['source'] + ' {{', pair_wo_open_bracket['target'] + ' {{')
+    pair_w_open_bracket = gen_item(pair_wo_open_bracket['source'] + ' {', pair_wo_open_bracket['target'] + ' {')
 
     # With open arg list (e.g. "void main (")
     pair_open_args = gen_item(f'{abstract}{source_return_type}{pointer} {m_func_name}(', f'const {m_func_name} = (')
