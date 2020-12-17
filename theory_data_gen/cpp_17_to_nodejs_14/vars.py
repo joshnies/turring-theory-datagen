@@ -1,7 +1,7 @@
 import random
 from tqdm import tqdm
 
-from theory_data_gen.common import add_mask_indices, gen_item
+from theory_data_gen.common import add_mask_indices, gen_item, gen_mask_token
 from theory_data_gen.constants import MASK_TOKEN
 from .arithmetic import gen_arithmetic
 from .class_constructs import gen_class_construct_pair
@@ -9,7 +9,7 @@ from .cpp import CPP_PRIM_TYPES, gen_cpp_generic_type
 from .entity_chains import gen_entity_chain_pair
 
 
-def __gen_var():
+def __gen_var(is_array=False):
     """Generate a variable."""
 
     # Generate type declarations
@@ -18,6 +18,7 @@ def __gen_var():
 
     has_type = bool(random.getrandbits(1))
     is_generic = random.choice(range(10)) == 0
+    cpp_array_size = f'[{MASK_TOKEN}]' if is_array else ''
 
     src_decl = ''
 
@@ -30,7 +31,7 @@ def __gen_var():
     tar_decl = 'let ' if has_type else ''
 
     # Generate default values
-    selection = random.choice(range(4))
+    selection = 4 if is_array and has_type else random.choice(range(4))
 
     if selection == 0:
         # Mask token
@@ -43,17 +44,22 @@ def __gen_var():
     elif selection == 2:
         # Entity chain
         source_def_val, target_def_val = gen_entity_chain_pair(add_semicolon=False, should_add_mask_indices=False)
-    else:
+    elif selection == 3:
         # Class construct
-        source_def_val, target_def_val = gen_class_construct_pair(add_semicolon=False)
+        source_def_val, target_def_val = gen_class_construct_pair(add_semicolon=False, should_add_mask_indices=False)
+    else:
+        # Array initialization
+        vals = ', '.join([MASK_TOKEN] * random.choice(range(1, 20)))
+        source_def_val = f'{{ {vals} }}'
+        target_def_val = f'[{vals}]'
 
     # Generate source/target
-    source = f'{src_decl}{MASK_TOKEN} = {source_def_val};'
-    target = f'{tar_decl}{MASK_TOKEN} = {target_def_val};'
+    source = f'{src_decl}{MASK_TOKEN}{cpp_array_size} = {source_def_val};'
+    target = f'{tar_decl}{gen_mask_token(0)} = {target_def_val};'
 
     # Add mask indices
     source, _ = add_mask_indices(source)
-    target, _ = add_mask_indices(target)
+    target, _ = add_mask_indices(target, 2 if is_array else 1)
 
     return source, target
 
@@ -65,6 +71,10 @@ def gen_vars(count: int):
 
     for _ in tqdm(range(count), desc='Generating variables'):
         source, target = __gen_var()
+        data.append(gen_item(source, target))
+
+    for _ in tqdm(range(count), desc='Generating array variables'):
+        source, target = __gen_var(is_array=True)
         data.append(gen_item(source, target))
 
     return data
