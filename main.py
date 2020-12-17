@@ -9,9 +9,8 @@ from theory_data_gen.output import to_csv
 parser = argparse.ArgumentParser(description='Generate Theory dataset.')
 parser.add_argument('-l', '--lvp', help='Language-version pair', required=True)
 parser.add_argument('-o', '--out', help='Output file path', required=True)
-parser.add_argument('--generic-var-defs', help='Number of variable definitions that use a generic type', type=int,
-                    required=True)
 parser.add_argument('--vars', help='Number of variables', type=int, required=True)
+parser.add_argument('--arr-vars', help='Number of array variables', type=int, required=True)
 parser.add_argument('--functions', help='Number of functions', type=int, required=True)
 parser.add_argument('--entity-chains', help='Number of entity chains', type=int, required=True)
 parser.add_argument('--classes', help='Number of classes', type=int, required=True)

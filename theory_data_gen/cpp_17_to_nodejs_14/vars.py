@@ -64,16 +64,18 @@ def __gen_var(is_array=False):
     return source, target
 
 
-def gen_vars(count: int):
+def gen_vars(standard_count: int, array_count: int):
     """Generate variables."""
 
     data = []
 
-    for _ in tqdm(range(count), desc='Generating variables'):
+    # Generate standard variables
+    for _ in tqdm(range(standard_count), desc='Generating variables'):
         source, target = __gen_var()
         data.append(gen_item(source, target))
 
-    for _ in tqdm(range(count), desc='Generating array variables'):
+    # Generate array variables
+    for _ in tqdm(range(array_count), desc='Generating array variables'):
         source, target = __gen_var(is_array=True)
         data.append(gen_item(source, target))
 
