@@ -8,11 +8,9 @@ from .cout import gen_couts
 from .entity_chains import gen_entity_chains
 from .for_loop_inputs import gen_for_loop_inputs
 from .funcs import gen_funcs
-from .imports import gen_imports
 from .jump_statements import gen_jump_statements
 from .loop_structures import gen_loops
 from .return_statements import gen_returns
-from .rogue_entities import gen_rogue_entities
 from .switch_structures import gen_switch_data
 from .try_catch_blocks import gen_try_catch_blocks
 from .vars import gen_vars
@@ -26,7 +24,6 @@ class Cpp17ToNodeJS14Generator(Generator):
         print('Generating dataset for C++17 --> Node.js 14')
 
         data = list()
-        data.extend(gen_imports())
         data.extend(gen_vars(standard_count=args.vars, array_count=args.arr_vars))
         data.extend(gen_funcs(args.functions))
         data.extend(gen_entity_chains(args.entity_chains))
@@ -42,5 +39,4 @@ class Cpp17ToNodeJS14Generator(Generator):
         data.extend(gen_comments())
         data.extend(gen_couts())
         data.extend(gen_rogue_arithmetic(args.arithmetic))
-        data.extend(gen_rogue_entities())
         return data
