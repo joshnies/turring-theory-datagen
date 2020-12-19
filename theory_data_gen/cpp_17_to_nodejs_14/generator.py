@@ -8,7 +8,6 @@ from .cout import gen_couts
 from .entity_chains import gen_entity_chains
 from .for_loop_inputs import gen_for_loop_inputs
 from .funcs import gen_funcs
-from .jump_statements import gen_jump_statements
 from .loop_structures import gen_loops
 from .return_statements import gen_returns
 from .switch_structures import gen_switch_data
@@ -33,7 +32,6 @@ class Cpp17ToNodeJS14Generator(Generator):
         data.extend(gen_loops(args.loops))
         data.extend(gen_for_loop_inputs(args.for_loop_inputs))
         data.extend(gen_switch_data(switch_count=args.switches, case_count=args.switch_cases))
-        data.extend(gen_jump_statements())
         data.extend(gen_returns(args.returns))
         data.extend(gen_try_catch_blocks())
         data.extend(gen_comments())
