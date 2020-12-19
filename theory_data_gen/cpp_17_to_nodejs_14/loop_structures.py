@@ -57,18 +57,6 @@ def __gen_while_loop_items():
     ]
 
 
-def __gen_do_structs():
-    """Generate "do" structures."""
-
-    item_wo_open_bracket = gen_item('do')
-    item_w_open_bracket = add_open_bracket(item_wo_open_bracket)
-
-    return [
-        item_wo_open_bracket,
-        item_w_open_bracket
-    ]
-
-
 def gen_loops(count: int):
     """Generate loops."""
 
@@ -92,9 +80,5 @@ def gen_loops(count: int):
     for _ in tqdm(range(count), desc='Generating "while" loops'):
         items = __gen_while_loop_items()
         data.extend(items)
-
-    # Generate "do" structures
-    items = __gen_do_structs()
-    data.extend(items)
 
     return data

@@ -4,12 +4,6 @@ from theory_data_gen.common import gen_item, gen_mask_token
 from .cpp import CPP_PRIM_TYPES
 
 
-def __gen_try_struct():
-    """Generate "try" structure."""
-
-    return 'try {'
-
-
 def __gen_catch_struct_pair(t=None):
     """Generate "catch" structure pair."""
 
@@ -25,16 +19,14 @@ def __gen_catch_struct_pair(t=None):
     return source, target
 
 
-def gen_try_catch_blocks():
+def gen_catch_blocks():
     """Generate all try-catch block data."""
 
     types = CPP_PRIM_TYPES.copy()
     types.append(gen_mask_token(0))
     data = list()
 
-    # Generate "try" structure
-    data.append(gen_item(__gen_try_struct()))
-
+    # Generate catch structures
     for t in tqdm(types, desc='Generating "catch" structures'):
         (source, target) = __gen_catch_struct_pair(t)
         data.append(gen_item(source, target))
