@@ -32,7 +32,7 @@ class Cpp17ToNodeJS14Generator(Generator):
         data.extend(gen_conditional_structs(args.conditionals))
         data.extend(gen_loops(args.loops))
         data.extend(gen_for_loop_inputs(args.for_loop_inputs))
-        data.extend(gen_switch_data())
+        data.extend(gen_switch_data(switch_count=args.switches, case_count=args.switch_cases))
         data.extend(gen_jump_statements())
         data.extend(gen_returns(args.returns))
         data.extend(gen_try_catch_blocks())
