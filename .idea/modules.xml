@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/theory_data_gen_cpp17_nodejs14.iml" filepath="$PROJECT_DIR$/.idea/theory_data_gen_cpp17_nodejs14.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/theory_data_gen.iml" filepath="$PROJECT_DIR$/.idea/theory_data_gen.iml" />
     </modules>
   </component>
 </project>

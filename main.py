@@ -19,7 +19,7 @@ parser.add_argument('--class-constructs', help='Number of class construction sta
 parser.add_argument('--conditionals', help='Number of conditional structures', type=int, required=True)
 parser.add_argument('--switches', help='Number of switch structures', type=int, required=True)
 parser.add_argument('--switch-cases', help='Number of switch cases', type=int, required=True)
-parser.add_argument('--loops', help='Number of loops', type=int, required=True)
+parser.add_argument('--loops', help='Number of loops (excluding "for" loops)', type=int, required=True)
 parser.add_argument('--for-loop-inputs', help='Number of rogue "for" loop inputs', type=int, required=True)
 parser.add_argument('--arithmetic', help='Number of arithmetic expressions', type=int, required=True)
 parser.add_argument('--returns', help='Number of return statements', type=int, required=True)
