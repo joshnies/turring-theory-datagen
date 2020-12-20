@@ -2,9 +2,8 @@ import random
 from tqdm import tqdm
 
 from theory_data_gen.common import add_mask_indices, gen_item
-from theory_data_gen.utils import join, join_rand
+from theory_data_gen.utils import join
 from theory_data_gen.constants import MASK_TOKEN
-from .java import JAVA_CHAIN_OPS
 from .generics import gen_provided_generics
 from .val_lists import gen_val_list
 
@@ -42,7 +41,7 @@ def gen_entity_chain_pair(add_semicolon=True, mask_token_args_only=False, should
         source_entities.append(s)
         target_entities.append(t)
 
-    source = join_rand(source_entities, JAVA_CHAIN_OPS)
+    source = join(source_entities, '.')
     target = join(target_entities, '.')
 
     # Add mask indices

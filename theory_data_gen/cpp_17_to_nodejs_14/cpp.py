@@ -2,8 +2,6 @@ import random
 
 from theory_data_gen.utils import join
 
-# TODO: Add pointer and reference symbols to primitive types
-
 # C++ primitive types (not replaced with mask token)
 CPP_PRIM_TYPES = [
     'auto',

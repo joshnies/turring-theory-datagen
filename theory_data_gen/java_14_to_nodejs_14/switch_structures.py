@@ -1,8 +1,8 @@
 import random
 
-from cpp_17_to_nodejs_14.class_constructs import gen_class_construct_pair
-from cpp_17_to_nodejs_14.entity_chains import gen_entity_chain_pair
 from theory_data_gen.common import gen_mask_token, gen_item, add_open_bracket
+from .class_constructs import gen_class_construct_pair
+from .entity_chains import gen_entity_chain_pair
 
 
 def __gen_switch_structs(condition: str = None):

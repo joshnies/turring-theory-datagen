@@ -9,7 +9,7 @@ from .generics import gen_type_generics
 
 
 def gen_class_inheritance():
-    """Generate a C++ class inheritance sequence."""
+    """Generate a Java class inheritance sequence."""
 
     access_modifier = random.choice(['public', 'private', 'protected'])
     return f'{access_modifier} {MASK_TOKEN}'

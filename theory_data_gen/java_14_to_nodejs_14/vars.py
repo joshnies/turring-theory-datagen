@@ -18,7 +18,7 @@ def __gen_var(is_array=False):
 
     has_type = bool(random.getrandbits(1))
     is_generic = random.choice(range(10)) == 0
-    cpp_array_size = f'[{MASK_TOKEN}]' if is_array else ''
+    java_array_size = f'[{MASK_TOKEN}]' if is_array else ''
 
     src_decl = ''
 
@@ -54,7 +54,7 @@ def __gen_var(is_array=False):
         target_def_val = f'[{vals}]'
 
     # Generate source/target
-    source = f'{src_decl}{MASK_TOKEN}{cpp_array_size} = {source_def_val};'
+    source = f'{src_decl}{MASK_TOKEN}{java_array_size} = {source_def_val};'
     target = f'{tar_decl}{gen_mask_token(0)} = {target_def_val};'
 
     # Add mask indices

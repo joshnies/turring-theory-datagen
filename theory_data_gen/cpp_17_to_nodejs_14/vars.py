@@ -12,6 +12,8 @@ from .entity_chains import gen_entity_chain_pair
 def __gen_var(is_array=False):
     """Generate a variable."""
 
+    # TODO: Add pointer and reference symbols
+
     # Generate type declarations
     types = CPP_PRIM_TYPES.copy()
     types.append(MASK_TOKEN)
