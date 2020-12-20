@@ -22,8 +22,8 @@ parser.add_argument('--switch-cases', help='Number of switch cases', type=int, r
 parser.add_argument('--loops', help='Number of loops', type=int, required=True)
 parser.add_argument('--for-loop-inputs', help='Number of rogue "for" loop inputs', type=int, required=True)
 parser.add_argument('--arithmetic', help='Number of arithmetic expressions', type=int, required=True)
-parser.add_argument('--returns', help='Number of return statements',
-                    type=int, required=True)
+parser.add_argument('--returns', help='Number of return statements', type=int, required=True)
+parser.add_argument('--cout', help='Number of console output statements', type=int)
 args = parser.parse_args()
 
 # Get LVP from args

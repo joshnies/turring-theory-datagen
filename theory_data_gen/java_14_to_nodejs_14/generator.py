@@ -35,6 +35,6 @@ class Java14ToNodeJS14Generator(Generator):
         data.extend(gen_returns(args.returns))
         data.extend(gen_catch_blocks())
         data.extend(gen_comments())
-        data.extend(gen_couts())
+        data.extend(gen_couts(args.cout))
         data.extend(gen_rogue_arithmetic(args.arithmetic))
         return data
