@@ -1,6 +1,7 @@
 import argparse
 
 from cpp_17_to_nodejs_14.generator import Cpp17ToNodeJS14Generator
+from java_14_to_nodejs_14.generator import Java14ToNodeJS14Generator
 from theory_data_gen.lvp import LVP
 from theory_data_gen.common import deduplicate
 from theory_data_gen.output import to_csv
@@ -37,9 +38,8 @@ except Exception:
 # Generate data
 if lvp == LVP.CPP_17_TO_NODEJS_14:
     data = Cpp17ToNodeJS14Generator.generate(args)
-elif lvp == LVP.JAVA_8_TO_NODEJS_14:
-    # TODO: Implement JAVA_8_TO_NODEJS_14
-    data = list()
+elif lvp == LVP.JAVA_14_TO_NODEJS_14:
+    data = Java14ToNodeJS14Generator.generate(args)
 else:
     raise Exception(f'Unimplemented language-version pair "{lvp.value}".')
 
