@@ -16,12 +16,6 @@ def __gen_if_pair(has_else=False):
     return source, target
 
 
-def __gen_else_struct():
-    """Generate "else" structure."""
-
-    return 'else {'
-
-
 def gen_conditional_structs(count: int):
     """Generate conditional structures."""
 
@@ -36,9 +30,5 @@ def gen_conditional_structs(count: int):
     for _ in tqdm(range(count), desc='Generating "else if" structures'):
         source, target = __gen_if_pair(has_else=True)
         data.append(gen_item(source, target))
-
-    # Generate "else" structure
-    item = gen_item(__gen_else_struct())
-    data.append(item)
 
     return data

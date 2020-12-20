@@ -38,3 +38,10 @@ def add_mask_indices(seq: str, start_index=0):
         result = result.replace(MASK_TOKEN, gen_mask_token(start_index + i), 1)
 
     return result, start_index + count - 1
+
+
+def add_open_bracket(item):
+    """Add open bracket (`{`) to an item."""
+
+    add = ' {'
+    return gen_item(item['source'] + add, item['target'] + add)

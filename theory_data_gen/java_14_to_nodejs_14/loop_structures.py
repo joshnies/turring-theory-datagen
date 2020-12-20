@@ -3,7 +3,7 @@ from tqdm import tqdm
 
 from theory_data_gen.common import gen_mask_token, gen_item, add_open_bracket
 from .arithmetic import gen_arithmetic
-from .cpp import CPP_PRIM_TYPES
+from .java import JAVA_PRIM_TYPES
 from .for_loop_inputs import gen_for_loop_input_pair
 
 
@@ -68,7 +68,7 @@ def gen_loops(count: int):
         data.extend(items)
 
     # Generate primitive type "foreach" loop structures
-    for t in tqdm(CPP_PRIM_TYPES, desc='Generating "foreach" loops'):
+    for t in tqdm(JAVA_PRIM_TYPES, desc='Generating "foreach" loops'):
         items = __gen_foreach_items(t)
         data.extend(items)
 

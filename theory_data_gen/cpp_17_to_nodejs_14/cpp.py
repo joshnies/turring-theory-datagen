@@ -4,6 +4,7 @@ from theory_data_gen.utils import join
 
 # C++ primitive types (not replaced with mask token)
 CPP_PRIM_TYPES = [
+    'auto',
     'bool',
     'char',
     'int',
