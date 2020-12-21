@@ -15,7 +15,8 @@ def __gen_func_arg_pair(mask_index=1):
     m_def_val = gen_mask_token(mask_index + 1)
 
     # Generate arg pair
-    source_return_type = random.choice(CPP_PRIM_TYPES)
+    const = 'const ' if random.choice(range(10)) == 0 else ''
+    source_return_type = f'{const}{random.choice(CPP_PRIM_TYPES)}'
     default_val = m_def_val if bool(random.getrandbits(1)) else ''
     default_val_assign = ' = ' if default_val != '' else ''
     cpp_array_symbols = '[]' if random.choice(range(10)) == 0 else ''
