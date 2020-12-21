@@ -23,12 +23,13 @@ def __gen_var(is_array=False):
 
     src_decl = ''
     mem_symbol = gen_mem_symbol()
+    const = 'const ' if random.choice(range(10)) == 0 else ''
 
     if has_type:
         if is_generic:
-            src_decl = gen_cpp_generic_type() + mem_symbol + ' '
+            src_decl = f'{const}{gen_cpp_generic_type()}{mem_symbol} '
         else:
-            src_decl = random.choice(types) + mem_symbol + ' '
+            src_decl = f'{const}{random.choice(types)}{mem_symbol} '
 
     tar_decl = 'let ' if has_type else ''
 
