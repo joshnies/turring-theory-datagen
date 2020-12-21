@@ -4,7 +4,7 @@ from tqdm import tqdm
 
 from theory_data_gen.common import gen_mask_token, gen_item, add_open_bracket
 from theory_data_gen.utils import join
-from .cpp import CPP_PRIM_TYPES
+from .cpp import CPP_PRIM_TYPES, gen_mem_symbol
 
 
 def __gen_func_arg_pair(mask_index=1):
@@ -19,15 +19,7 @@ def __gen_func_arg_pair(mask_index=1):
     default_val = m_def_val if bool(random.getrandbits(1)) else ''
     default_val_assign = ' = ' if default_val != '' else ''
     cpp_array_symbols = '[]' if random.choice(range(10)) == 0 else ''
-
-    # Generate C++ memory symbol
-    mem_symbol = ''
-    mem_symbol_selection = random.choice(range(10))
-
-    if mem_symbol_selection == 0:
-        mem_symbol = '*'
-    elif mem_symbol_selection == 1:
-        mem_symbol = '&'
+    mem_symbol = gen_mem_symbol()
 
     if default_val == '':
         last_mask_index = mask_index
