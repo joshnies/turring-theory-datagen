@@ -56,3 +56,17 @@ def gen_cpp_generic_type():
     args = join(args, ', ')
 
     return f'{base_type}<{args}>'
+
+
+def gen_mem_symbol():
+    """Generates a memory symbol for C++ (pointer or reference). 10% chance for each symbol, otherwise empty string."""
+
+    mem_symbol = ''
+    mem_symbol_selection = random.choice(range(10))
+
+    if mem_symbol_selection == 0:
+        mem_symbol = '*'
+    elif mem_symbol_selection == 1:
+        mem_symbol = '&'
+
+    return mem_symbol

@@ -1,18 +1,17 @@
 import random
+
 from tqdm import tqdm
 
 from theory_data_gen.common import add_mask_indices, gen_item, gen_mask_token
 from theory_data_gen.constants import MASK_TOKEN
 from .arithmetic import gen_arithmetic
 from .class_constructs import gen_class_construct_pair
-from .cpp import CPP_PRIM_TYPES, gen_cpp_generic_type
+from .cpp import CPP_PRIM_TYPES, gen_cpp_generic_type, gen_mem_symbol
 from .entity_chains import gen_entity_chain_pair
 
 
 def __gen_var(is_array=False):
     """Generate a variable."""
-
-    # TODO: Add pointer and reference symbols
 
     # Generate type declarations
     types = CPP_PRIM_TYPES.copy()
@@ -23,12 +22,13 @@ def __gen_var(is_array=False):
     cpp_array_size = f'[{MASK_TOKEN}]' if is_array else ''
 
     src_decl = ''
+    mem_symbol = gen_mem_symbol()
 
     if has_type:
         if is_generic:
-            src_decl = gen_cpp_generic_type() + ' '
+            src_decl = gen_cpp_generic_type() + mem_symbol + ' '
         else:
-            src_decl = random.choice(types) + ' '
+            src_decl = random.choice(types) + mem_symbol + ' '
 
     tar_decl = 'let ' if has_type else ''
 
