@@ -16,16 +16,25 @@ def __gen_func_arg_pair(mask_index=1):
 
     # Generate arg pair
     source_return_type = random.choice(CPP_PRIM_TYPES)
-    pointer = '*' if bool(random.getrandbits(1)) else ''
     default_val = m_def_val if bool(random.getrandbits(1)) else ''
     default_val_assign = ' = ' if default_val != '' else ''
+    cpp_array_symbols = '[]' if random.choice(range(10)) == 0 else ''
+
+    # Generate C++ memory symbol
+    mem_symbol = ''
+    mem_symbol_selection = random.choice(range(10))
+
+    if mem_symbol_selection == 0:
+        mem_symbol = '*'
+    elif mem_symbol_selection == 1:
+        mem_symbol = '&'
 
     if default_val == '':
         last_mask_index = mask_index
     else:
         last_mask_index = mask_index + 1
 
-    source_arg = f'{source_return_type}{pointer} {m_arg_name}{default_val_assign}{default_val}'
+    source_arg = f'{source_return_type}{mem_symbol} {m_arg_name}{cpp_array_symbols}{default_val_assign}{default_val}'
     target_arg = f'{m_arg_name}{default_val_assign}{default_val}'
     return (source_arg, target_arg), last_mask_index
 
