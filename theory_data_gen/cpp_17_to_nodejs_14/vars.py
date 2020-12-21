@@ -33,7 +33,7 @@ def __gen_var(is_array=False):
     tar_decl = 'let ' if has_type else ''
 
     # Generate default values
-    selection = 4 if is_array and has_type else random.choice(range(4))
+    selection = 5 if is_array and has_type else random.choice(range(5))
 
     if selection == 0:
         # Mask token
@@ -49,6 +49,10 @@ def __gen_var(is_array=False):
     elif selection == 3:
         # Class construct
         source_def_val, target_def_val = gen_class_construct_pair(add_semicolon=False, should_add_mask_indices=False)
+    elif selection == 4:
+        # Null
+        source_def_val = 'NULL' if bool(random.getrandbits(1)) else 'nullptr'
+        target_def_val = 'null'
     else:
         # Array initialization
         vals = ', '.join([MASK_TOKEN] * random.choice(range(1, 20)))

@@ -1,4 +1,5 @@
 import random
+
 from tqdm import tqdm
 
 from theory_data_gen.common import add_mask_indices, gen_item, gen_mask_token
@@ -31,7 +32,7 @@ def __gen_var(is_array=False):
     tar_decl = 'let ' if has_type else ''
 
     # Generate default values
-    selection = 4 if is_array and has_type else random.choice(range(4))
+    selection = 5 if is_array and has_type else random.choice(range(5))
 
     if selection == 0:
         # Mask token
@@ -47,6 +48,11 @@ def __gen_var(is_array=False):
     elif selection == 3:
         # Class construct
         source_def_val, target_def_val = gen_class_construct_pair(add_semicolon=False, should_add_mask_indices=False)
+    elif selection == 4:
+        # Null
+        val = 'null'
+        source_def_val = val
+        target_def_val = val
     else:
         # Array initialization
         vals = ', '.join([MASK_TOKEN] * random.choice(range(1, 20)))

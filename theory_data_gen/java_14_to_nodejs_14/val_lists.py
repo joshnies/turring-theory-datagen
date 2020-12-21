@@ -16,7 +16,7 @@ def gen_val_list(entity_chain_callback, mask_token_args_only=False, should_add_m
 
     # Generate value list
     for i in range(val_count):
-        selection = 0 if mask_token_args_only else random.choice(range(5))
+        selection = 0 if mask_token_args_only else random.choice(range(6))
 
         if selection < 3:
             # Mask token
@@ -33,6 +33,11 @@ def gen_val_list(entity_chain_callback, mask_token_args_only=False, should_add_m
             s, t = entity_chain_callback(add_semicolon=False, mask_token_args_only=True, should_add_mask_indices=False)
             source_vals.append(s)
             target_vals.append(t)
+        else:
+            # Null
+            val = 'null'
+            source_vals.append(val)
+            target_vals.append(val)
 
     source = join(source_vals, ', ')
     target = join(source_vals, ', ')
