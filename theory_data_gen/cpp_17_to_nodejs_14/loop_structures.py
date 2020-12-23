@@ -1,4 +1,5 @@
 import random
+
 from tqdm import tqdm
 
 from theory_data_gen.common import gen_mask_token, gen_item, add_open_bracket

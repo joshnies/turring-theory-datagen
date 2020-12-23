@@ -24,10 +24,12 @@ def gen_couts():
 
     data = []
 
+    # Generate with "std::"
     for num_vals in range(1, 11):
         (source, target) = __gen_cout_pair(use_std=False, num_vals=num_vals)
         data.append(gen_item(source, target))
 
+    # Generate without "std::"
     for num_vals in range(1, 11):
         (source, target) = __gen_cout_pair(use_std=True, num_vals=num_vals)
         data.append(gen_item(source, target))
