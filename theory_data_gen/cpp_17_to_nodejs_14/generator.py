@@ -1,5 +1,6 @@
 from theory_data_gen.generator import Generator
 from .arithmetic import gen_rogue_arithmetic
+from .cin import gen_cins
 from .class_constructs import gen_class_constructs
 from .classes import gen_classes
 from .comments import gen_comments
@@ -20,7 +21,7 @@ class Cpp17ToNodeJS14Generator(Generator):
 
     @staticmethod
     def generate(args):
-        print('Generating dataset for C++17 --> Node.js 14')
+        print('\nGenerating dataset for C++17 --> Node.js 14')
 
         data = list()
         data.extend(gen_vars(standard_count=args.vars, array_count=args.arr_vars))
@@ -36,5 +37,6 @@ class Cpp17ToNodeJS14Generator(Generator):
         data.extend(gen_catch_blocks())
         data.extend(gen_comments())
         data.extend(gen_couts())
+        data.extend(gen_cins())
         data.extend(gen_rogue_arithmetic(args.arithmetic))
         return data

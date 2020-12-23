@@ -20,7 +20,7 @@ class Java14ToNodeJS14Generator(Generator):
 
     @staticmethod
     def generate(args):
-        print('Generating dataset for Java 14 --> Node.js 14')
+        print('\nGenerating dataset for Java 14 --> Node.js 14')
 
         data = list()
         data.extend(gen_vars(standard_count=args.vars, array_count=args.arr_vars))
