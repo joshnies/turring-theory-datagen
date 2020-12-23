@@ -43,10 +43,11 @@ def __gen_foreach_items(t=None):
     ]
 
 
-def __gen_while_loop_items():
+def __gen_while_loop_items(source_condition: str = None, target_condition: str = None):
     """Generate "while" loop items."""
 
-    source_condition, target_condition = gen_arithmetic(only_bool=True)
+    if source_condition is None and target_condition is None:
+        source_condition, target_condition = gen_arithmetic(only_bool=True)
 
     item_wo_open_bracket = gen_item(f'while ({source_condition})', f'while ({target_condition})')
     item_w_open_bracket = add_open_bracket(item_wo_open_bracket)
@@ -58,7 +59,12 @@ def __gen_while_loop_items():
 
 
 def gen_loops(count: int):
-    """Generate loops."""
+    """
+    Generate loops.
+
+    :param count: Number of loops to generate for each type.
+    :returns: List of items
+    """
 
     data = list()
 
@@ -80,5 +86,12 @@ def gen_loops(count: int):
     for _ in tqdm(range(count), desc='Generating "while" loops'):
         items = __gen_while_loop_items()
         data.extend(items)
+
+    # Generate bool constant "while" loops
+    items = __gen_while_loop_items('true', 'true')
+    data.extend(items)
+
+    items = __gen_while_loop_items('false', 'false')
+    data.extend(items)
 
     return data
