@@ -30,6 +30,7 @@ def __gen_var(is_array=False):
             src_decl = random.choice(types) + ' '
 
     tar_decl = 'let ' if has_type else ''
+    tar_name_mask_index = 1 if src_decl.strip() == MASK_TOKEN else 0
 
     # Generate default values
     selection = 5 if is_array and has_type else random.choice(range(5))
@@ -61,11 +62,11 @@ def __gen_var(is_array=False):
 
     # Generate source/target
     source = f'{src_decl}{MASK_TOKEN}{java_array_size} = {source_def_val};'
-    target = f'{tar_decl}{gen_mask_token(0)} = {target_def_val};'
+    target = f'{tar_decl}{gen_mask_token(tar_name_mask_index)} = {target_def_val};'
 
     # Add mask indices
     source, _ = add_mask_indices(source)
-    target, _ = add_mask_indices(target, 2 if is_array else 1)
+    target, _ = add_mask_indices(target, tar_name_mask_index + (2 if is_array else 1))
 
     return source, target
 

@@ -1,5 +1,6 @@
 import random
 
+from constants import MASK_TOKEN
 from theory_data_gen.utils import join
 
 # C++ primitive types (not replaced with mask token)
@@ -44,18 +45,24 @@ CPP_BOOL_OPS = ['==', '!=', '>', '>=', '<', '<=', '&&', '||']
 
 
 def gen_cpp_generic_type():
-    """Generates a random C++ type with generic arguments."""
+    """Generates a random Java type with generic arguments."""
 
-    base_type = random.choice(CPP_GENERIC_TYPES)
+    types = CPP_GENERIC_TYPES.copy()
+    types.append(MASK_TOKEN)
+
+    base_type = random.choice(types)
     args = []
 
     # Generate generic args
     for i in range(1, 5):
-        args.append(random.choice(CPP_PRIM_TYPES))
+        arg_types = CPP_PRIM_TYPES.copy()
+        arg_types.append(MASK_TOKEN)
+        args.append(random.choice(arg_types))
 
     args = join(args, ', ')
 
     return f'{base_type}<{args}>'
+
 
 
 def gen_mem_symbol():
