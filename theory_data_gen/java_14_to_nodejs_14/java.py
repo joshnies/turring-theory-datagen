@@ -1,5 +1,6 @@
 import random
 
+from constants import MASK_TOKEN
 from theory_data_gen.utils import join
 
 # Java primitive types (not replaced with mask token)
@@ -31,7 +32,10 @@ JAVA_BOOL_OPS = ['==', '!=', '>', '>=', '<', '<=', '&&', '||']
 def gen_java_generic_type():
     """Generates a random Java type with generic arguments."""
 
-    base_type = random.choice(JAVA_GENERIC_TYPES)
+    types = JAVA_GENERIC_TYPES.copy()
+    types.append(MASK_TOKEN)
+
+    base_type = random.choice(types)
     args = []
 
     # Generate generic args

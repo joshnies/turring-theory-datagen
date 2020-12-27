@@ -12,6 +12,7 @@ from .loop_structures import gen_loops
 from .return_statements import gen_returns
 from .switch_structures import gen_switch_data
 from .catch_blocks import gen_catch_blocks
+from .var_defs import gen_var_defs
 from .vars import gen_vars
 
 
@@ -24,6 +25,7 @@ class Java14ToNodeJS14Generator(Generator):
 
         data = list()
         data.extend(gen_vars(standard_count=args.vars, array_count=args.arr_vars))
+        data.extend(gen_var_defs(array_count=args.arr_var_defs))
         data.extend(gen_funcs(args.functions))
         data.extend(gen_entity_chains(args.entity_chains))
         data.extend(gen_classes(args.classes))
