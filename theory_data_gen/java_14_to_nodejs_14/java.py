@@ -40,7 +40,9 @@ def gen_java_generic_type():
 
     # Generate generic args
     for i in range(1, 5):
-        args.append(random.choice(JAVA_PRIM_TYPES))
+        arg_types = JAVA_PRIM_TYPES.copy()
+        arg_types.append(MASK_TOKEN)
+        args.append(random.choice(arg_types))
 
     args = join(args, ', ')
 
