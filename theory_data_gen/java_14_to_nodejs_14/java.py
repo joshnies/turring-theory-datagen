@@ -1,6 +1,7 @@
 import random
 
-from constants import MASK_TOKEN
+from theory_data_gen.common import gen_item
+from theory_data_gen.constants import MASK_TOKEN
 from theory_data_gen.utils import join
 
 # Java primitive types (not replaced with mask token)
@@ -47,3 +48,31 @@ def gen_java_generic_type():
     args = join(args, ', ')
 
     return f'{base_type}<{args}>'
+
+
+def gen_modifier_permutations(item):
+    """
+    Generate permutations of an item with prefixed Java modifiers (such as access modifiers).
+
+    :param item: Item.
+
+    :returns: List of item permutations with modifiers.
+    """
+
+    src = item['source']
+    tar = item['target']
+    new_items = []
+
+    access_modifiers = [
+        'private',
+        'protected',
+        'public'
+    ]
+
+    for m in access_modifiers:
+        new_items.append((f'{m} {src}', tar))
+        new_items.append((f'{m} abstract {src}', tar))
+
+    new_items = list(map(lambda i: gen_item(i[0], i[1]), new_items))
+
+    return new_items
