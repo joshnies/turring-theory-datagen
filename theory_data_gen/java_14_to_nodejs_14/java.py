@@ -29,6 +29,12 @@ JAVA_GENERIC_TYPES = [
 # Java boolean operators
 JAVA_BOOL_OPS = ['==', '!=', '>', '>=', '<', '<=', '&&', '||']
 
+JAVA_ACCESS_MODIFIERS = [
+    'private',
+    'protected',
+    'public'
+]
+
 
 def gen_java_generic_type():
     """Generates a random Java type with generic arguments."""
@@ -63,16 +69,13 @@ def gen_modifier_permutations(item):
     tar = item['target']
     new_items = []
 
-    access_modifiers = [
-        'private',
-        'protected',
-        'public'
-    ]
+    mods = JAVA_ACCESS_MODIFIERS.copy()
+    mods.append('')
 
-    for m in access_modifiers:
+    for m in mods:
         new_items.append((f'{m} {src}', tar))
-        new_items.append((f'{m} abstract {src}', tar))
+        new_items.append((f'{m} abstract {src}', f'abstract {tar}'))
 
-    new_items = list(map(lambda i: gen_item(i[0], i[1]), new_items))
+    new_items = list(map(lambda i: gen_item(i[0].strip(), i[1].strip()), new_items))
 
     return new_items
