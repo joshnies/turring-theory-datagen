@@ -5,15 +5,12 @@ from tqdm import tqdm
 CSV_COLUMNS = ['source', 'target']
 
 
-def to_csv(data, file_path):
-    """Output CSV file."""
+def create_output_file(file_path):
+    """Create output CSV file."""
 
     try:
         with open(file_path, 'w', newline='') as csv_file:
             writer = csv.DictWriter(csv_file, fieldnames=CSV_COLUMNS)
             writer.writeheader()
-
-            for d in tqdm(data, desc='Writing to CSV file'):
-                writer.writerow(d)
     except IOError:
-        print('I/O Error while writing CSV file.')
+        print('I/O Error while creating output file.')

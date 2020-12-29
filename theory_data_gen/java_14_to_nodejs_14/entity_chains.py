@@ -56,13 +56,10 @@ def gen_entity_chain_pair(add_semicolon=True, mask_token_args_only=False, should
     return source, target
 
 
-def gen_entity_chains(count):
+def gen_entity_chains(write, count):
     """Generate entity chains."""
 
-    data = []
-
     for _ in tqdm(range(count), desc='Generating entity chains'):
-        (source, target) = gen_entity_chain_pair()
-        data.append(gen_item(source, target))
-
-    return data
+        src, tar = gen_entity_chain_pair()
+        item = gen_item(src, tar)
+        write(item)

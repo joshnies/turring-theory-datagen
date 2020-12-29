@@ -31,18 +31,16 @@ def __gen_cout_pair(val: str = None):
     return source, target
 
 
-def gen_couts(count: int):
+def gen_couts(write, count: int):
     """Generate console output statements."""
 
-    data = list()
-
     # Generate with specified value
-    source, target = __gen_cout_pair(gen_mask_token(0))
-    data.append(gen_item(source, target))
+    src, tar = __gen_cout_pair(gen_mask_token(0))
+    item = gen_item(src, tar)
+    write(item)
 
     # Generate with random value
     for _ in range(count):
-        source, target = __gen_cout_pair()
-        data.append(gen_item(source, target))
-
-    return data
+        src, tar = __gen_cout_pair()
+        item = gen_item(src, tar)
+        write(item)

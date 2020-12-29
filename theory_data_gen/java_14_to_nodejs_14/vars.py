@@ -74,17 +74,15 @@ def __gen_var_items(is_array=False):
     return items
 
 
-def gen_vars(standard_count: int, array_count: int):
+def gen_vars(write, standard_count: int, array_count: int):
     """Generate variables."""
-
-    items = []
 
     # Generate standard variables
     for _ in tqdm(range(standard_count), desc='Generating variables'):
-        items.extend(__gen_var_items())
+        for i in __gen_var_items():
+            write(i)
 
     # Generate array variables
     for _ in tqdm(range(array_count), desc='Generating array variables'):
-        items.extend(__gen_var_items(is_array=True))
-
-    return items
+        for i in __gen_var_items(is_array=True):
+            write(i)

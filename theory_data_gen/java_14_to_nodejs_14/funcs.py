@@ -87,13 +87,9 @@ def __gen_func_items():
     return items
 
 
-def gen_funcs(count):
+def gen_funcs(write, count):
     """Generate functions."""
 
-    data = []
-
     for _ in tqdm(range(count), desc='Generating functions'):
-        items = __gen_func_items()
-        data.extend(items)
-
-    return data
+        for i in __gen_func_items():
+            write(i)

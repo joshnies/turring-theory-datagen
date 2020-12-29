@@ -57,28 +57,24 @@ def __gen_while_loop_items():
     ]
 
 
-def gen_loops(count: int):
+def gen_loops(write, count: int):
     """Generate loops."""
-
-    data = list()
 
     # Generate "for" loops
     for _ in tqdm(range(count), desc='Generating "for" loops'):
-        items = __gen_for_loop_items()
-        data.extend(items)
+        for i in __gen_for_loop_items():
+            write(i)
 
     # Generate primitive type "foreach" loop structures
     for t in tqdm(JAVA_PRIM_TYPES, desc='Generating "foreach" loops'):
-        items = __gen_foreach_items(t)
-        data.extend(items)
+        for i in __gen_foreach_items(t):
+            write(i)
 
     # Generate user type "foreach" loop structures
-    items = __gen_foreach_items()
-    data.extend(items)
+    for i in __gen_foreach_items():
+        write(i)
 
     # Generate "while" loops
     for _ in tqdm(range(count), desc='Generating "while" loops'):
-        items = __gen_while_loop_items()
-        data.extend(items)
-
-    return data
+        for i in __gen_while_loop_items():
+            write(i)
