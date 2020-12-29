@@ -58,23 +58,31 @@ def __gen_func_items():
     # Generate mask tokens
     m_func_name = gen_mask_token(0)
 
-    # Generate function signatures
-    # Without ending "{"
-    items = gen_modifier_permutations(gen_item(f'{source_return_type} {m_func_name}({source_args_str})',
-                                               f'const {m_func_name} = ({target_args_str}) =>'))
+    def gen_func_permutations(constructor=False):
+        conditional_source_return_type = '' if constructor else source_return_type
 
-    # With ending "{"
-    items.extend(
-        list(map(lambda i: add_open_bracket(i), items))
-    )
+        # Without ending "{"
+        items = gen_modifier_permutations(
+            gen_item(f'{conditional_source_return_type} {m_func_name}({source_args_str})'.strip(),
+                     f'const {m_func_name} = ({target_args_str}) =>'))
 
-    # With open arg list (e.g. "void main (")
-    items.extend(
-        gen_modifier_permutations(gen_item(
-            f'{source_return_type} {m_func_name}(',
-            f'const {m_func_name} = ('
-        ))
-    )
+        # With ending "{"
+        items.extend(
+            list(map(lambda i: add_open_bracket(i), items))
+        )
+
+        # With open arg list (e.g. "void main (")
+        items.extend(
+            gen_modifier_permutations(gen_item(
+                f'{conditional_source_return_type} {m_func_name}('.strip(),
+                f'const {m_func_name} = ('
+            ))
+        )
+
+        return items
+
+    items = gen_func_permutations(constructor=False)
+    items.extend(gen_func_permutations(constructor=True))
 
     return items
 
