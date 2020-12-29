@@ -56,11 +56,12 @@ def gen_java_generic_type():
     return f'{base_type}<{args}>'
 
 
-def gen_modifier_permutations(item):
+def gen_modifier_permutations(item, include_abstract=True):
     """
     Generate permutations of an item with prefixed Java modifiers (such as access modifiers).
 
     :param item: Item.
+    :param include_abstract: Whether to generate permutations with "abstract" modifier.
 
     :returns: List of item permutations with modifiers.
     """
@@ -74,7 +75,9 @@ def gen_modifier_permutations(item):
 
     for m in mods:
         new_items.append((f'{m} {src}', tar))
-        new_items.append((f'{m} abstract {src}', f'abstract {tar}'))
+
+        if include_abstract:
+            new_items.append((f'{m} abstract {src}', f'abstract {tar}'))
 
     new_items = list(map(lambda i: gen_item(i[0].strip(), i[1].strip()), new_items))
 
