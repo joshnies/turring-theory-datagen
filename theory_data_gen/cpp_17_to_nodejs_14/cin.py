@@ -1,8 +1,12 @@
 from theory_data_gen.common import gen_item, gen_mask_token
 
 
-def __gen_cin_pair(use_std, num_vals):
-    """Generate console input pair."""
+def __gen_cin_item(use_std, num_vals):
+    """
+    Generate console input item.
+
+    Target uses "native-console" NPM package: https://www.npmjs.com/package/native-console
+    """
 
     std = 'std::' if use_std else ''
     source_vals = []
@@ -13,27 +17,20 @@ def __gen_cin_pair(use_std, num_vals):
         source_vals.append(f'>> {m}')
         target_vals.append(m)
 
-    source = f'{std}cin {" ".join(source_vals)};'
-
-    # Target uses "native-console" NPM package: https://www.npmjs.com/package/native-console
-    target = f'[{", ".join(target_vals)}] = nativeConsole.read();'
-
-    return source, target
+    return gen_item(
+        f'{std}cin {" ".join(source_vals)};',
+        f'[{", ".join(target_vals)}] = nativeConsole.read();'
+    )
 
 
-def gen_cins():
+def gen_cins(write):
     """Generate console input statements."""
 
-    data = []
-
-    # Generate with "std::"
     for num_vals in range(1, 11):
-        (source, target) = __gen_cin_pair(use_std=False, num_vals=num_vals)
-        data.append(gen_item(source, target))
+        items = [
+            __gen_cin_item(use_std=False, num_vals=num_vals),
+            __gen_cin_item(use_std=True, num_vals=num_vals)
+        ]
 
-    # Generate without "std::"
-    for num_vals in range(1, 11):
-        (source, target) = __gen_cin_pair(use_std=True, num_vals=num_vals)
-        data.append(gen_item(source, target))
-
-    return data
+        for i in items:
+            write(i)

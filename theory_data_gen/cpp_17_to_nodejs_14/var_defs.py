@@ -14,20 +14,16 @@ def __gen_var_def_item(t: str):
     return gen_item(src, tar)
 
 
-def gen_var_defs(array_count: int):
+def gen_var_defs(write, array_count: int):
     """Generate variable definitions with no default value."""
-
-    data = []
 
     types = CPP_PRIM_TYPES.copy()
     types.append(MASK_TOKEN)
 
     # Standard
     for t in tqdm(types, desc='Generating variable definitions (no default values)'):
-        data.append(__gen_var_def_item(t))
+        write(__gen_var_def_item(t))
 
     # Generic
     for _ in tqdm(range(array_count), desc='Generating array variable definitions (no default value)'):
-        data.append(__gen_var_def_item(gen_cpp_generic_type()))
-
-    return data
+        write(__gen_var_def_item(gen_cpp_generic_type()))

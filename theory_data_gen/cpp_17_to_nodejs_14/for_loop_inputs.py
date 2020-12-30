@@ -35,14 +35,11 @@ def gen_for_loop_input_pair(use_increment=False):
     return source, target
 
 
-def gen_for_loop_inputs(count: int):
+def gen_for_loop_inputs(write, count: int):
     """Generate "for" loop inputs."""
-
-    data = []
 
     # Generate "for" loop input pairs
     for _ in tqdm(range(count), desc='Generating "for" loop inputs'):
-        source, target = gen_for_loop_input_pair()
-        data.append(gen_item(source, target))
-
-    return data
+        src, tar = gen_for_loop_input_pair()
+        item = gen_item(src, tar)
+        write(item)
