@@ -22,13 +22,10 @@ def gen_class_construct_pair(add_semicolon=True, should_add_mask_indices=True):
     return source, target
 
 
-def gen_class_constructs(count):
+def gen_class_constructs(write, count):
     """Generate class construction statements."""
-
-    data = []
 
     for _ in tqdm(range(count), desc='Generating class construction statements'):
         source, target = gen_class_construct_pair()
-        data.append(gen_item(source, target))
-
-    return data
+        item = gen_item(source, target)
+        write(item)

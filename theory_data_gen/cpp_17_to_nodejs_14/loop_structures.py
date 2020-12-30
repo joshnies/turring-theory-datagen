@@ -59,40 +59,36 @@ def __gen_while_loop_items(source_condition: str = None, target_condition: str =
     ]
 
 
-def gen_loops(count: int):
+def gen_loops(write, count: int):
     """
     Generate loops.
 
+    :param write: Function that, when called, writes the given data to the output file.
     :param count: Number of loops to generate for each type.
-    :returns: List of items
     """
-
-    data = list()
 
     # Generate "for" loops
     for _ in tqdm(range(count), desc='Generating "for" loops'):
-        items = __gen_for_loop_items()
-        data.extend(items)
+        for i in __gen_for_loop_items():
+            write(i)
 
     # Generate primitive type "foreach" loop structures
     for t in tqdm(CPP_PRIM_TYPES, desc='Generating "foreach" loops'):
-        items = __gen_foreach_items(t)
-        data.extend(items)
+        for i in __gen_foreach_items(t):
+            write(i)
 
     # Generate user type "foreach" loop structures
-    items = __gen_foreach_items()
-    data.extend(items)
+    for i in __gen_foreach_items():
+        write(i)
 
     # Generate "while" loops
     for _ in tqdm(range(count), desc='Generating "while" loops'):
-        items = __gen_while_loop_items()
-        data.extend(items)
+        for i in __gen_while_loop_items():
+            write(i)
 
     # Generate bool constant "while" loops
-    items = __gen_while_loop_items('true', 'true')
-    data.extend(items)
+    for i in __gen_while_loop_items('true', 'true'):
+        write(i)
 
-    items = __gen_while_loop_items('false', 'false')
-    data.extend(items)
-
-    return data
+    for i in __gen_while_loop_items('false', 'false'):
+        write(i)

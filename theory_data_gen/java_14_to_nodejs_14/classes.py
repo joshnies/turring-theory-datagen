@@ -51,13 +51,9 @@ def gen_class_pairs():
     return items
 
 
-def gen_classes(count):
+def gen_classes(write, count):
     """Generate classes."""
 
-    data = []
-
     for _ in tqdm(range(count), desc='Generating classes'):
-        items = gen_class_pairs()
-        data.extend(items)
-
-    return data
+        for i in gen_class_pairs():
+            write(i)

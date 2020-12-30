@@ -14,20 +14,18 @@ def __gen_var_def_items(t: str):
     return gen_modifier_permutations(gen_item(src, tar), include_abstract=False)
 
 
-def gen_var_defs(array_count: int):
+def gen_var_defs(write, array_count: int):
     """Generate variable definitions with no default value."""
-
-    items = []
 
     types = JAVA_PRIM_TYPES.copy()
     types.append(MASK_TOKEN)
 
     # Standard
     for t in tqdm(types, desc='Generating variable definitions (no default values)'):
-        items.extend(__gen_var_def_items(t))
+        for i in __gen_var_def_items(t):
+            write(i)
 
     # Generic
     for _ in tqdm(range(array_count), desc='Generating array variable definitions (no default value)'):
-        items.extend(__gen_var_def_items(gen_java_generic_type()))
-
-    return items
+        for i in __gen_var_def_items(gen_java_generic_type()):
+            write(i)

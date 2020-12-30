@@ -2,7 +2,7 @@ from theory_data_gen.common import gen_item, gen_mask_token
 from theory_data_gen.utils import join
 
 
-def __gen_cout_pair(use_std, num_vals):
+def __gen_cout_item(use_std, num_vals):
     """Generate console output pair."""
 
     std = 'std::' if use_std else ''
@@ -14,24 +14,20 @@ def __gen_cout_pair(use_std, num_vals):
         source_vals.append(f'<< {m}')
         target_vals.append(f'${{{m}}}')
 
-    source = f'{std}cout {join(source_vals, " ")} << {std}endl;'
-    target = f'console.log(`{join(target_vals, "")}`);'
-    return source, target
+    return gen_item(
+        f'{std}cout {join(source_vals, " ")} << {std}endl;',
+        f'console.log(`{join(target_vals, "")}`);'
+    )
 
 
-def gen_couts():
+def gen_couts(write):
     """Generate console output statements."""
 
-    data = []
-
-    # Generate with "std::"
     for num_vals in range(1, 11):
-        (source, target) = __gen_cout_pair(use_std=False, num_vals=num_vals)
-        data.append(gen_item(source, target))
+        items = [
+            __gen_cout_item(use_std=False, num_vals=num_vals),
+            __gen_cout_item(use_std=True, num_vals=num_vals)
+        ]
 
-    # Generate without "std::"
-    for num_vals in range(1, 11):
-        (source, target) = __gen_cout_pair(use_std=True, num_vals=num_vals)
-        data.append(gen_item(source, target))
-
-    return data
+        for i in items:
+            write(i)

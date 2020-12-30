@@ -56,7 +56,7 @@ def gen_java_generic_type():
     return f'{base_type}<{args}>'
 
 
-def gen_modifier_permutations(item, include_abstract=True):
+def gen_modifier_permutations(item, include_abstract=True, include_static=True):
     """
     Generate permutations of an item with prefixed Java modifiers (such as access modifiers).
 
@@ -78,6 +78,13 @@ def gen_modifier_permutations(item, include_abstract=True):
 
         if include_abstract:
             new_items.append((f'{m} abstract {src}', f'abstract {tar}'))
+
+            if include_static:
+                new_items.append((f'{m} static abstract {src}', f'static abstract {tar}'))
+                new_items.append((f'{m} abstract static {src}', f'abstract static {tar}'))
+
+        if include_static:
+            new_items.append((f'{m} static {src}', f'static {tar}'))
 
     new_items = list(map(lambda i: gen_item(i[0].strip(), i[1].strip()), new_items))
 

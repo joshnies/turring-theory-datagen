@@ -31,16 +31,14 @@ def gen_return():
     return source, target
 
 
-def gen_returns(count: int):
+def gen_returns(write, count: int):
     """Generate return statements."""
 
-    data = [
-        gen_item(f'return {gen_mask_token(0)};')
-    ]
+    item = gen_item(f'return {gen_mask_token(0)};')
+    write(item)
 
     # Generate expression-based "return" statements
     for _ in tqdm(range(count), desc='Generating "return" statements'):
-        source, target = gen_return()
-        data.append(gen_item(source, target))
-
-    return data
+        src, tar = gen_return()
+        item = gen_item(src, tar)
+        write(item)
