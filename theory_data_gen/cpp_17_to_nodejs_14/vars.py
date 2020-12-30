@@ -10,8 +10,8 @@ from .cpp import CPP_PRIM_TYPES, gen_cpp_generic_type, gen_mem_symbol
 from .entity_chains import gen_entity_chain_pair
 
 
-def __gen_var(is_array=False):
-    """Generate a variable."""
+def __gen_var_item(is_array=False):
+    """Generate a variable item."""
 
     # Generate type declarations
     types = CPP_PRIM_TYPES.copy()
@@ -68,22 +68,16 @@ def __gen_var(is_array=False):
     source, _ = add_mask_indices(source)
     target, _ = add_mask_indices(target, 2 if is_array else 1)
 
-    return source, target
+    return gen_item(source, target)
 
 
-def gen_vars(standard_count: int, array_count: int):
+def gen_vars(write, standard_count: int, array_count: int):
     """Generate variables."""
-
-    data = []
 
     # Generate standard variables
     for _ in tqdm(range(standard_count), desc='Generating variables'):
-        source, target = __gen_var()
-        data.append(gen_item(source, target))
+        write(__gen_var_item())
 
     # Generate array variables
     for _ in tqdm(range(array_count), desc='Generating array variables'):
-        source, target = __gen_var(is_array=True)
-        data.append(gen_item(source, target))
-
-    return data
+        write(__gen_var_item(is_array=True))

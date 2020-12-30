@@ -21,24 +21,22 @@ class Cpp17ToNodeJS14Generator(Generator):
     """Data generator for C++17 to Node.js 14."""
 
     @staticmethod
-    def generate(args):
-        print('\nGenerating dataset for C++17 --> Node.js 14')
+    def generate(args, write):
+        print(write, '\nGenerating dataset for C++17 --> Node.js 14')
 
-        data = list()
-        data.extend(gen_vars(standard_count=args.vars, array_count=args.arr_vars))
-        data.extend(gen_var_defs(array_count=args.arr_var_defs))
-        data.extend(gen_funcs(args.functions))
-        data.extend(gen_entity_chains(args.entity_chains))
-        data.extend(gen_classes(args.classes))
-        data.extend(gen_class_constructs(args.class_constructs))
-        data.extend(gen_conditional_structs(args.conditionals))
-        data.extend(gen_loops(args.loops))
-        data.extend(gen_for_loop_inputs(args.for_loop_inputs))
-        data.extend(gen_switch_data(switch_count=args.switches, case_count=args.switch_cases))
-        data.extend(gen_returns(args.returns))
-        data.extend(gen_catch_blocks())
-        data.extend(gen_comments())
-        data.extend(gen_couts())
-        data.extend(gen_cins())
-        data.extend(gen_rogue_arithmetic(args.arithmetic))
-        return data
+        gen_vars(write, standard_count=args.vars, array_count=args.arr_vars)
+        gen_var_defs(write, array_count=args.arr_var_defs)
+        gen_funcs(write, args.functions)
+        gen_entity_chains(write, args.entity_chains)
+        gen_classes(write, args.classes)
+        gen_class_constructs(write, args.class_constructs)
+        gen_conditional_structs(write, args.conditionals)
+        gen_loops(write, args.loops)
+        gen_for_loop_inputs(write, args.for_loop_inputs)
+        gen_switch_data(write, switch_count=args.switches, case_count=args.switch_cases)
+        gen_returns(write, args.returns)
+        gen_catch_blocks(write)
+        gen_comments(write)
+        gen_couts(write)
+        gen_cins(write)
+        gen_rogue_arithmetic(write, args.arithmetic)

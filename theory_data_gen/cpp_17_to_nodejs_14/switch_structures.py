@@ -56,25 +56,21 @@ def __gen_case(condition: str = None):
     return gen_item(f'case {src_condition}:', f'case {tar_condition}:')
 
 
-def gen_switch_data(switch_count: int, case_count: int):
+def gen_switch_data(write, switch_count: int, case_count: int):
     """Generate "switch" structures and case statements."""
 
-    data = []
-
-    # Generate single mask token "switch" structure
-    items = __gen_switch_structs(gen_mask_token(0))
-    data.extend(items)
+    # Generate single mask token "switch" structures
+    for i in __gen_switch_structs(gen_mask_token(0)):
+        write(i)
 
     # Generate "switch" structures
     for _ in range(switch_count):
-        data.extend(__gen_switch_structs())
+        for i in __gen_switch_structs():
+            write(i)
 
     # Generate single mask token switch case
-    item = __gen_case(gen_mask_token(0))
-    data.append(item)
+    write(__gen_case(gen_mask_token(0)))
 
     # Generate switch cases
     for _ in range(case_count):
-        data.append(__gen_case())
-
-    return data
+        write(__gen_case())

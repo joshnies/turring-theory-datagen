@@ -32,8 +32,8 @@ def __gen_func_arg_pair(mask_index=1):
     return (source_arg, target_arg), last_mask_index
 
 
-def __gen_func_pairs():
-    """Generate function pairs."""
+def __gen_func_items():
+    """Generate function items."""
 
     abstract = 'abstract ' if bool(random.getrandbits(1)) else ''
     source_return_type = random.choice(CPP_PRIM_TYPES)
@@ -81,13 +81,9 @@ def __gen_func_pairs():
     ]
 
 
-def gen_funcs(count):
+def gen_funcs(write, count):
     """Generate functions."""
 
-    data = []
-
     for _ in tqdm(range(count), desc='Generating functions'):
-        items = __gen_func_pairs()
-        data.extend(items)
-
-    return data
+        for i in __gen_func_items():
+            write(i)

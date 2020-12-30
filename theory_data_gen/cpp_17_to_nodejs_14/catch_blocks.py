@@ -13,22 +13,18 @@ def __gen_catch_struct_pair(t=None):
 
     m_var_name = gen_mask_token(base_m_idx + 1)
 
-    # Generate "catch" structure pair
-    source = f'catch ({m_type} {m_var_name}) {{'
-    target = f'catch ({m_var_name}) {{'
-    return source, target
+    return gen_item(
+        f'catch ({m_type} {m_var_name}) {{',
+        f'catch ({m_var_name}) {{'
+    )
 
 
-def gen_catch_blocks():
+def gen_catch_blocks(write):
     """Generate all try-catch block data."""
 
     types = CPP_PRIM_TYPES.copy()
     types.append(gen_mask_token(0))
-    data = list()
 
     # Generate catch structures
     for t in tqdm(types, desc='Generating "catch" structures'):
-        (source, target) = __gen_catch_struct_pair(t)
-        data.append(gen_item(source, target))
-
-    return data
+        write(__gen_catch_struct_pair(t))

@@ -6,12 +6,13 @@ from theory_data_gen.common import gen_mask_token, add_mask_indices, add_open_br
 from theory_data_gen.constants import MASK_TOKEN
 from theory_data_gen.utils import join
 from .generics import gen_type_generics
+from .java import gen_modifier_permutations, JAVA_ACCESS_MODIFIERS
 
 
 def gen_class_inheritance():
     """Generate a Java class inheritance sequence."""
 
-    access_modifier = random.choice(['public', 'private', 'protected'])
+    access_modifier = random.choice(JAVA_ACCESS_MODIFIERS)
     return f'{access_modifier} {MASK_TOKEN}'
 
 
@@ -32,7 +33,7 @@ def gen_class_pairs():
     inheritance_prefix = ' : ' if inheritance_count > 0 else ''
     inheritance = []
 
-    for i in range(inheritance_count):
+    for _ in range(inheritance_count):
         inheritance.append(gen_class_inheritance())
 
     inheritance = join(inheritance, ', ')
@@ -42,22 +43,17 @@ def gen_class_pairs():
 
     target = f'class {m_class_name}'
 
-    item_wo_open_bracket = gen_item(source, target)
-    item_w_open_bracket = add_open_bracket(item_wo_open_bracket)
+    items = gen_modifier_permutations(gen_item(source, target))
+    items.extend(
+        list(map(lambda i: add_open_bracket(i), items))
+    )
 
-    return [
-        item_wo_open_bracket,
-        item_w_open_bracket
-    ]
+    return items
 
 
-def gen_classes(count):
+def gen_classes(write, count):
     """Generate classes."""
 
-    data = []
-
     for _ in tqdm(range(count), desc='Generating classes'):
-        items = gen_class_pairs()
-        data.extend(items)
-
-    return data
+        for i in gen_class_pairs():
+            write(i)

@@ -6,12 +6,12 @@ from theory_data_gen.common import add_mask_indices, gen_item, gen_mask_token
 from theory_data_gen.constants import MASK_TOKEN
 from .arithmetic import gen_arithmetic
 from .class_constructs import gen_class_construct_pair
-from .java import JAVA_PRIM_TYPES, gen_java_generic_type
+from .java import JAVA_PRIM_TYPES, gen_java_generic_type, gen_modifier_permutations
 from .entity_chains import gen_entity_chain_pair
 
 
-def __gen_var(is_array=False):
-    """Generate a variable."""
+def __gen_var_items(is_array=False):
+    """Generate variable items."""
 
     # Generate type declarations
     types = JAVA_PRIM_TYPES.copy()
@@ -67,23 +67,22 @@ def __gen_var(is_array=False):
     # Add mask indices
     source, _ = add_mask_indices(source)
     target, _ = add_mask_indices(target, tar_name_mask_index + (2 if is_array else 1))
+    base_item = gen_item(source, target)
+    items = gen_modifier_permutations(base_item, include_abstract=False) if has_type else [base_item]
 
-    return source, target
+    # Generate permutations
+    return items
 
 
-def gen_vars(standard_count: int, array_count: int):
+def gen_vars(write, standard_count: int, array_count: int):
     """Generate variables."""
-
-    data = []
 
     # Generate standard variables
     for _ in tqdm(range(standard_count), desc='Generating variables'):
-        source, target = __gen_var()
-        data.append(gen_item(source, target))
+        for i in __gen_var_items():
+            write(i)
 
     # Generate array variables
     for _ in tqdm(range(array_count), desc='Generating array variables'):
-        source, target = __gen_var(is_array=True)
-        data.append(gen_item(source, target))
-
-    return data
+        for i in __gen_var_items(is_array=True):
+            write(i)

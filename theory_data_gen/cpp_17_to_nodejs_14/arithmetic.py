@@ -43,13 +43,10 @@ def gen_arithmetic(should_add_mask_indices=False, only_bool=False):
     return source, target
 
 
-def gen_rogue_arithmetic(count: int):
+def gen_rogue_arithmetic(write, count: int):
     """Generate rogue arithmetic expressions."""
 
-    data = []
-
     for _ in tqdm(range(count), desc='Generating arithmetic/boolean expressions'):
-        s, t = gen_arithmetic(should_add_mask_indices=True)
-        data.append(gen_item(s, t))
-
-    return data
+        src, tar = gen_arithmetic(should_add_mask_indices=True)
+        item = gen_item(src, tar)
+        write(item)

@@ -4,7 +4,7 @@ from tqdm import tqdm
 
 from theory_data_gen.common import gen_mask_token, gen_item, add_open_bracket
 from theory_data_gen.utils import join
-from .java import JAVA_PRIM_TYPES
+from .java import JAVA_PRIM_TYPES, gen_modifier_permutations
 
 
 def __gen_func_arg_pair(mask_index=1):
@@ -29,10 +29,9 @@ def __gen_func_arg_pair(mask_index=1):
     return (source_arg, target_arg), last_mask_index
 
 
-def __gen_func_pairs():
-    """Generate function pairs."""
+def __gen_func_items():
+    """Generate function items."""
 
-    abstract = 'abstract ' if bool(random.getrandbits(1)) else ''
     source_return_type = random.choice(JAVA_PRIM_TYPES)
     arg_range = range(0, 11)
     arg_count = random.choices(arg_range, weights=(80, 70, 60, 40, 30, 20, 5, 4, 3, 2, 1), k=1)[0]
@@ -59,31 +58,38 @@ def __gen_func_pairs():
     # Generate mask tokens
     m_func_name = gen_mask_token(0)
 
-    # Generate function signatures
-    # Without ending "{"
-    item_wo_open_bracket = gen_item(f'{abstract}{source_return_type} {m_func_name}({source_args_str})',
-                                    f'const {m_func_name} = ({target_args_str}) =>')
+    def gen_func_permutations(constructor=False):
+        conditional_source_return_type = '' if constructor else source_return_type
 
-    # With ending "{"
-    item_w_open_bracket = add_open_bracket(item_wo_open_bracket)
+        # Without ending "{"
+        items = gen_modifier_permutations(
+            gen_item(f'{conditional_source_return_type} {m_func_name}({source_args_str})'.strip(),
+                     f'const {m_func_name} = ({target_args_str}) =>'))
 
-    # With open arg list (e.g. "void main (")
-    item_open_args = gen_item(f'{abstract}{source_return_type} {m_func_name}(', f'const {m_func_name} = (')
+        # With ending "{"
+        items.extend(
+            list(map(lambda i: add_open_bracket(i), items))
+        )
 
-    return [
-        item_wo_open_bracket,
-        item_w_open_bracket,
-        item_open_args
-    ]
+        # With open arg list (e.g. "void main (")
+        items.extend(
+            gen_modifier_permutations(gen_item(
+                f'{conditional_source_return_type} {m_func_name}('.strip(),
+                f'const {m_func_name} = ('
+            ))
+        )
+
+        return items
+
+    items = gen_func_permutations(constructor=False)
+    items.extend(gen_func_permutations(constructor=True))
+
+    return items
 
 
-def gen_funcs(count):
+def gen_funcs(write, count):
     """Generate functions."""
 
-    data = []
-
     for _ in tqdm(range(count), desc='Generating functions'):
-        items = __gen_func_pairs()
-        data.extend(items)
-
-    return data
+        for i in __gen_func_items():
+            write(i)
