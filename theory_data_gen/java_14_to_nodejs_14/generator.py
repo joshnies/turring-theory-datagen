@@ -1,7 +1,4 @@
-import csv
-
 from theory_data_gen.generator import Generator
-from theory_data_gen.output import CSV_COLUMNS
 from .arithmetic import gen_rogue_arithmetic
 from .class_constructs import gen_class_constructs
 from .classes import gen_classes
@@ -23,11 +20,8 @@ class Java14ToNodeJS14Generator(Generator):
     """Data generator for Java 14 to Node.js 14."""
 
     @staticmethod
-    def generate(args):
+    def generate(args, write):
         print('\nGenerating dataset for Java 14 --> Node.js 14')
-
-        writer = csv.DictWriter(open(args.out, 'a', newline=''), fieldnames=CSV_COLUMNS)
-        write = writer.writerow
 
         gen_vars(write, standard_count=args.vars, array_count=args.arr_vars)
         gen_var_defs(write, array_count=args.arr_var_defs)

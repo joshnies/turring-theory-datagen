@@ -1,7 +1,7 @@
 import argparse
 
 from theory_data_gen.lvp import LVP
-from theory_data_gen.output import create_output_file
+from theory_data_gen.output import create_output_file, deduplicate_lines
 from cpp_17_to_nodejs_14.generator import Cpp17ToNodeJS14Generator
 from java_14_to_nodejs_14.generator import Java14ToNodeJS14Generator
 
@@ -37,17 +37,18 @@ except Exception:
     raise Exception()
 
 # Create output file
-create_output_file(args.out)
+og_file_name = f'{args.out}_DUP'
+write_func = create_output_file(og_file_name)
 
 # Generate data
 if lvp == LVP.CPP_17_TO_NODEJS_14:
-    data = Cpp17ToNodeJS14Generator.generate(args)
+    data = Cpp17ToNodeJS14Generator.generate(args, write_func)
 elif lvp == LVP.JAVA_14_TO_NODEJS_14:
-    data = Java14ToNodeJS14Generator.generate(args)
+    data = Java14ToNodeJS14Generator.generate(args, write_func)
 else:
     raise Exception(f'Unimplemented language-version pair "{lvp.value}".')
 
-# Deduplicate data
-# data = deduplicate(data)
+# Remove duplicated lines
+deduplicate_lines(og_file_name, args.out)
 
 print('Output to {}'.format(args.out))

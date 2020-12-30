@@ -21,7 +21,7 @@ class Cpp17ToNodeJS14Generator(Generator):
     """Data generator for C++17 to Node.js 14."""
 
     @staticmethod
-    def generate(args):
+    def generate(args, write):
         print('\nGenerating dataset for C++17 --> Node.js 14')
 
         data = list()
