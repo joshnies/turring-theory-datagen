@@ -2,7 +2,7 @@ import random
 
 from tqdm import tqdm
 
-from theory_data_gen.common import gen_mask_token, gen_item, add_open_bracket
+from theory_data_gen.common import gen_mask_token, gen_item, add_scope_open_token
 from .lvp import gen_modifier_permutations, TYPE_MAP
 
 
@@ -71,7 +71,7 @@ def __gen_func_items():
 
         # With ending "{"
         items.extend(
-            list(map(lambda i: add_open_bracket(i), items))
+            list(map(lambda i: add_scope_open_token(i, tar_token=':'), items))
         )
 
         # With open arg list (e.g. "void main (")

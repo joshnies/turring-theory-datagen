@@ -5,7 +5,9 @@ from theory_data_gen.constants import MASK_TOKEN
 
 
 def gen_mask_token(i):
-    """Generate mask token with index."""
+    """
+    :returns: Mask token with the given index.
+    """
 
     return MASK_TOKEN.replace('n', str(i), 1)
 
@@ -13,6 +15,9 @@ def gen_mask_token(i):
 def add_mask_indices(seq: str, start_index=0):
     """
     Add indices to generic mask tokens in a sequence.
+
+    :param seq: Sequence.
+    :param start_index: First index for mask indices.
 
     :returns Tuple of sequence with indexed mask tokens, and last mask index.
     """
@@ -27,7 +32,14 @@ def add_mask_indices(seq: str, start_index=0):
 
 
 def gen_item(source, target=None):
-    """Generate dataset item."""
+    """
+    Generate dataset item.
+
+    :param source: Source sequence.
+    :param target: Target sequence. If `None`, then `source` is used instead.
+
+    :returns: Dictionary of 'source' and 'target' keys mapping to the relevant sequences.
+    """
 
     if target is None:
         target = source
@@ -35,20 +47,32 @@ def gen_item(source, target=None):
     return {'source': source, 'target': target}
 
 
-def add_open_bracket(item, src_only=False):
-    """Add open bracket (`{`) to an item."""
+def add_scope_open_token(item, src_token=' {', tar_token=' {'):
+    """
+    Add the opening scope token (e.g. `{` for most languages) to an item.
 
-    add = ' {'
-    src = item['source'] + add
-    tar = item['target'] + add if not src_only else item['target']
+    :param item: Dataset item.
+    :param src_token: Source opening scope token.
+    :param tar_token: Target opening scope token.
+
+    :returns: Dataset item with appended scope opening tokens.
+    """
+
+    src = item['source'] + src_token
+    tar = item['target'] + tar_token
 
     return gen_item(src, tar)
 
 
 def gen_type_generics():
-    """Generate type generics (e.g. `<T, K>`)."""
+    """
+    Generate type generics (e.g. `<T, K>`).
 
-    generics = []
+    :returns: Type generics sequence (including brackets), or an empty string if no generics were generated
+    (random choice).
+    """
+
+    generics = list()
     generics_range = range(0, 4)
     generics_count = random.choices(generics_range, weights=(75, 15, 10, 5), k=1)[0]
 

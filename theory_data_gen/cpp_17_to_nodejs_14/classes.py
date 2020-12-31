@@ -2,7 +2,7 @@ import random
 
 from tqdm import tqdm
 
-from theory_data_gen.common import gen_mask_token, add_mask_indices, add_open_bracket, gen_item
+from theory_data_gen.common import gen_mask_token, add_mask_indices, add_scope_open_token, gen_item
 from theory_data_gen.constants import MASK_TOKEN
 from theory_data_gen.utils import join
 from .generics import gen_type_generics
@@ -43,7 +43,7 @@ def gen_class_pairs():
     target = f'class {m_class_name}'
 
     item_wo_open_bracket = gen_item(source, target)
-    item_w_open_bracket = add_open_bracket(item_wo_open_bracket)
+    item_w_open_bracket = add_scope_open_token(item_wo_open_bracket)
 
     return [
         item_wo_open_bracket,

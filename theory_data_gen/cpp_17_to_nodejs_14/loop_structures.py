@@ -2,7 +2,7 @@ import random
 
 from tqdm import tqdm
 
-from theory_data_gen.common import gen_mask_token, gen_item, add_open_bracket
+from theory_data_gen.common import gen_mask_token, gen_item, add_scope_open_token
 from .arithmetic import gen_arithmetic
 from .cpp import CPP_PRIM_TYPES
 from .for_loop_inputs import gen_for_loop_input_pair
@@ -14,7 +14,7 @@ def __gen_for_loop_items():
     source_input, target_input = gen_for_loop_input_pair(bool(random.getrandbits(1)))
 
     item_wo_open_bracket = gen_item(f'for ({source_input})', f'for ({target_input})')
-    item_w_open_bracket = add_open_bracket(item_wo_open_bracket)
+    item_w_open_bracket = add_scope_open_token(item_wo_open_bracket)
 
     return [
         item_wo_open_bracket,
@@ -36,7 +36,7 @@ def __gen_foreach_items(t=None):
     item_wo_open_bracket = gen_item(f'for ({m_type} {m_iteratee} : {m_iterator})',
                                     f'for (let {m_iteratee} of {m_iterator})')
 
-    item_w_open_bracket = add_open_bracket(item_wo_open_bracket)
+    item_w_open_bracket = add_scope_open_token(item_wo_open_bracket)
 
     return [
         item_wo_open_bracket,
@@ -51,7 +51,7 @@ def __gen_while_loop_items(source_condition: str = None, target_condition: str =
         source_condition, target_condition = gen_arithmetic(only_bool=True)
 
     item_wo_open_bracket = gen_item(f'while ({source_condition})', f'while ({target_condition})')
-    item_w_open_bracket = add_open_bracket(item_wo_open_bracket)
+    item_w_open_bracket = add_scope_open_token(item_wo_open_bracket)
 
     return [
         item_wo_open_bracket,
