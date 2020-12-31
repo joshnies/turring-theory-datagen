@@ -20,8 +20,8 @@ def gen_arithmetic(should_add_mask_indices=False, only_bool=False):
     ops = list(map(lambda o: f' {o} ', ops))
 
     # Generate value list
-    val_range = range(0, 11)
-    val_count = random.choices(val_range, weights=(80, 70, 60, 40, 30, 20, 5, 4, 3, 2, 1), k=1)[0]
+    val_range = range(1, 11)
+    val_count = random.choices(val_range, weights=(80, 70, 60, 40, 30, 10, 4, 3, 2, 1), k=1)[0]
     vals = list()
 
     for _ in range(val_count):
