@@ -1,4 +1,5 @@
 import random
+
 from tqdm import tqdm
 
 from theory_data_gen.common import gen_item, gen_mask_token

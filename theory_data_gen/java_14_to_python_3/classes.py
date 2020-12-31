@@ -2,11 +2,10 @@ import random
 
 from tqdm import tqdm
 
-from theory_data_gen.common import gen_mask_token, add_mask_indices, add_open_bracket, gen_item
+from theory_data_gen.common import gen_mask_token, add_mask_indices, add_open_bracket, gen_item, gen_type_generics
 from theory_data_gen.common.java import JAVA_ACCESS_MODIFIERS
 from theory_data_gen.constants import MASK_TOKEN
 from theory_data_gen.utils import join
-from .generics import gen_type_generics
 from .lvp import gen_modifier_permutations
 
 

@@ -1,7 +1,7 @@
 from tqdm import tqdm
 
-from constants import MASK_TOKEN
 from theory_data_gen.common import gen_item, add_open_bracket
+from theory_data_gen.constants import MASK_TOKEN
 from .arithmetic import gen_arithmetic
 from .for_loop_inputs import gen_foreach_loop_input_pair
 

@@ -2,7 +2,6 @@ import random
 
 from theory_data_gen.common import add_mask_indices
 from theory_data_gen.constants import MASK_TOKEN
-from theory_data_gen.utils import join
 from .arithmetic import gen_arithmetic
 
 

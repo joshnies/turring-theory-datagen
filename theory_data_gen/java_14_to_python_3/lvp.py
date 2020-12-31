@@ -136,7 +136,7 @@ def gen_java_generic_type():
     types.append(MASK_TOKEN)
 
     base_type = random.choice(types)
-    args = []
+    args = list()
 
     # Generate generic args
     for i in range(1, 5):
@@ -147,6 +147,24 @@ def gen_java_generic_type():
     args = ', '.join(args)
 
     return f'{base_type}<{args}>'
+
+
+def gen_java_provided_generics():
+    """Generate provided generics (e.g. `<int, char>`)."""
+
+    generics = list()
+    generics_range = range(0, 4)
+    generics_count = random.choices(generics_range, weights=(75, 15, 10, 5), k=1)[0]
+    generic_types = list(TYPE_MAP.keys())
+    generic_types.append(MASK_TOKEN)
+
+    for i in range(generics_count):
+        generics.append(random.choice(generic_types))
+
+    if generics_count > 0:
+        return '<' + ', '.join(generics) + '>'
+
+    return ''
 
 
 def gen_modifier_permutations(item, include_abstract=True, include_static=True, is_method=True):
