@@ -43,7 +43,7 @@ def gen_class_pairs():
 
     target = f'class {m_class_name}'
 
-    items = gen_modifier_permutations(gen_item(source, target))
+    items = gen_modifier_permutations(gen_item(source, target), include_static=False)
     items.extend(
         list(map(lambda i: add_open_bracket(i), items))
     )
