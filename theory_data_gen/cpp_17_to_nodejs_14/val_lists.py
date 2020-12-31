@@ -2,7 +2,6 @@ import random
 
 from theory_data_gen.common import add_mask_indices
 from theory_data_gen.constants import MASK_TOKEN
-from theory_data_gen.utils import join
 from .arithmetic import gen_arithmetic
 
 
@@ -11,8 +10,8 @@ def gen_val_list(entity_chain_callback, mask_token_args_only=False, should_add_m
 
     val_range = range(11)
     val_count = random.choices(val_range, weights=(80, 70, 60, 40, 30, 20, 5, 4, 3, 2, 1), k=1)[0]
-    source_vals = []
-    target_vals = []
+    source_vals = list()
+    target_vals = list()
 
     # Generate value list
     for i in range(val_count):
@@ -41,8 +40,8 @@ def gen_val_list(entity_chain_callback, mask_token_args_only=False, should_add_m
             source_vals.append(s)
             target_vals.append(t)
 
-    source = join(source_vals, ', ')
-    target = join(source_vals, ', ')
+    source = ', '.join(source_vals)
+    target = ', '.join(target_vals)
 
     # Add mask indices
     if should_add_mask_indices:
