@@ -3,7 +3,7 @@ from tqdm import tqdm
 from theory_data_gen.common import gen_item, add_scope_open_token
 from theory_data_gen.constants import MASK_TOKEN
 from .arithmetic import gen_arithmetic
-from .for_loop_inputs import gen_foreach_loop_input_pair
+from .foreach_loop_inputs import gen_foreach_loop_input_pair
 
 
 def __gen_foreach_loop_items(src_input: str = None, tar_input: str = None):

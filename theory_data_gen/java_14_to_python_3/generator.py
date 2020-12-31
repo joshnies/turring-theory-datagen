@@ -6,7 +6,7 @@ from .comments import gen_comments
 from .conditional_structures import gen_conditional_structs
 from .cout import gen_couts
 from .entity_chains import gen_entity_chains
-from .for_loop_inputs import gen_foreach_loop_inputs
+from .foreach_loop_inputs import gen_foreach_loop_inputs
 from .funcs import gen_funcs
 from .loop_structures import gen_loops
 from .return_statements import gen_returns
