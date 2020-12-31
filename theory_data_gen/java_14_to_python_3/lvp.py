@@ -1,12 +1,13 @@
 import random
 
 from theory_data_gen.common import gen_item
+from theory_data_gen.common.java import JAVA_ACCESS_MODIFIERS
 from theory_data_gen.constants import MASK_TOKEN
-from theory_data_gen.utils import join
 
 # Java 14 --> Python 3 type map
-JAVA_14_TO_PYTHON_3_TYPE_MAP = {
-    'var': None,
+TYPE_MAP = {
+    MASK_TOKEN: 'Any',
+    'var': 'Any',
     'void': 'None',
     'boolean': 'Bool',
     'byte': 'bytes',
@@ -26,7 +27,7 @@ JAVA_14_TO_PYTHON_3_TYPE_MAP = {
     'Long': 'float',
     'Character': 'chr',
     'String': 'str',
-    'File': None,
+    'File': 'Any',
     'Exception': 'Exception',
     'AbsentInformationException': 'Exception',
     'ActivationException': 'Exception',
@@ -111,7 +112,7 @@ JAVA_14_TO_PYTHON_3_TYPE_MAP = {
 }
 
 # Java 14 --> Python 3 generic type map
-JAVA_14_TO_PYTHON_3_GENERIC_TYPE_MAP = {
+GENERIC_TYPE_MAP = {
     'Array': 'list',
     'ArrayList': 'list',
     'List': 'list',
@@ -127,20 +128,11 @@ JAVA_14_TO_PYTHON_3_GENERIC_TYPE_MAP = {
     'WeakHashMap': 'dict'
 }
 
-# Java boolean operators
-JAVA_BOOL_OPS = ['==', '!=', '>', '>=', '<', '<=', '&&', '||']
-
-JAVA_ACCESS_MODIFIERS = [
-    'private',
-    'protected',
-    'public'
-]
-
 
 def gen_java_generic_type():
     """Generates a random Java type with generic arguments."""
 
-    types = list(JAVA_14_TO_PYTHON_3_GENERIC_TYPE_MAP.keys())
+    types = list(GENERIC_TYPE_MAP.keys())
     types.append(MASK_TOKEN)
 
     base_type = random.choice(types)
@@ -148,29 +140,31 @@ def gen_java_generic_type():
 
     # Generate generic args
     for i in range(1, 5):
-        arg_types = list(JAVA_14_TO_PYTHON_3_TYPE_MAP.keys())
+        arg_types = list(TYPE_MAP.keys())
         arg_types.append(MASK_TOKEN)
         args.append(random.choice(arg_types))
 
-    args = join(args, ', ')
+    args = ', '.join(args)
 
     return f'{base_type}<{args}>'
 
 
-def gen_modifier_permutations(item, include_abstract=True, include_static=True):
+def gen_modifier_permutations(item, include_abstract=True, include_static=True, is_method=True):
     """
     Generate permutations of an item with prefixed modifiers (such as access modifiers).
 
     :param item: Item.
     :param include_abstract: Whether to generate permutations with "abstract" modifiers.
     :param include_static: Whether to generate permutations with "static" modifiers.
+    :param is_method: Whether the item is a method.
 
     :returns: List of item permutations with modifiers.
     """
 
     src = item['source']
     tar = item['target']
-    new_items = []
+    tar_static = '@staticmethod ' if is_method else ''
+    new_items = list()
 
     mods = JAVA_ACCESS_MODIFIERS.copy()
     mods.append('')
@@ -182,11 +176,11 @@ def gen_modifier_permutations(item, include_abstract=True, include_static=True):
             new_items.append((f'{m} abstract {src}', tar))
 
             if include_static:
-                new_items.append((f'{m} static abstract {src}', f'@staticmethod {tar}'))
-                new_items.append((f'{m} abstract static {src}', f'@staticmethod {tar}'))
+                new_items.append((f'{m} static abstract {src}', f'{tar_static}{tar}'))
+                new_items.append((f'{m} abstract static {src}', f'{tar_static}{tar}'))
 
         if include_static:
-            new_items.append((f'{m} static {src}', f'@staticmethod {tar}'))
+            new_items.append((f'{m} static {src}', f'{tar_static}{tar}'))
 
     new_items = list(map(lambda i: gen_item(i[0].strip(), i[1].strip()), new_items))
 

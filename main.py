@@ -4,6 +4,7 @@ from theory_data_gen.lvp import LVP
 from theory_data_gen.output import create_output_file, deduplicate_lines
 from cpp_17_to_nodejs_14.generator import Cpp17ToNodeJS14Generator
 from java_14_to_nodejs_14.generator import Java14ToNodeJS14Generator
+from java_14_to_python_3.generator import Java14ToPython3Generator
 
 # Parse args
 parser = argparse.ArgumentParser(description='Generate Theory dataset.')
@@ -45,6 +46,8 @@ if lvp == LVP.CPP_17_TO_NODEJS_14:
     data = Cpp17ToNodeJS14Generator.generate(args, write_func)
 elif lvp == LVP.JAVA_14_TO_NODEJS_14:
     data = Java14ToNodeJS14Generator.generate(args, write_func)
+elif lvp == LVP.JAVA_14_TO_PYTHON_3:
+    data = Java14ToPython3Generator.generate(args, write_func)
 else:
     raise Exception(f'Unimplemented language-version pair "{lvp.value}".')
 

@@ -24,21 +24,16 @@ def gen_arithmetic(should_add_mask_indices=False, only_bool=False):
     val_count = random.choices(val_range, weights=(80, 70, 60, 40, 30, 20, 5, 4, 3, 2, 1), k=1)[0]
     vals = list()
 
-    for i in range(val_count):
+    for _ in range(val_count):
         vals.append(MASK_TOKEN)
 
-    source = join_rand(vals, ops)
-
-    # Convert ops for target
-    target = source.replace('==', '===')
-    target = target.replace('!=', '!==')
+    src = join_rand(vals, ops)
 
     # Add mask indices
     if should_add_mask_indices:
-        source, _ = add_mask_indices(source)
-        target, _ = add_mask_indices(target)
+        src, _ = add_mask_indices(src)
 
-    return source, target
+    return src, src
 
 
 def gen_rogue_arithmetic(write, count: int):
