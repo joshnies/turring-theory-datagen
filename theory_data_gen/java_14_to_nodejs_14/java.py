@@ -1,6 +1,7 @@
 import random
 
 from theory_data_gen.common import gen_item
+from theory_data_gen.common.java import JAVA_ACCESS_MODIFIERS
 from theory_data_gen.constants import MASK_TOKEN
 from theory_data_gen.utils import join
 
@@ -14,25 +15,35 @@ JAVA_PRIM_TYPES = [
     'int',
     'float',
     'double',
+    'long',
     'char',
+    'Void',
+    'Boolean',
+    'Byte',
+    'Short',
+    'Integer',
+    'Float',
+    'Double',
+    'Long',
+    'Character',
     'String'
 ]
 
 # Java generic types
 JAVA_GENERIC_TYPES = [
     'Array',
+    'ArrayList',
     'List',
+    'LinkedList',
+    'Set',
+    'HashSet',
+    'LinkedHashSet',
     'Map',
-    'HashMap'
-]
-
-# Java boolean operators
-JAVA_BOOL_OPS = ['==', '!=', '>', '>=', '<', '<=', '&&', '||']
-
-JAVA_ACCESS_MODIFIERS = [
-    'private',
-    'protected',
-    'public'
+    'HashMap',
+    'ConcurrentHashMap',
+    'IdentityHashMap',
+    'LinkedHashMap',
+    'WeakHashMap'
 ]
 
 
@@ -58,10 +69,11 @@ def gen_java_generic_type():
 
 def gen_modifier_permutations(item, include_abstract=True, include_static=True):
     """
-    Generate permutations of an item with prefixed Java modifiers (such as access modifiers).
+    Generate permutations of an item with prefixed modifiers (such as access modifiers).
 
     :param item: Item.
-    :param include_abstract: Whether to generate permutations with "abstract" modifier.
+    :param include_abstract: Whether to generate permutations with "abstract" modifiers.
+    :param include_static: Whether to generate permutations with "static" modifiers.
 
     :returns: List of item permutations with modifiers.
     """

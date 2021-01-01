@@ -3,21 +3,18 @@ import random
 from tqdm import tqdm
 
 from theory_data_gen.common import gen_item, add_mask_indices
-from theory_data_gen.constants import MASK_TOKEN, ARITHMETIC_OPS
+from theory_data_gen.constants import MASK_TOKEN, ARITHMETIC_OPS, BOOL_OPS
 from theory_data_gen.utils import join_rand
-from .java import JAVA_BOOL_OPS
 
 
 def gen_arithmetic(should_add_mask_indices=False, only_bool=False):
     """Generate an arithmetic expression. Can contain boolean operators."""
 
     # Get operators
-    ops = []
+    ops = BOOL_OPS.copy()
 
     if not only_bool:
         ops.extend(ARITHMETIC_OPS)
-
-    ops.extend(JAVA_BOOL_OPS)
 
     # Add spacing to operators
     ops = list(map(lambda o: f' {o} ', ops))
@@ -25,7 +22,7 @@ def gen_arithmetic(should_add_mask_indices=False, only_bool=False):
     # Generate value list
     val_range = range(0, 11)
     val_count = random.choices(val_range, weights=(80, 70, 60, 40, 30, 20, 5, 4, 3, 2, 1), k=1)[0]
-    vals = []
+    vals = list()
 
     for i in range(val_count):
         vals.append(MASK_TOKEN)

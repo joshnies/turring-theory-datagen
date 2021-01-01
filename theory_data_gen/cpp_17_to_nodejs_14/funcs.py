@@ -2,7 +2,7 @@ import random
 
 from tqdm import tqdm
 
-from theory_data_gen.common import gen_mask_token, gen_item, add_open_bracket
+from theory_data_gen.common import gen_mask_token, gen_item, add_scope_open_token
 from theory_data_gen.utils import join
 from .cpp import CPP_PRIM_TYPES, gen_mem_symbol
 
@@ -69,7 +69,7 @@ def __gen_func_items():
                                     f'const {m_func_name} = ({target_args_str}) =>')
 
     # With ending "{"
-    item_w_open_bracket = add_open_bracket(item_wo_open_bracket)
+    item_w_open_bracket = add_scope_open_token(item_wo_open_bracket)
 
     # With open arg list (e.g. "void main (")
     item_open_args = gen_item(f'{abstract}{source_return_type}{pointer} {m_func_name}(', f'const {m_func_name} = (')

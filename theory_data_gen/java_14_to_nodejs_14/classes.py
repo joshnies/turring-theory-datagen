@@ -2,7 +2,7 @@ import random
 
 from tqdm import tqdm
 
-from theory_data_gen.common import gen_mask_token, add_mask_indices, add_open_bracket, gen_item
+from theory_data_gen.common import gen_mask_token, add_mask_indices, add_scope_open_token, gen_item
 from theory_data_gen.constants import MASK_TOKEN
 from theory_data_gen.utils import join
 from .generics import gen_type_generics
@@ -43,9 +43,9 @@ def gen_class_pairs():
 
     target = f'class {m_class_name}'
 
-    items = gen_modifier_permutations(gen_item(source, target))
+    items = gen_modifier_permutations(gen_item(source, target), include_static=False)
     items.extend(
-        list(map(lambda i: add_open_bracket(i), items))
+        list(map(lambda i: add_scope_open_token(i), items))
     )
 
     return items

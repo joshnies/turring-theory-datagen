@@ -34,16 +34,15 @@ def gen_val_list(entity_chain_callback, mask_token_args_only=False, should_add_m
             target_vals.append(t)
         else:
             # Null
-            val = 'null'
-            source_vals.append(val)
-            target_vals.append(val)
+            source_vals.append('null')
+            target_vals.append('None')
 
-    source = ', '.join(source_vals)
-    target = ', '.join(target_vals)
+    src = ', '.join(source_vals)
+    tar = ', '.join(target_vals)
 
     # Add mask indices
     if should_add_mask_indices:
-        source = add_mask_indices(source)
-        target = add_mask_indices(target)
+        src = add_mask_indices(src)
+        tar = add_mask_indices(tar)
 
-    return source, target
+    return src, tar

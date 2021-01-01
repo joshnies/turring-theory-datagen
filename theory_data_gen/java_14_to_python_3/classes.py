@@ -2,21 +2,22 @@ import random
 
 from tqdm import tqdm
 
-from theory_data_gen.common import gen_mask_token, add_mask_indices, add_scope_open_token, gen_item
+from theory_data_gen.common import gen_mask_token, add_mask_indices, add_scope_open_token, gen_item, gen_type_generics
+from theory_data_gen.common.java import JAVA_ACCESS_MODIFIERS
 from theory_data_gen.constants import MASK_TOKEN
 from theory_data_gen.utils import join
-from .generics import gen_type_generics
+from .lvp import gen_modifier_permutations
 
 
 def gen_class_inheritance():
-    """Generate a C++ class inheritance sequence."""
+    """Generate a Java class inheritance sequence."""
 
-    access_modifier = random.choice(['public', 'private', 'protected'])
+    access_modifier = random.choice(JAVA_ACCESS_MODIFIERS)
     return f'{access_modifier} {MASK_TOKEN}'
 
 
-def gen_class_pairs():
-    """Generate class pairs."""
+def __gen_class_items():
+    """Generate class items."""
 
     # Generate mask tokens
     m_class_name = gen_mask_token(0)
@@ -30,9 +31,9 @@ def gen_class_pairs():
     inheritance_range = range(0, 11)
     inheritance_count = random.choices(inheritance_range, weights=(80, 70, 60, 40, 30, 20, 5, 4, 3, 2, 1), k=1)[0]
     inheritance_prefix = ' : ' if inheritance_count > 0 else ''
-    inheritance = []
+    inheritance = list()
 
-    for i in range(inheritance_count):
+    for _ in range(inheritance_count):
         inheritance.append(gen_class_inheritance())
 
     inheritance = join(inheritance, ', ')
@@ -42,18 +43,17 @@ def gen_class_pairs():
 
     target = f'class {m_class_name}'
 
-    item_wo_open_bracket = gen_item(source, target)
-    item_w_open_bracket = add_scope_open_token(item_wo_open_bracket)
+    items = gen_modifier_permutations(gen_item(source, target), include_static=False)
+    items.extend(
+        list(map(lambda i: add_scope_open_token(i), items))
+    )
 
-    return [
-        item_wo_open_bracket,
-        item_w_open_bracket
-    ]
+    return items
 
 
 def gen_classes(write, count):
     """Generate classes."""
 
     for _ in tqdm(range(count), desc='Generating classes'):
-        for i in gen_class_pairs():
+        for i in __gen_class_items():
             write(i)

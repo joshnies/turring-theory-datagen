@@ -3,8 +3,7 @@ import random
 from tqdm import tqdm
 
 from theory_data_gen.common import gen_mask_token, gen_item, add_scope_open_token
-from theory_data_gen.utils import join
-from .java import JAVA_PRIM_TYPES, gen_modifier_permutations
+from .lvp import gen_modifier_permutations, TYPE_MAP
 
 
 def __gen_func_arg_pair(mask_index=1):
@@ -15,7 +14,7 @@ def __gen_func_arg_pair(mask_index=1):
     m_def_val = gen_mask_token(mask_index + 1)
 
     # Generate arg pair
-    source_return_type = random.choice(JAVA_PRIM_TYPES)
+    source_return_type = random.choice(list(TYPE_MAP.keys()))
     default_val = m_def_val if bool(random.getrandbits(1)) else ''
     default_val_assign = ' = ' if default_val != '' else ''
 
@@ -32,10 +31,10 @@ def __gen_func_arg_pair(mask_index=1):
 def __gen_func_items():
     """Generate function items."""
 
-    source_return_type = random.choice(JAVA_PRIM_TYPES)
+    source_return_type = random.choice(list(TYPE_MAP.keys()))
     arg_range = range(0, 11)
     arg_count = random.choices(arg_range, weights=(80, 70, 60, 40, 30, 20, 5, 4, 3, 2, 1), k=1)[0]
-    args = []
+    args = list()
 
     # Generate func args
     next_arg_mask_index = 1
@@ -45,37 +44,41 @@ def __gen_func_items():
         next_arg_mask_index = last_mask_index + 1
         args.append(arg_pair)
 
-    source_args = []
-    target_args = []
+    source_args = list()
+    target_args = list()
 
     for a in args:
         source_args.append(a[0])
         target_args.append(a[1])
 
-    source_args_str = join(source_args, ', ')
-    target_args_str = join(target_args, ', ')
+    source_args_str = ', '.join(source_args)
+    target_args_str = ', '.join(target_args)
 
     # Generate mask tokens
     m_func_name = gen_mask_token(0)
 
     def gen_func_permutations(constructor=False):
-        conditional_source_return_type = '' if constructor else source_return_type
+        conditional_src_return_type = '' if constructor else source_return_type
+        tar_name = '__init__' if constructor else m_func_name
+        tar_self_arg = 'self, ' if constructor else ''
 
         # Without ending "{"
         items = gen_modifier_permutations(
-            gen_item(f'{conditional_source_return_type} {m_func_name}({source_args_str})'.strip(),
-                     f'const {m_func_name} = ({target_args_str}) =>'))
+            gen_item(
+                f'{conditional_src_return_type} {m_func_name}({source_args_str})'.strip(),
+                f'def {tar_name}({tar_self_arg}{target_args_str})')
+        )
 
         # With ending "{"
         items.extend(
-            list(map(lambda i: add_scope_open_token(i), items))
+            list(map(lambda i: add_scope_open_token(i, tar_token=':'), items))
         )
 
         # With open arg list (e.g. "void main (")
         items.extend(
             gen_modifier_permutations(gen_item(
-                f'{conditional_source_return_type} {m_func_name}('.strip(),
-                f'const {m_func_name} = ('
+                f'{conditional_src_return_type} {m_func_name}('.strip(),
+                f'def {tar_name}('
             ))
         )
 

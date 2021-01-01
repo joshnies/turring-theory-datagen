@@ -1,6 +1,6 @@
 import random
 
-from theory_data_gen.common import gen_mask_token, gen_item, add_open_bracket
+from theory_data_gen.common import gen_mask_token, gen_item, add_scope_open_token
 from .class_constructs import gen_class_construct_pair
 from .entity_chains import gen_entity_chain_pair
 
@@ -28,7 +28,7 @@ def __gen_switch_structs(condition: str = None):
         tar_condition = condition
 
     item_wo_open_bracket = gen_item(f'switch ({src_condition})', f'switch ({tar_condition})')
-    item_w_open_bracket = add_open_bracket(item_wo_open_bracket)
+    item_w_open_bracket = add_scope_open_token(item_wo_open_bracket)
 
     return [
         item_wo_open_bracket,
