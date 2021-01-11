@@ -18,7 +18,7 @@ def __gen_spread_arg_pair(mask_index: int):
 
     # Generate mask tokens
     src_return_type = random.choice(types)
-    mask_idx_offset = 2 if src_return_type == m_first else 1
+    mask_idx_offset = 1 if src_return_type == m_first else 0
 
     m_arg_name_idx = mask_index + mask_idx_offset
     m_arg_name = gen_mask_token(m_arg_name_idx)
@@ -33,12 +33,20 @@ def __gen_spread_arg_pair(mask_index: int):
 def __gen_func_arg_pair(mask_index=1):
     """Generate a function argument pair."""
 
+    # Generate available source return types
+    m_first = gen_mask_token(mask_index)
+
+    types = JAVA_PRIM_TYPES.copy()
+    types.append(m_first)
+
     # Generate mask tokens
-    m_arg_name = gen_mask_token(mask_index)
-    m_def_val = gen_mask_token(mask_index + 1)
+    src_return_type = random.choice(types)
+    mask_idx_offset = 1 if src_return_type == m_first else 0
+
+    m_arg_name = gen_mask_token(mask_index + mask_idx_offset)
+    m_def_val = gen_mask_token(mask_index + mask_idx_offset + 1)
 
     # Generate arg pair
-    source_return_type = random.choice(JAVA_PRIM_TYPES_W_MASK)
     default_val = m_def_val if bool(random.getrandbits(1)) else ''
     default_val_assign = ' = ' if default_val != '' else ''
 
@@ -47,21 +55,32 @@ def __gen_func_arg_pair(mask_index=1):
     else:
         last_mask_index = mask_index + 1
 
-    source_arg = f'{source_return_type} {m_arg_name}{default_val_assign}{default_val}'
-    target_arg = f'{m_arg_name}{default_val_assign}{default_val}'
-    return (source_arg, target_arg), last_mask_index
+    src = f'{src_return_type} {m_arg_name}{default_val_assign}{default_val}'
+    tar = f'{m_arg_name}{default_val_assign}{default_val}'
+    return (src, tar), last_mask_index
 
 
 def __gen_func_items():
     """Generate function items."""
 
-    source_return_type = random.choice(JAVA_PRIM_TYPES_W_MASK)
+    # Generate available source return types
+    m_first = gen_mask_token(0)
+
+    types = JAVA_PRIM_TYPES.copy()
+    types.append(m_first)
+
+    # Generate mask tokens
+    src_return_type = random.choice(types)
+    mask_idx_offset = 1 if src_return_type == m_first else 0
+
+    m_func_name = gen_mask_token(mask_idx_offset)
+
     arg_range = range(0, 11)
     arg_count = random.choices(arg_range, weights=(80, 70, 60, 40, 30, 20, 5, 4, 3, 2, 1), k=1)[0]
     args = list()
 
     # Generate func args
-    next_arg_mask_index = 1
+    next_arg_mask_index = mask_idx_offset + 1
 
     for _ in range(arg_count):
         arg_pair, last_mask_index = __gen_func_arg_pair(next_arg_mask_index)
@@ -83,11 +102,8 @@ def __gen_func_items():
     src_args_str = ', '.join(src_args)
     tar_args_str = ', '.join(tar_args)
 
-    # Generate mask tokens
-    m_func_name = gen_mask_token(0)
-
     def gen_func_permutations(constructor=False):
-        conditional_source_return_type = '' if constructor else source_return_type
+        conditional_source_return_type = '' if constructor else src_return_type
 
         # Without ending "{"
         items = gen_modifier_permutations(

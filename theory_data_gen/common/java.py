@@ -24,7 +24,8 @@ JAVA_PRIM_TYPES = [
     'Double',
     'Long',
     'Character',
-    'String'
+    'String',
+    'Object'
 ]
 
 JAVA_PRIM_TYPES_W_MASK = JAVA_PRIM_TYPES.copy()
