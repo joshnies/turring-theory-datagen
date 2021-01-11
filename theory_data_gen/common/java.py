@@ -51,6 +51,25 @@ JAVA_ACCESS_MODIFIERS = [
 ]
 
 
+def gen_provided_generics():
+    """Generate provided generics (e.g. `<int, char>`)."""
+
+    generics = list()
+    generics_range = range(0, 4)
+    generics_count = random.choices(generics_range, weights=(75, 15, 10, 5), k=1)[0]
+    generic_types = JAVA_PRIM_TYPES.copy()
+    generic_types.append(MASK_TOKEN)
+
+    for i in range(generics_count):
+        generics.append(random.choice(generic_types))
+
+    if generics_count > 0:
+        joined_generics = ', '.join(generics)
+        return f'<{joined_generics}>'
+
+    return ''
+
+
 def gen_java_generic_type():
     """Generates a random Java type with generic arguments."""
 

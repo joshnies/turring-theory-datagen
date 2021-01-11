@@ -97,6 +97,7 @@ def gen_type_generics():
         generics.append(MASK_TOKEN)
 
     if generics_count > 0:
-        return '<' + ', '.join(generics) + '>'
+        joined_generics = ', '.join(generics)
+        return f'<{joined_generics}>'
 
     return ''
