@@ -2,8 +2,8 @@ import random
 from tqdm import tqdm
 
 from theory_data_gen.common import gen_mask_token, gen_item, add_scope_open_token
+from theory_data_gen.common.java import JAVA_PRIM_TYPES
 from .arithmetic import gen_arithmetic
-from .java import JAVA_PRIM_TYPES
 from .for_loop_inputs import gen_for_loop_input_pair
 
 

@@ -2,9 +2,9 @@ import random
 
 from tqdm import tqdm
 
+from theory_data_gen.common.java import JAVA_PRIM_TYPES
 from theory_data_gen.common import gen_mask_token, add_mask_indices, gen_item
 from .arithmetic import gen_arithmetic
-from .java import JAVA_PRIM_TYPES
 
 
 def gen_for_loop_input_pair(use_increment=False):

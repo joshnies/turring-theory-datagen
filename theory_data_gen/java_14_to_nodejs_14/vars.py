@@ -3,11 +3,12 @@ import random
 from tqdm import tqdm
 
 from theory_data_gen.common import add_mask_indices, gen_item, gen_mask_token
+from theory_data_gen.common.java import JAVA_PRIM_TYPES, gen_java_generic_type
 from theory_data_gen.constants import MASK_TOKEN
 from .arithmetic import gen_arithmetic
 from .class_constructs import gen_class_construct_pair
-from .java import JAVA_PRIM_TYPES, gen_java_generic_type, gen_modifier_permutations
 from .entity_chains import gen_entity_chain_pair
+from .java import gen_modifier_permutations
 
 
 def __gen_var_items(is_array=False):

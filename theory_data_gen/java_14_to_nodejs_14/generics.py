@@ -1,8 +1,8 @@
 import random
 
+from theory_data_gen.common.java import JAVA_PRIM_TYPES
 from theory_data_gen.constants import MASK_TOKEN
 from theory_data_gen.utils import join
-from .java import JAVA_PRIM_TYPES
 
 
 def gen_type_generics():
