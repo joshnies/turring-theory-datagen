@@ -64,6 +64,23 @@ def add_scope_open_token(item, src_token=' {', tar_token=' {'):
     return gen_item(src, tar)
 
 
+def add_line_end_token(item, src_token=';', tar_token=';'):
+    """
+    Add the line end token (e.g. `;` for most languages) to an item.
+
+    :param item: Dataset item.
+    :param src_token: Source line end token.
+    :param tar_token: Target line end token.
+
+    :returns: Dataset item with appended line end tokens.
+    """
+
+    src = item['source'] + src_token
+    tar = item['target'] + tar_token
+
+    return gen_item(src, tar)
+
+
 def gen_type_generics():
     """
     Generate type generics (e.g. `<T, K>`).

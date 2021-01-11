@@ -2,7 +2,7 @@ import random
 
 from tqdm import tqdm
 
-from theory_data_gen.common import gen_mask_token, gen_item, add_scope_open_token
+from theory_data_gen.common import gen_mask_token, gen_item, add_scope_open_token, add_line_end_token
 from theory_data_gen.utils import join
 from .java import JAVA_PRIM_TYPES, gen_modifier_permutations
 
@@ -69,6 +69,11 @@ def __gen_func_items():
         # With ending "{"
         items.extend(
             list(map(lambda i: add_scope_open_token(i), items))
+        )
+
+        # With line end tokens
+        items.extend(
+            list(map(lambda i: add_line_end_token(i, tar_token=' {}'), items))
         )
 
         # With open arg list (e.g. "void main (")
