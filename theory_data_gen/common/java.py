@@ -1,5 +1,6 @@
 import random
 
+from common import gen_type_generics
 from theory_data_gen.constants import MASK_TOKEN
 
 # Java primitive types (not replaced with mask token)
@@ -63,32 +64,26 @@ def gen_provided_generics():
     for i in range(generics_count):
         generics.append(random.choice(generic_types))
 
-    if generics_count > 0:
-        joined_generics = ', '.join(generics)
-        return f'<{joined_generics}>'
-
-    return ''
+    # NOTE: Empty generics are allowed in Java (e.g. `<>`)
+    joined_generics = ', '.join(generics)
+    return f'<{joined_generics}>'
 
 
-def gen_java_generic_type():
-    """Generates a random Java type with generic arguments."""
+def gen_java_generic_type(use_provided_types: bool = True):
+    """
+    Generates a random Java type with generic arguments.
+
+    :param use_provided_types: Whether to use provided types (e.g. `<int, string>` instead of `<T, K>`).
+    :returns: Generic type.
+    """
 
     types = JAVA_GENERIC_TYPES.copy()
     types.append(MASK_TOKEN)
 
-    arg_types = JAVA_PRIM_TYPES.copy()
-    arg_types.append(MASK_TOKEN)
-
     base_type = random.choice(types)
-    args = list()
+    generic = gen_provided_generics() if use_provided_types else gen_type_generics()
 
-    # Generate generic args
-    for i in range(1, 5):
-        args.append(random.choice(arg_types))
-
-    args = ', '.join(args)
-
-    return f'{base_type}<{args}>'
+    return f'{base_type}{generic}'
 
 
 def gen_inheritance(count):

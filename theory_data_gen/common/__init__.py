@@ -91,7 +91,7 @@ def gen_type_generics():
 
     generics = list()
     generics_range = range(0, 4)
-    generics_count = random.choices(generics_range, weights=(75, 15, 10, 5), k=1)[0]
+    generics_count = random.choices(generics_range, weights=(70, 20, 7, 3), k=1)[0]
 
     for i in range(generics_count):
         generics.append(MASK_TOKEN)
