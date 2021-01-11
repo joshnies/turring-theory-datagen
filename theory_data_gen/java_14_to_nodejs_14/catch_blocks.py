@@ -1,7 +1,7 @@
 from tqdm import tqdm
 
 from theory_data_gen.common import gen_item, gen_mask_token
-from .java import JAVA_PRIM_TYPES
+from theory_data_gen.common.java import JAVA_PRIM_TYPES
 
 
 def __gen_catch_struct_item(t=None):

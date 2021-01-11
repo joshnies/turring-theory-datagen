@@ -2,7 +2,8 @@ from tqdm import tqdm
 
 from theory_data_gen.common import gen_item, gen_mask_token, add_mask_indices
 from theory_data_gen.constants import MASK_TOKEN
-from .java import JAVA_PRIM_TYPES, gen_java_generic_type, gen_modifier_permutations
+from theory_data_gen.common.java import JAVA_PRIM_TYPES, gen_java_generic_type
+from .java import gen_modifier_permutations
 
 
 def __gen_var_def_items(t: str):

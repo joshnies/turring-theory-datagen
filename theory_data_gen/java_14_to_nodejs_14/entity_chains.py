@@ -2,9 +2,9 @@ import random
 from tqdm import tqdm
 
 from theory_data_gen.common import add_mask_indices, gen_item
+from theory_data_gen.common.java import gen_provided_generics
 from theory_data_gen.utils import join
 from theory_data_gen.constants import MASK_TOKEN
-from .generics import gen_provided_generics
 from .val_lists import gen_val_list
 
 

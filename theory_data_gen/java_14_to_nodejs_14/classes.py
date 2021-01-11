@@ -2,10 +2,9 @@ import random
 
 from tqdm import tqdm
 
-from theory_data_gen.common import add_mask_indices, add_scope_open_token, gen_item, gen_mask_token
+from theory_data_gen.common import add_mask_indices, add_scope_open_token, gen_item, gen_mask_token, gen_type_generics
+from theory_data_gen.common.java import gen_interface_implementations, gen_inheritance
 from theory_data_gen.constants import MASK_TOKEN
-from .common import gen_interface_implementations, gen_inheritance
-from .generics import gen_type_generics
 from .java import gen_modifier_permutations
 
 
