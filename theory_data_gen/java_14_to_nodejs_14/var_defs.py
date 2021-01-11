@@ -2,7 +2,7 @@ from tqdm import tqdm
 
 from theory_data_gen.common import gen_item, gen_mask_token, add_mask_indices
 from theory_data_gen.constants import MASK_TOKEN
-from theory_data_gen.common.java import JAVA_PRIM_TYPES, gen_java_generic_type
+from theory_data_gen.common.java import JAVA_PRIM_TYPES_W_MASK, gen_java_generic_type
 from .java import gen_modifier_permutations
 
 
@@ -18,11 +18,8 @@ def __gen_var_def_items(t: str):
 def gen_var_defs(write, array_count: int):
     """Generate variable definitions with no default value."""
 
-    types = JAVA_PRIM_TYPES.copy()
-    types.append(MASK_TOKEN)
-
     # Standard
-    for t in tqdm(types, desc='Generating variable definitions (no default values)'):
+    for t in tqdm(JAVA_PRIM_TYPES_W_MASK, desc='Generating variable definitions (no default values)'):
         for i in __gen_var_def_items(t):
             write(i)
 

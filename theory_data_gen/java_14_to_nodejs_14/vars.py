@@ -3,7 +3,7 @@ import random
 from tqdm import tqdm
 
 from theory_data_gen.common import add_mask_indices, gen_item, gen_mask_token
-from theory_data_gen.common.java import JAVA_PRIM_TYPES, gen_java_generic_type
+from theory_data_gen.common.java import JAVA_PRIM_TYPES_W_MASK, gen_java_generic_type
 from theory_data_gen.constants import MASK_TOKEN
 from .arithmetic import gen_arithmetic
 from .class_constructs import gen_class_construct_pair
@@ -15,9 +15,6 @@ def __gen_var_items(is_array=False):
     """Generate variable items."""
 
     # Generate type declarations
-    types = JAVA_PRIM_TYPES.copy()
-    types.append(MASK_TOKEN)
-
     has_type = bool(random.getrandbits(1))
     is_generic = random.choice(range(10)) == 0
     java_array_size = f'[{MASK_TOKEN}]' if is_array else ''
@@ -28,7 +25,7 @@ def __gen_var_items(is_array=False):
         if is_generic:
             src_decl = gen_java_generic_type() + ' '
         else:
-            src_decl = random.choice(types) + ' '
+            src_decl = random.choice(JAVA_PRIM_TYPES_W_MASK) + ' '
 
     tar_decl = 'let ' if has_type else ''
     tar_name_mask_index = 1 if src_decl.strip() == MASK_TOKEN else 0

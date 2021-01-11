@@ -3,8 +3,7 @@ import random
 from tqdm import tqdm
 
 from theory_data_gen.common import gen_mask_token, gen_item, add_scope_open_token, add_line_end_token
-from theory_data_gen.common.java import JAVA_PRIM_TYPES
-from theory_data_gen.utils import join
+from theory_data_gen.common.java import JAVA_PRIM_TYPES_W_MASK
 from .java import gen_modifier_permutations
 
 
@@ -16,7 +15,7 @@ def __gen_func_arg_pair(mask_index=1):
     m_def_val = gen_mask_token(mask_index + 1)
 
     # Generate arg pair
-    source_return_type = random.choice(JAVA_PRIM_TYPES)
+    source_return_type = random.choice(JAVA_PRIM_TYPES_W_MASK)
     default_val = m_def_val if bool(random.getrandbits(1)) else ''
     default_val_assign = ' = ' if default_val != '' else ''
 
@@ -33,10 +32,10 @@ def __gen_func_arg_pair(mask_index=1):
 def __gen_func_items():
     """Generate function items."""
 
-    source_return_type = random.choice(JAVA_PRIM_TYPES)
+    source_return_type = random.choice(JAVA_PRIM_TYPES_W_MASK)
     arg_range = range(0, 11)
     arg_count = random.choices(arg_range, weights=(80, 70, 60, 40, 30, 20, 5, 4, 3, 2, 1), k=1)[0]
-    args = []
+    args = list()
 
     # Generate func args
     next_arg_mask_index = 1
@@ -46,15 +45,15 @@ def __gen_func_items():
         next_arg_mask_index = last_mask_index + 1
         args.append(arg_pair)
 
-    source_args = []
-    target_args = []
+    source_args = list()
+    target_args = list()
 
     for a in args:
         source_args.append(a[0])
         target_args.append(a[1])
 
-    source_args_str = join(source_args, ', ')
-    target_args_str = join(target_args, ', ')
+    source_args_str = ', '.join(source_args)
+    target_args_str = ', '.join(target_args)
 
     # Generate mask tokens
     m_func_name = gen_mask_token(0)

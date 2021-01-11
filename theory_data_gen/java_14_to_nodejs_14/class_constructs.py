@@ -7,7 +7,13 @@ from .val_lists import gen_val_list
 
 
 def gen_class_construct_pair(add_semicolon=True, should_add_mask_indices=True):
-    """Generate a class construction pair."""
+    """
+    Generate a class construction pair.
+
+    :param add_semicolon: Whether to add a semicolon to the end of the statement.
+    :param should_add_mask_indices: Whether to add mask indices.
+    :returns: Class construction pair.
+    """
 
     source_args, target_args = gen_val_list(entity_chain_callback=gen_entity_chain_pair)
     semicolon = ';' if add_semicolon else ''

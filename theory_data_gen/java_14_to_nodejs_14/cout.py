@@ -7,7 +7,12 @@ from .entity_chains import gen_entity_chain_pair
 
 
 def __gen_cout_pair(val: str = None):
-    """Generate console output pair."""
+    """
+    Generate console output pair.
+
+    :param val: Value of the console output statement.
+    :returns: Console output statement pair.
+    """
 
     # Generate default values
     selection = random.choice(range(4)) if val is None else 0
@@ -26,9 +31,9 @@ def __gen_cout_pair(val: str = None):
         # Class construct
         src_val, tar_val = gen_class_construct_pair(add_semicolon=False, should_add_mask_indices=False)
 
-    source = f'System.out.println({src_val});'
-    target = f'console.log({tar_val});'
-    return source, target
+    src = f'System.out.println({src_val});'
+    tar = f'console.log({tar_val});'
+    return src, tar
 
 
 def gen_couts(write, count: int):

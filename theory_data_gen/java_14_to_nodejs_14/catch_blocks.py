@@ -5,7 +5,12 @@ from theory_data_gen.common.java import JAVA_PRIM_TYPES
 
 
 def __gen_catch_struct_item(t=None):
-    """Generate "catch" structure item."""
+    """
+    Generate "catch" structure item.
+
+    :param t: Exception/error type.
+    :returns: "catch" structure.
+    """
 
     # Generate mask tokens
     m_type = gen_mask_token(0) if t is None else t
