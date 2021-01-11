@@ -53,7 +53,11 @@ JAVA_ACCESS_MODIFIERS = [
 
 
 def gen_provided_generics():
-    """Generate provided generics (e.g. `<int, char>`)."""
+    """
+    Generate provided generics (e.g. `<int, char>`).
+
+    :returns: Provided generics sequence.
+    """
 
     generics = list()
     generics_range = range(0, 4)
@@ -87,12 +91,21 @@ def gen_java_generic_type(use_provided_types: bool = True):
 
 
 def gen_inheritance(count):
-    """Generate a Java class inheritance sequence."""
+    """
+    Generate a Java inheritance sequence.
+
+    :param count: Number of extended classes.
+    :returns: Inheritance sequence.
+    """
 
     mask_tokens = list()
+    types = JAVA_PRIM_TYPES.copy()
+    types.append(MASK_TOKEN)
 
     for _ in range(count):
-        new_token = gen_java_generic_type() if bool(random.getrandbits(1)) else MASK_TOKEN
+        new_token = gen_java_generic_type(use_provided_types=False) if bool(random.getrandbits(1)) else random.choice(
+            types)
+
         mask_tokens.append(new_token)
 
     extended_classes = ', '.join(mask_tokens)
@@ -101,12 +114,21 @@ def gen_inheritance(count):
 
 
 def gen_interface_implementations(count):
-    """Generate a Java interface implementation sequence."""
+    """Generate a Java interface implementation sequence.
+
+    :param count: Number of implemented interfaces.
+    :returns: Interface implementation sequence.
+    """
 
     mask_tokens = list()
 
+    types = JAVA_PRIM_TYPES.copy()
+    types.append(MASK_TOKEN)
+
     for _ in range(count):
-        new_token = gen_java_generic_type() if bool(random.getrandbits(1)) else MASK_TOKEN
+        new_token = gen_java_generic_type(use_provided_types=False) if bool(random.getrandbits(1)) else random.choice(
+            types)
+
         mask_tokens.append(new_token)
 
     implemented_interfaces = ', '.join(mask_tokens)
