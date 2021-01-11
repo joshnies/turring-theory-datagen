@@ -89,11 +89,11 @@ def gen_modifier_permutations(item, include_abstract=True, include_static=True):
         new_items.append((f'{m} {src}', tar))
 
         if include_abstract:
-            new_items.append((f'{m} abstract {src}', f'abstract {tar}'))
+            new_items.append((f'{m} abstract {src}', f'{tar}'))
 
             if include_static:
-                new_items.append((f'{m} static abstract {src}', f'static abstract {tar}'))
-                new_items.append((f'{m} abstract static {src}', f'abstract static {tar}'))
+                new_items.append((f'{m} static abstract {src}', f'static {tar}'))
+                new_items.append((f'{m} abstract static {src}', f'static {tar}'))
 
         if include_static:
             new_items.append((f'{m} static {src}', f'static {tar}'))

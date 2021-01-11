@@ -12,17 +12,8 @@ from .java import gen_modifier_permutations
 def gen_class_pairs():
     """Generate class pairs."""
 
-    abstract = 'abstract ' if bool(random.getrandbits(1)) else ''
-
     # Generate generics
     generics = gen_type_generics()
-
-    # Generate inheritance for interface
-    # interface_inheritance_range = range(0, 11)
-    # interface_inheritance_count = \
-    # random.choices(interface_inheritance_range, weights=(80, 70, 60, 40, 30, 20, 5, 4, 3, 2, 1), k=1)[0]
-    # interface_inheritance = gen_class_inheritance(
-    #     interface_inheritance_count) if interface_inheritance_count > 0 else ''
 
     # Generate interface implementations
     interface_impl_range = range(0, 11)
@@ -30,7 +21,7 @@ def gen_class_pairs():
     interface_impl = gen_interface_implementations(interface_impl_count) if interface_impl_count > 0 else ''
 
     # Generate base item
-    src_base = f'{abstract}class {MASK_TOKEN}{generics}{interface_impl}'
+    src_base = f'class {MASK_TOKEN}{generics}{interface_impl}'
     tar_base = f'class {MASK_TOKEN}'
 
     src_base, src_base_last_idx = add_mask_indices(src_base)
@@ -44,7 +35,7 @@ def gen_class_pairs():
 
     # Generate item with inheritance
     inheritance = gen_inheritance(1)
-    src_inher = f'{abstract}class {MASK_TOKEN}{generics}{interface_impl}{inheritance}'
+    src_inher = f'class {MASK_TOKEN}{generics}{interface_impl}{inheritance}'
     tar_inher = f'class {gen_mask_token(0)}{inheritance}'
 
     src_inher, _ = add_mask_indices(src_inher)
