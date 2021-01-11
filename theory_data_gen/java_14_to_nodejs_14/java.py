@@ -53,13 +53,14 @@ def gen_java_generic_type():
     types = JAVA_GENERIC_TYPES.copy()
     types.append(MASK_TOKEN)
 
+    arg_types = JAVA_PRIM_TYPES.copy()
+    arg_types.append(MASK_TOKEN)
+
     base_type = random.choice(types)
-    args = []
+    args = list()
 
     # Generate generic args
     for i in range(1, 5):
-        arg_types = JAVA_PRIM_TYPES.copy()
-        arg_types.append(MASK_TOKEN)
         args.append(random.choice(arg_types))
 
     args = join(args, ', ')
@@ -80,7 +81,7 @@ def gen_modifier_permutations(item, include_abstract=True, include_static=True):
 
     src = item['source']
     tar = item['target']
-    new_items = []
+    new_items = list()
 
     mods = JAVA_ACCESS_MODIFIERS.copy()
     mods.append('')
