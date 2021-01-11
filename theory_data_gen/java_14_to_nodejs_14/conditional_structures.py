@@ -5,7 +5,12 @@ from .arithmetic import gen_arithmetic
 
 
 def __gen_if_pair(has_else=False):
-    """Generate "if" structure."""
+    """
+    Generate "if" structure.
+
+    :param has_else: Whether the returned value is an "if" or "else if" structure pair.
+    :returns: "if" structure pair variant.
+    """
 
     source_condition, target_condition = gen_arithmetic(should_add_mask_indices=True, only_bool=True)
     else_token = 'else ' if has_else else ''

@@ -3,7 +3,6 @@ from tqdm import tqdm
 
 from theory_data_gen.common import add_mask_indices, gen_item
 from theory_data_gen.common.java import gen_provided_generics
-from theory_data_gen.utils import join
 from theory_data_gen.constants import MASK_TOKEN
 from .val_lists import gen_val_list
 
@@ -30,8 +29,8 @@ def __gen_entity(mask_token_args_only=False):
 def gen_entity_chain_pair(add_semicolon=True, mask_token_args_only=False, should_add_mask_indices=True):
     """Generate an entity chain pair."""
 
-    source_entities = []
-    target_entities = []
+    source_entities = list()
+    target_entities = list()
     length_range = range(1, 11)
     length = random.choices(length_range, weights=(80, 70, 60, 40, 30, 20, 5, 4, 3, 2), k=1)[0]
 
@@ -41,19 +40,19 @@ def gen_entity_chain_pair(add_semicolon=True, mask_token_args_only=False, should
         source_entities.append(s)
         target_entities.append(t)
 
-    source = join(source_entities, '.')
-    target = join(target_entities, '.')
+    src = '.'.join(source_entities)
+    tar = '.'.join(target_entities)
 
     # Add mask indices
     if should_add_mask_indices:
-        source, _ = add_mask_indices(source)
-        target, _ = add_mask_indices(target)
+        src, _ = add_mask_indices(src)
+        tar, _ = add_mask_indices(tar)
 
     semicolon = ';' if add_semicolon else ''
 
-    source = f'{source}{semicolon}'
-    target = f'{target}{semicolon}'
-    return source, target
+    src = f'{src}{semicolon}'
+    tar = f'{tar}{semicolon}'
+    return src, tar
 
 
 def gen_entity_chains(write, count):

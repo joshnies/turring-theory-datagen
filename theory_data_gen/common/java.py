@@ -24,8 +24,12 @@ JAVA_PRIM_TYPES = [
     'Double',
     'Long',
     'Character',
-    'String'
+    'String',
+    'Object'
 ]
+
+JAVA_PRIM_TYPES_W_MASK = JAVA_PRIM_TYPES.copy()
+JAVA_PRIM_TYPES_W_MASK.append(MASK_TOKEN)
 
 # Java generic types
 JAVA_GENERIC_TYPES = [
@@ -43,6 +47,9 @@ JAVA_GENERIC_TYPES = [
     'LinkedHashMap',
     'WeakHashMap'
 ]
+
+JAVA_GENERIC_TYPES_W_MASK = JAVA_GENERIC_TYPES.copy()
+JAVA_GENERIC_TYPES_W_MASK.append(MASK_TOKEN)
 
 # Java access modifiers
 JAVA_ACCESS_MODIFIERS = [
@@ -62,11 +69,9 @@ def gen_provided_generics():
     generics = list()
     generics_range = range(0, 4)
     generics_count = random.choices(generics_range, weights=(75, 15, 10, 5), k=1)[0]
-    generic_types = JAVA_PRIM_TYPES.copy()
-    generic_types.append(MASK_TOKEN)
 
     for i in range(generics_count):
-        generics.append(random.choice(generic_types))
+        generics.append(random.choice(JAVA_PRIM_TYPES_W_MASK))
 
     # NOTE: Empty generics are allowed in Java (e.g. `<>`)
     joined_generics = ', '.join(generics)
@@ -81,10 +86,7 @@ def gen_java_generic_type(use_provided_types: bool = True):
     :returns: Generic type.
     """
 
-    types = JAVA_GENERIC_TYPES.copy()
-    types.append(MASK_TOKEN)
-
-    base_type = random.choice(types)
+    base_type = random.choice(JAVA_GENERIC_TYPES_W_MASK)
     generic = gen_provided_generics() if use_provided_types else gen_type_generics()
 
     return f'{base_type}{generic}'
@@ -99,12 +101,10 @@ def gen_inheritance(count):
     """
 
     mask_tokens = list()
-    types = JAVA_PRIM_TYPES.copy()
-    types.append(MASK_TOKEN)
 
     for _ in range(count):
         new_token = gen_java_generic_type(use_provided_types=False) if bool(random.getrandbits(1)) else random.choice(
-            types)
+            JAVA_PRIM_TYPES_W_MASK)
 
         mask_tokens.append(new_token)
 
@@ -122,12 +122,9 @@ def gen_interface_implementations(count):
 
     mask_tokens = list()
 
-    types = JAVA_PRIM_TYPES.copy()
-    types.append(MASK_TOKEN)
-
     for _ in range(count):
         new_token = gen_java_generic_type(use_provided_types=False) if bool(random.getrandbits(1)) else random.choice(
-            types)
+            JAVA_PRIM_TYPES_W_MASK)
 
         mask_tokens.append(new_token)
 

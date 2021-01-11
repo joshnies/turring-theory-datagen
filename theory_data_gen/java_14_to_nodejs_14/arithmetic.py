@@ -8,7 +8,13 @@ from theory_data_gen.utils import join_rand
 
 
 def gen_arithmetic(should_add_mask_indices=False, only_bool=False):
-    """Generate an arithmetic expression. Can contain boolean operators."""
+    """
+    Generate an arithmetic expression. Can contain boolean operators.
+
+    :param should_add_mask_indices: Whether to add mask indices.
+    :param only_bool: Whether the expression can only contain boolean operations.
+    :returns: Arithmetic/boolean expression.
+    """
 
     # Get operators
     ops = BOOL_OPS.copy()
