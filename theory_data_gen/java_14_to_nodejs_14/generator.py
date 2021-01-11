@@ -8,6 +8,7 @@ from .cout import gen_couts
 from .entity_chains import gen_entity_chains
 from .for_loop_inputs import gen_for_loop_inputs
 from .funcs import gen_funcs
+from .interfaces import gen_interfaces
 from .loop_structures import gen_loops
 from .return_statements import gen_returns
 from .switch_structures import gen_switch_data
@@ -28,6 +29,7 @@ class Java14ToNodeJS14Generator(Generator):
         gen_funcs(write, args.functions)
         gen_entity_chains(write, args.entity_chains)
         gen_classes(write, args.classes)
+        gen_interfaces(write, args.classes)
         gen_class_constructs(write, args.class_constructs)
         gen_conditional_structs(write, args.conditionals)
         gen_loops(write, args.loops)

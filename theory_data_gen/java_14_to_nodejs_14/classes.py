@@ -2,50 +2,50 @@ import random
 
 from tqdm import tqdm
 
-from theory_data_gen.common import gen_mask_token, add_mask_indices, add_scope_open_token, gen_item
+from theory_data_gen.common import add_mask_indices, add_scope_open_token, gen_item, gen_mask_token
 from theory_data_gen.constants import MASK_TOKEN
-from theory_data_gen.utils import join
+from .common import gen_interface_implementations, gen_inheritance
 from .generics import gen_type_generics
-from .java import gen_modifier_permutations, JAVA_ACCESS_MODIFIERS
-
-
-def gen_class_inheritance():
-    """Generate a Java class inheritance sequence."""
-
-    access_modifier = random.choice(JAVA_ACCESS_MODIFIERS)
-    return f'{access_modifier} {MASK_TOKEN}'
+from .java import gen_modifier_permutations
 
 
 def gen_class_pairs():
     """Generate class pairs."""
 
-    # Generate mask tokens
-    m_class_name = gen_mask_token(0)
-
-    abstract = 'abstract ' if bool(random.getrandbits(1)) else ''
-
     # Generate generics
     generics = gen_type_generics()
 
-    # Generate inheritance
-    inheritance_range = range(0, 11)
-    inheritance_count = random.choices(inheritance_range, weights=(80, 70, 60, 40, 30, 20, 5, 4, 3, 2, 1), k=1)[0]
-    inheritance_prefix = ' : ' if inheritance_count > 0 else ''
-    inheritance = []
+    # Generate interface implementations
+    interface_impl_range = range(0, 11)
+    interface_impl_count = random.choices(interface_impl_range, weights=(80, 70, 60, 40, 30, 20, 5, 4, 3, 2, 1), k=1)[0]
+    interface_impl = gen_interface_implementations(interface_impl_count) if interface_impl_count > 0 else ''
 
-    for _ in range(inheritance_count):
-        inheritance.append(gen_class_inheritance())
+    # Generate base item
+    src_base = f'class {MASK_TOKEN}{generics}{interface_impl}'
+    tar_base = f'class {MASK_TOKEN}'
 
-    inheritance = join(inheritance, ', ')
+    src_base, src_base_last_idx = add_mask_indices(src_base)
+    tar_base, _ = add_mask_indices(tar_base)
+    item_base = gen_item(src_base, tar_base)
 
-    source = f'{abstract}class {m_class_name}{generics}{inheritance_prefix}{inheritance}'
-    source, _ = add_mask_indices(source, start_index=1)
-
-    target = f'class {m_class_name}'
-
-    items = gen_modifier_permutations(gen_item(source, target), include_static=False)
+    items = gen_modifier_permutations(item_base, include_static=False)
     items.extend(
         list(map(lambda i: add_scope_open_token(i), items))
+    )
+
+    # Generate item with inheritance
+    inheritance = gen_inheritance(1)
+    src_inher = f'class {MASK_TOKEN}{generics}{interface_impl}{inheritance}'
+    tar_inher = f'class {gen_mask_token(0)}{inheritance}'
+
+    src_inher, _ = add_mask_indices(src_inher)
+    tar_inher, _ = add_mask_indices(tar_inher, start_index=src_base_last_idx + 1)
+    item_inher = gen_item(src_inher, tar_inher)
+
+    all_inher_items = gen_modifier_permutations(item_inher, include_static=False)
+    items.extend(all_inher_items)
+    items.extend(
+        list(map(lambda i: add_scope_open_token(i), all_inher_items))
     )
 
     return items
