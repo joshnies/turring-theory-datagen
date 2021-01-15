@@ -1,11 +1,12 @@
 import argparse
+import csv
 
-from cases.jdereg.java_util.nodejs_14.generator import JderegJavaUtilGenerator
 from theory_data_gen.lvp import LVP
-from theory_data_gen.output import create_output_file, deduplicate_lines
+from theory_data_gen.output import create_output_file, deduplicate_lines, CSV_COLUMNS
 from theory_data_gen.base.cpp_17_to_nodejs_14.generator import Cpp17ToNodeJS14Generator
 from theory_data_gen.base.java_14_to_nodejs_14.generator import Java14ToNodeJS14Generator
 from theory_data_gen.base.java_14_to_python_3.generator import Java14ToPython3Generator
+from theory_data_gen.cases.jdereg.java_util.nodejs_14.generator import JderegJavaUtilGenerator
 
 # Parse args
 parser = argparse.ArgumentParser(description='Generate Theory dataset.')
@@ -55,13 +56,16 @@ elif lvp == LVP.JAVA_14_TO_PYTHON_3:
 else:
     raise Exception(f'Unimplemented language-version pair "{lvp.value}".')
 
+# Remove duplicated lines
+# NOTE: Deduplication is performed before case data generation due to a bug with file writing.
+deduplicate_lines(og_file_name, args.out)
+
 # Generate case data
+case_writer = csv.DictWriter(open(args.out, 'a', newline=''), fieldnames=CSV_COLUMNS)
+
 if case_name == 'jdereg/java-util':
-    JderegJavaUtilGenerator.generate(args, write_func)
+    JderegJavaUtilGenerator.generate(args, case_writer.writerow)
 elif case_name is not None:
     raise Exception(f'Unimplemented case "{case_name}".')
-
-# Remove duplicated lines
-deduplicate_lines(og_file_name, args.out)
 
 print('Output to {}'.format(args.out))

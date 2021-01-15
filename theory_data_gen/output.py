@@ -8,6 +8,8 @@ def create_output_file(file_path):
     """
     Create output CSV file.
 
+    :param file_path: File path.
+
     :returns: Function that, when called, writes the given data to the output file.
     """
 
