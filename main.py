@@ -1,14 +1,16 @@
 import argparse
 
+from cases.jdereg.java_util.nodejs_14.generator import JderegJavaUtilGenerator
 from theory_data_gen.lvp import LVP
 from theory_data_gen.output import create_output_file, deduplicate_lines
-from cpp_17_to_nodejs_14.generator import Cpp17ToNodeJS14Generator
-from java_14_to_nodejs_14.generator import Java14ToNodeJS14Generator
-from java_14_to_python_3.generator import Java14ToPython3Generator
+from theory_data_gen.base.cpp_17_to_nodejs_14.generator import Cpp17ToNodeJS14Generator
+from theory_data_gen.base.java_14_to_nodejs_14.generator import Java14ToNodeJS14Generator
+from theory_data_gen.base.java_14_to_python_3.generator import Java14ToPython3Generator
 
 # Parse args
 parser = argparse.ArgumentParser(description='Generate Theory dataset.')
 parser.add_argument('-l', '--lvp', help='Language-version pair', required=True)
+parser.add_argument('-c', '--case', help='Case module used for additional data generation')
 parser.add_argument('-o', '--out', help='Output file path', required=True)
 parser.add_argument('--vars', help='Number of variables', type=int, required=True)
 parser.add_argument('--arr-vars', help='Number of array variables', type=int, required=True)
@@ -37,19 +39,27 @@ except Exception:
     print(f'Unknown language-version pair "{args.lvp}".')
     raise Exception()
 
+case_name = args.case.lower() if args.case is not None else None
+
 # Create output file
 og_file_name = f'{args.out}_DUP'
 write_func = create_output_file(og_file_name)
 
-# Generate data
+# Generate base LVP data
 if lvp == LVP.CPP_17_TO_NODEJS_14:
-    data = Cpp17ToNodeJS14Generator.generate(args, write_func)
+    Cpp17ToNodeJS14Generator.generate(args, write_func)
 elif lvp == LVP.JAVA_14_TO_NODEJS_14:
-    data = Java14ToNodeJS14Generator.generate(args, write_func)
+    Java14ToNodeJS14Generator.generate(args, write_func)
 elif lvp == LVP.JAVA_14_TO_PYTHON_3:
-    data = Java14ToPython3Generator.generate(args, write_func)
+    Java14ToPython3Generator.generate(args, write_func)
 else:
     raise Exception(f'Unimplemented language-version pair "{lvp.value}".')
+
+# Generate case data
+if case_name == 'jdereg/java-util':
+    JderegJavaUtilGenerator.generate(args, write_func)
+elif case_name is not None:
+    raise Exception(f'Unimplemented case "{case_name}".')
 
 # Remove duplicated lines
 deduplicate_lines(og_file_name, args.out)
