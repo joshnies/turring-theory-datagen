@@ -2,9 +2,9 @@ import argparse
 
 from theory_data_gen.lvp import LVP
 from theory_data_gen.output import create_output_file, deduplicate_lines
-from cpp_17_to_nodejs_14.generator import Cpp17ToNodeJS14Generator
-from java_14_to_nodejs_14.generator import Java14ToNodeJS14Generator
-from java_14_to_python_3.generator import Java14ToPython3Generator
+from theory_data_gen.base.cpp_17_to_nodejs_14.generator import Cpp17ToNodeJS14Generator
+from theory_data_gen.base.java_14_to_nodejs_14.generator import Java14ToNodeJS14Generator
+from theory_data_gen.base.java_14_to_python_3.generator import Java14ToPython3Generator
 
 # Parse args
 parser = argparse.ArgumentParser(description='Generate Theory dataset.')
