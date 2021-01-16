@@ -1,5 +1,6 @@
 import argparse
 import csv
+import time
 
 from theory_data_gen.lvp import LVP
 from theory_data_gen.output import create_output_file, deduplicate_lines, CSV_COLUMNS
@@ -56,9 +57,8 @@ elif lvp == LVP.JAVA_14_TO_PYTHON_3:
 else:
     raise Exception(f'Unimplemented language-version pair "{lvp.value}".')
 
-# Remove duplicated lines
-# NOTE: Deduplication is performed before case data generation due to a bug with file writing.
-deduplicate_lines(og_file_name, args.out)
+# Sleep in order to prevent file IO race condition
+time.sleep(1)
 
 # Generate case data
 case_writer = csv.DictWriter(open(args.out, 'a', newline=''), fieldnames=CSV_COLUMNS)
@@ -67,5 +67,11 @@ if case_name == 'jdereg/java-util':
     JderegJavaUtilGenerator.generate(args, case_writer.writerow)
 elif case_name is not None:
     raise Exception(f'Unimplemented case "{case_name}".')
+
+# Sleep in order to prevent file IO race condition
+time.sleep(1)
+
+# Remove duplicated lines
+deduplicate_lines(og_file_name, args.out)
 
 print('Output to {}'.format(args.out))
