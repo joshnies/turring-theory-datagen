@@ -1,3 +1,4 @@
+from constants import MEMBER_TOKEN
 from theory_data_gen.common import gen_item
 from theory_data_gen.common.java import JAVA_ACCESS_MODIFIERS
 
@@ -41,5 +42,25 @@ def gen_modifier_permutations(item, include_abstract=True, include_static=True, 
             new_items.append((f'{m} final {src}', f'{tar}'))
 
     new_items = list(map(lambda i: gen_item(i[0].strip(), i[1].strip()), new_items))
+
+    return new_items
+
+
+def to_member_items(items, add_to_src=True, add_to_tar=True):
+    """
+    Add member token prefix to the given items.
+
+    :returns: List of items.
+    """
+
+    new_items = list()
+
+    for i in items:
+        src = i['source']
+        tar = i['target']
+
+        new_src = f'{MEMBER_TOKEN} {src}' if add_to_src else src
+        new_tar = f'{MEMBER_TOKEN} {tar}' if add_to_tar else tar
+        new_items.append(gen_item(new_src, new_tar))
 
     return new_items

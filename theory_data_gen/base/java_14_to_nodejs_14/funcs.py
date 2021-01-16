@@ -2,9 +2,9 @@ import random
 
 from tqdm import tqdm
 
-from theory_data_gen.common import gen_mask_token, gen_item, add_scope_open_token, add_line_end_token
+from theory_data_gen.common import gen_mask_token, gen_item, add_line_end_token
 from theory_data_gen.common.java import JAVA_PRIM_TYPES
-from .java import gen_modifier_permutations
+from .java import gen_modifier_permutations, to_member_items
 
 
 def __gen_spread_arg_pair(mask_index: int):
@@ -102,35 +102,44 @@ def __gen_func_items():
     src_args_str = ', '.join(src_args)
     tar_args_str = ', '.join(tar_args)
 
-    def gen_func_permutations(constructor=False):
+    def gen_func_permutations(constructor=False, member=False):
         conditional_source_return_type = '' if constructor else src_return_type
 
-        # Without ending "{"
-        items = gen_modifier_permutations(
-            gen_item(f'{conditional_source_return_type} {m_func_name}({src_args_str})'.strip(),
-                     f'const {m_func_name} = ({tar_args_str}) =>'))
+        js_func_name = 'constructor' if constructor else m_func_name
+        js_const = 'const ' if not member else ''
+        js_func_assign = ' = ' if not member else ''
+        js_func_arrow = ' =>' if not member else ''
 
-        # With ending "{"
-        items.extend(
-            list(map(lambda i: add_scope_open_token(i), items))
+        # Generate source/target
+        src = f'{conditional_source_return_type} {m_func_name}({src_args_str})'.strip()
+        tar = f'{js_const}{js_func_name}{js_func_assign}({tar_args_str}){js_func_arrow}'
+
+        # Base items with modifier permuations, all including ending "{"
+        items = gen_modifier_permutations(
+            gen_item(
+                f'{src} {{',
+                f'{tar} {{'
+            )
         )
 
         # With line end tokens
         items.extend(
-            list(map(lambda i: add_line_end_token(i, tar_token=' {}'), items))
+            gen_modifier_permutations(
+                gen_item(
+                    f'{src};',
+                    f'{tar.strip()} {{}}'
+                )
+            )
         )
 
-        # With open arg list (e.g. "void main (")
-        items.extend(
-            gen_modifier_permutations(gen_item(
-                f'{conditional_source_return_type} {m_func_name}('.strip(),
-                f'const {m_func_name} = ('
-            ))
-        )
+        # Add member permutations
+        if member:
+            items = to_member_items(items, add_to_tar=False)
 
         return items
 
     items = gen_func_permutations(constructor=False)
+    items.extend(gen_func_permutations(constructor=False, member=True))
     items.extend(gen_func_permutations(constructor=True))
 
     return items
