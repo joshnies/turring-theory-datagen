@@ -46,7 +46,7 @@ def gen_modifier_permutations(item, include_abstract=True, include_static=True, 
     return new_items
 
 
-def to_member_items(items, add_to_src=True, add_to_tar=True):
+def to_member_items(items):
     """
     Add member token prefix to the given items.
 
@@ -59,8 +59,7 @@ def to_member_items(items, add_to_src=True, add_to_tar=True):
         src = i['source']
         tar = i['target']
 
-        new_src = f'{MEMBER_TOKEN} {src}' if add_to_src else src
-        new_tar = f'{MEMBER_TOKEN} {tar}' if add_to_tar else tar
-        new_items.append(gen_item(new_src, new_tar))
+        new_src = f'{MEMBER_TOKEN} {src}'
+        new_items.append(gen_item(new_src, tar))
 
     return new_items

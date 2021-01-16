@@ -134,7 +134,7 @@ def __gen_func_items():
 
         # Add member permutations
         if member:
-            items = to_member_items(items, add_to_tar=False)
+            items = to_member_items(items)
 
         return items
 
