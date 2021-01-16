@@ -8,10 +8,10 @@ from theory_data_gen.constants import MASK_TOKEN
 from .arithmetic import gen_arithmetic
 from .class_constructs import gen_class_construct_pair
 from .entity_chains import gen_entity_chain_pair
-from .java import gen_modifier_permutations
+from .java import gen_modifier_permutations, to_member_items
 
 
-def __gen_var_items(is_array=False):
+def __gen_var_items(is_array=False, member=False):
     """Generate variable items."""
 
     # Generate type declarations
@@ -27,7 +27,7 @@ def __gen_var_items(is_array=False):
         else:
             src_decl = random.choice(JAVA_PRIM_TYPES_W_MASK) + ' '
 
-    tar_decl = 'let ' if has_type else ''
+    tar_decl = 'let ' if has_type and not member else ''
     tar_name_mask_index = 1 if src_decl.strip() == MASK_TOKEN else 0
 
     # Generate default values
@@ -65,10 +65,16 @@ def __gen_var_items(is_array=False):
     # Add mask indices
     source, _ = add_mask_indices(source)
     target, _ = add_mask_indices(target, tar_name_mask_index + (2 if is_array else 1))
+
     base_item = gen_item(source, target)
+
+    # Add modifier permutations
     items = gen_modifier_permutations(base_item, include_abstract=False) if has_type else [base_item]
 
-    # Generate permutations
+    # Convert to member variable items
+    if member:
+        items = to_member_items(items)
+
     return items
 
 
@@ -77,10 +83,16 @@ def gen_vars(write, standard_count: int, array_count: int):
 
     # Generate standard variables
     for _ in tqdm(range(standard_count), desc='Generating variables'):
-        for i in __gen_var_items():
+        items = __gen_var_items(member=False)
+        items.extend(__gen_var_items(member=True))
+
+        for i in items:
             write(i)
 
     # Generate array variables
     for _ in tqdm(range(array_count), desc='Generating array variables'):
-        for i in __gen_var_items(is_array=True):
+        items = __gen_var_items(is_array=True, member=False)
+        items.extend(__gen_var_items(is_array=True, member=True))
+
+        for i in items:
             write(i)
