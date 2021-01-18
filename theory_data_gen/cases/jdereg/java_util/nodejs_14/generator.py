@@ -3,15 +3,17 @@ from theory_data_gen.constants import MEMBER_TOKEN
 from theory_data_gen.generator import Generator
 
 
-class JderegJavaUtilGenerator(Generator):
+class JderegJavaUtilToNodeJs14Generator(Generator):
     """
     Case generator for "jdereg/java-util":
     https://github.com/jdereg/java-util
+
+    Target: Node.js 14
     """
 
     @staticmethod
     def generate(args, write):
-        print('\nGenerating case data for "jdereg/java-util"')
+        print('\nGenerating case data for "jdereg/java-util" --> Node.js 14')
 
         items = [
             gen_item(

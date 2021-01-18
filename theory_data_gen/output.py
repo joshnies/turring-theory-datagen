@@ -10,7 +10,9 @@ def create_output_file(file_path):
 
     :param file_path: File path.
 
-    :returns: Function that, when called, writes the given data to the output file.
+    :returns: Tuple of:
+        - File setup for appending writes.
+        - Function that, when called, writes the given data to the output file.
     """
 
     try:
@@ -20,8 +22,9 @@ def create_output_file(file_path):
     except IOError:
         print('I/O Error while creating output file.')
 
-    writer = csv.DictWriter(open(file_path, 'a', newline=''), fieldnames=CSV_COLUMNS)
-    return writer.writerow
+    file_for_append = open(file_path, 'a', newline='')
+    writer = csv.DictWriter(file_for_append, fieldnames=CSV_COLUMNS)
+    return file_for_append, writer.writerow
 
 
 def deduplicate_lines(input_file_path: str, output_file_path: str):

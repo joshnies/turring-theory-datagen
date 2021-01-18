@@ -7,13 +7,15 @@ from theory_data_gen.output import create_output_file, deduplicate_lines, CSV_CO
 from theory_data_gen.base.cpp_17_to_nodejs_14.generator import Cpp17ToNodeJS14Generator
 from theory_data_gen.base.java_14_to_nodejs_14.generator import Java14ToNodeJS14Generator
 from theory_data_gen.base.java_14_to_python_3.generator import Java14ToPython3Generator
-from theory_data_gen.cases.jdereg.java_util.nodejs_14.generator import JderegJavaUtilGenerator
+from theory_data_gen.cases.jdereg.java_util.nodejs_14.generator import JderegJavaUtilToNodeJs14Generator
 
 # Parse args
 parser = argparse.ArgumentParser(description='Generate Theory dataset.')
 parser.add_argument('-l', '--lvp', help='Language-version pair', required=True)
 parser.add_argument('-c', '--case', help='Case module used for additional data generation')
 parser.add_argument('-o', '--out', help='Output file path', required=True)
+parser.add_argument('--minimal', help='Whether to only generate minimal required data for the LVP. Intended for use ' +
+                                      'with a case module.', action='store_true')
 parser.add_argument('--vars', help='Number of variables', type=int, required=True)
 parser.add_argument('--arr-vars', help='Number of array variables', type=int, required=True)
 parser.add_argument('--arr-var-defs', help='Number of array variable definitions (with no default value)', type=int,
@@ -44,8 +46,8 @@ except Exception:
 case_name = args.case.lower() if args.case is not None else None
 
 # Create output file
-og_file_name = f'{args.out}_DUP'
-write_func = create_output_file(og_file_name)
+og_file_name = f'{args.out[:-4]}_DUP.csv'
+dup_file, write_func = create_output_file(og_file_name)
 
 # Generate base LVP data
 if lvp == LVP.CPP_17_TO_NODEJS_14:
@@ -57,19 +59,13 @@ elif lvp == LVP.JAVA_14_TO_PYTHON_3:
 else:
     raise Exception(f'Unimplemented language-version pair "{lvp.value}".')
 
-# Sleep in order to prevent file IO race condition
-time.sleep(1)
-
 # Generate case data
-case_writer = csv.DictWriter(open(args.out, 'a', newline=''), fieldnames=CSV_COLUMNS)
-
-if case_name == 'jdereg/java-util':
-    JderegJavaUtilGenerator.generate(args, case_writer.writerow)
+if case_name == 'jdereg/java-util_to_nodejs_14':
+    JderegJavaUtilToNodeJs14Generator.generate(args, write_func)
 elif case_name is not None:
     raise Exception(f'Unimplemented case "{case_name}".')
 
-# Sleep in order to prevent file IO race condition
-time.sleep(1)
+dup_file.close()
 
 # Remove duplicated lines
 deduplicate_lines(og_file_name, args.out)
