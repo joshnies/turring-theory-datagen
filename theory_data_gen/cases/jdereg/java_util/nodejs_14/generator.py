@@ -37,12 +37,19 @@ class JderegJavaUtilGenerator(Generator):
                 f'{gen_mask_token(0)} = new Set();'
             ),
             gen_item(
+                f'{MEMBER_TOKEN} public {gen_mask_token(0)} {gen_mask_token(1)}(Object {gen_mask_token(2)}) {{',
+                f'{gen_mask_token(1)}(key) {{'
+            ),
+            gen_item(
                 f'{gen_mask_token(0)} {gen_mask_token(1)} = {gen_mask_token(2)}.{gen_mask_token(3)}({gen_mask_token(4)});',
                 f'let {gen_mask_token(1)} = {gen_mask_token(2)}.{gen_mask_token(3)}({gen_mask_token(4)});'
             ),
             gen_item(
                 f'{gen_mask_token(0)}.{gen_mask_token(1)}(({gen_mask_token(2)}) {gen_mask_token(3)});',
                 f'{gen_mask_token(0)}.{gen_mask_token(1)}({gen_mask_token(3)});'
+            ),
+            gen_item(
+                f'return {gen_mask_token(0)};'
             ),
             gen_item(
                 f'{MEMBER_TOKEN} public {gen_mask_token(0)} {gen_mask_token(1)}({gen_mask_token(2)} {gen_mask_token(3)}, {gen_mask_token(4)} {gen_mask_token(5)}) {{',
@@ -67,8 +74,37 @@ class JderegJavaUtilGenerator(Generator):
                 f'{gen_mask_token(0)}.{gen_mask_token(1)}({gen_mask_token(2)});'
             ),
             gen_item(
+                f'return {gen_mask_token(0)}.{gen_mask_token(1)}({gen_mask_token(2)});'
+            ),
+            gen_item(
+                f'{MEMBER_TOKEN} public int {gen_mask_token(0)}() {{',
+                f'{gen_mask_token(0)}() {{'
+            ),
+            gen_item(
+                f'return {gen_mask_token(0)}.{gen_mask_token(1)}();'
+            ),
+            gen_item(
+                f'{MEMBER_TOKEN} public boolean {gen_mask_token(0)}() {{',
+                f'{gen_mask_token(0)}() {{'
+            ),
+            gen_item(
+                f'{MEMBER_TOKEN} public boolean {gen_mask_token(0)}(Object {gen_mask_token(1)}) {{',
+                f'{gen_mask_token(0)}({gen_mask_token(1)}) {{'
+            ),
+            gen_item(
                 f'return {gen_mask_token(0)} instanceof Map && {gen_mask_token(1)}.{gen_mask_token(2)}({gen_mask_token(3)});',
                 f'return {gen_mask_token(0)} instanceof Object && {gen_mask_token(1)}.{gen_mask_token(2)}({gen_mask_token(3)});'
+            ),
+            gen_item(
+                f'{MEMBER_TOKEN} public String {gen_mask_token(0)}() {{',
+                f'{gen_mask_token(0)}() {{'
+            ),
+            gen_item(
+                f'{MEMBER_TOKEN} public void {gen_mask_token(0)}() {{',
+                f'{gen_mask_token(0)}() {{'
+            ),
+            gen_item(
+                f'{gen_mask_token(0)}.{gen_mask_token(1)}();',
             ),
             gen_item(
                 f'{MEMBER_TOKEN} public Collection<{gen_mask_token(0)}> {gen_mask_token(1)}() {{',
