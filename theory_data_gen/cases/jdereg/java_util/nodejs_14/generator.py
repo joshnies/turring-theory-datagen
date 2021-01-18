@@ -21,8 +21,16 @@ class JderegJavaUtilToNodeJs14Generator(Generator):
                 f'class {gen_mask_token(0)} implements Map {{'
             ),
             gen_item(
-                f'{MEMBER_TOKEN} private final {gen_mask_token(0)}<{gen_mask_token(1)}, {gen_mask_token(2)}> {gen_mask_token(3)};'
-                f'private {gen_mask_token(3)};'
+                f'{MEMBER_TOKEN} private final Map<{gen_mask_token(0)}, {gen_mask_token(1)}> {gen_mask_token(2)};'
+                f'private {gen_mask_token(2)};'
+            ),
+            gen_item(
+                f'{MEMBER_TOKEN} private final Set<{gen_mask_token(0)}> {gen_mask_token(1)};'
+                f'private {gen_mask_token(1)};'
+            ),
+            gen_item(
+                f'public {gen_mask_token(0)}(Map<{gen_mask_token(1)}, {gen_mask_token(2)}> {gen_mask_token(3)}) {{'
+                f'constructor({gen_mask_token(3)}) {{'
             ),
             gen_item(
                 f'if ({gen_mask_token(0)} == null) {{'
@@ -59,6 +67,9 @@ class JderegJavaUtilToNodeJs14Generator(Generator):
             ),
             gen_item(
                 f'return {gen_mask_token(0)}.{gen_mask_token(1)}({gen_mask_token(2)}, {gen_mask_token(3)});'
+            ),
+            gen_item(
+                f'return {gen_mask_token(0)}({gen_mask_token(1)}, {gen_mask_token(2)});',
             ),
             gen_item(
                 f'{MEMBER_TOKEN} public boolean {gen_mask_token(0)}({gen_mask_token(1)} {gen_mask_token(2)}) {{',
@@ -140,6 +151,22 @@ class JderegJavaUtilToNodeJs14Generator(Generator):
             ),
             gen_item(
                 f'return {gen_mask_token(0)}();'
+            ),
+            gen_item(
+                f'{gen_mask_token(0)}(({gen_mask_token(1)}){gen_mask_token(2)});',
+                f'{gen_mask_token(0)}({gen_mask_token(2)});'
+            ),
+            gen_item(
+                f'{gen_mask_token(0)}({gen_mask_token(1)});'
+            ),
+            gen_item(
+                f'return {gen_mask_token(0)}({gen_mask_token(1)});'
+            ),
+            gen_item(
+                f'return {gen_mask_token(0)}();'
+            ),
+            gen_item(
+                f'{gen_mask_token(0)}();'
             )
         ]
 
