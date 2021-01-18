@@ -17,8 +17,8 @@ class JderegJavaUtilToNodeJs14Generator(Generator):
 
         items = [
             gen_item(
-                f'public class {gen_mask_token(0)}<{gen_mask_token(1)}, {gen_mask_token(2)}> implements {gen_mask_token(3)}<{gen_mask_token(4)}, {gen_mask_token(5)}> {{'
-                f'class {gen_mask_token(0)} implements {gen_mask_token(3)} {{'
+                f'public class {gen_mask_token(0)}<{gen_mask_token(1)}, {gen_mask_token(2)}> implements Map<{gen_mask_token(3)}, {gen_mask_token(4)}> {{'
+                f'class {gen_mask_token(0)} implements Map {{'
             ),
             gen_item(
                 f'{MEMBER_TOKEN} private final {gen_mask_token(0)}<{gen_mask_token(1)}, {gen_mask_token(2)}> {gen_mask_token(3)};'
@@ -137,6 +137,9 @@ class JderegJavaUtilToNodeJs14Generator(Generator):
             gen_item(
                 f'{MEMBER_TOKEN} public Map {gen_mask_token(0)}() {{',
                 f'{gen_mask_token(0)}() {{'
+            ),
+            gen_item(
+                f'return {gen_mask_token(0)}();'
             )
         ]
 
