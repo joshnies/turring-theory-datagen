@@ -24,6 +24,14 @@ class Java14ToNodeJS14Generator(Generator):
     def generate(args, write):
         print('\nGenerating dataset for Java 14 --> Node.js 14')
 
+        # Minimal generation
+        gen_catch_blocks(write)
+        gen_comments(write)
+
+        if args.minimal:
+            return
+
+        # Standard generation
         gen_vars(write, standard_count=args.vars, array_count=args.arr_vars)
         gen_var_defs(write, array_count=args.arr_var_defs)
         gen_funcs(write, args.functions)
@@ -36,7 +44,5 @@ class Java14ToNodeJS14Generator(Generator):
         gen_for_loop_inputs(write, args.for_loop_inputs)
         gen_switch_data(write, switch_count=args.switches, case_count=args.switch_cases)
         gen_returns(write, args.returns)
-        gen_catch_blocks(write)
-        gen_comments(write)
         gen_couts(write, args.cout)
         gen_rogue_arithmetic(write, args.arithmetic)
