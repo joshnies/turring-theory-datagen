@@ -1,60 +1,103 @@
-import random
-
-from theory_data_gen.common import gen_item, add_mask_indices, gen_mask_token
-from theory_data_gen.constants import MASK_TOKEN
+from theory_data_gen.common import gen_item, gen_mask_token
 
 
-def __gen_var_type():
-    """Generate variable type."""
-
-    choice = random.choice(range(0, 5))
-
-    # we really don't care about the range size unless it's 18 - then it's a 'long'
-    int_arg_range = [3, 4, 9, 18]
-    int_arg_count = random.choices(int_arg_range, weights=(10, 40, 40, 10), k=1)[0]
-
-    if choice == 0:
-        # Generate alphanumeric type
-        str_arg_range = range(1, 100)
-        return f'X({str_arg_range})'
-    elif choice == 1:
-        # Generate numeric
-        return f'9({int_arg_count})'
-    elif choice == 2:
-        # Generate char
-        return f'N'
-    elif choice == 3:
-        # Generate alphabetic
-        return f'A({int_arg_count})'
-    elif choice == 4:
-        # Generate float
-        rand_decimal_places = range(1, 9)
-        return f' S9({int_arg_count})V9{rand_decimal_places}'
-    else:
-        # Generate signed numeric
-        return f'S9({int_arg_count})'
-
-
-def __gen_var_items():
-    """Generate variable items."""
-
-    # Generate source/target
-    # 01 VarName PIC <type>.
-    source = f'{MASK_TOKEN} {MASK_TOKEN} PIC {__gen_var_type()}.'
-    # TODO - how do we know if private/public?
-    # TODO - what index used with gen_mask_token?
-    # TODO - how do we handle default vals
-    target = f'private {gen_mask_token(0)} todo'
-
-    item = gen_item(source, target)
-    item, _ = add_mask_indices(item)
-
-    return [item]
-
-
-def gen_vars(write, count):
+def gen_vars(write):
     """Generate variables."""
 
-    for _ in range(count):
-        for i in __gen_var_items():
-            write(i)
+    # Generate static mask tokens
+    m_level = gen_mask_token(0)
+    m_name = gen_mask_token(1)
+    m_size = gen_mask_token(2)
+
+    pairs = list([
+        # Definitions without default value
+        (
+            f'{m_level} {m_name} PIC X({m_size}).',
+            f'var {m_name} = new COBOLVar("", {m_size});'
+        ),
+        (
+            f'{m_level} {m_name} PIC A({m_size}).',
+            f'var {m_name} = new COBOLVar("", {m_size});'
+        ),
+        (
+            f'{m_level} {m_name} PIC 9({m_size}).',
+            f'var {m_name} = new COBOLVar(0, {m_size});'
+        ),
+        (
+            f'{m_level} {m_name} PIC S9({m_size}).',
+            f'var {m_name} = new COBOLVar(0, {m_size});'
+        ),
+        (
+            f'{m_level} {m_name} PIC S9({m_size})V9({gen_mask_token(3)}).',
+            # NOTE: Literal operations are calculated at compile-time in C#
+            f'var {m_name} = new COBOLVar("", {m_size} + {gen_mask_token(3)});'
+        ),
+        # Definitions with default value
+        (
+            f'{m_level} {m_name} PIC X({m_size}) VALUE \'{gen_mask_token(3)}\'.',
+            f'var {m_name} = new COBOLVar("{gen_mask_token(3)}", {m_size});'
+        ),
+        (
+            f'{m_level} {m_name} PIC A({m_size}) VALUE \'{gen_mask_token(3)}\'.',
+            f'var {m_name} = new COBOLVar("{gen_mask_token(3)}", {m_size});'
+        ),
+        (
+            f'{m_level} {m_name} PIC 9({m_size}) VALUE {gen_mask_token(3)}.',
+            f'var {m_name} = new COBOLVar({gen_mask_token(3)}, {m_size});'
+        ),
+        (
+            f'{m_level} {m_name} PIC S9({m_size}) VALUE {gen_mask_token(3)}.',
+            f'var {m_name} = new COBOLVar({gen_mask_token(3)}, {m_size});'
+        ),
+        (
+            f'{m_level} {m_name} PIC S9({m_size})V9({gen_mask_token(3)}) VALUE {gen_mask_token(4)}.',
+            # NOTE: C# requires "f" suffix for float literals
+            f'var {m_name} = new COBOLVar({gen_mask_token(4)}f, {m_size} + {gen_mask_token(3)});'
+        ),
+        # Integers with literal 0 default value
+        (
+            f'{m_level} {m_name} PIC 9({m_size}) VALUE ZERO.',
+            f'var {m_name} = new COBOLVar(0, {m_size});'
+        ),
+        (
+            f'{m_level} {m_name} PIC 9({m_size}) VALUE ZEROS.',
+            f'var {m_name} = new COBOLVar(0, {m_size});'
+        ),
+        (
+            f'{m_level} {m_name} PIC 9({m_size}) VALUE ZEROES.',
+            f'var {m_name} = new COBOLVar(0, {m_size});'
+        ),
+        # Signed integers with literal 0 default value
+        (
+            f'{m_level} {m_name} PIC S9({m_size}) VALUE ZERO.',
+            f'var {m_name} = new COBOLVar(0, {m_size});'
+        ),
+        (
+            f'{m_level} {m_name} PIC S9({m_size}) VALUE ZEROS.',
+            f'var {m_name} = new COBOLVar(0, {m_size});'
+        ),
+        (
+            f'{m_level} {m_name} PIC S9({m_size}) VALUE ZEROES.',
+            f'var {m_name} = new COBOLVar(0, {m_size});'
+        ),
+        # Floats with literal 0 default value
+        (
+            f'{m_level} {m_name} PIC S9({m_size})V9({gen_mask_token(3)}) VALUE ZERO.',
+            f'var {m_name} = new COBOLVar(0.0f, {m_size} + {gen_mask_token(3)});'
+        ),
+        (
+            f'{m_level} {m_name} PIC S9({m_size})V9({gen_mask_token(3)}) VALUE ZEROS.',
+            f'var {m_name} = new COBOLVar(0.0f, {m_size} + {gen_mask_token(3)});'
+        ),
+        (
+            f'{m_level} {m_name} PIC S9({m_size})V9({gen_mask_token(3)}) VALUE ZEROES.',
+            f'var {m_name} = new COBOLVar(0.0f, {m_size} + {gen_mask_token(3)});'
+        ),
+    ])
+
+    # Convert pairs to writable items
+    items = map(lambda p: gen_item(p), pairs)
+
+    # Write items to output
+    for i in items:
+        write(i)
