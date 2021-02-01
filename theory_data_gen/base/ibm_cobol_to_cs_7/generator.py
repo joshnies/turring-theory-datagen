@@ -9,5 +9,6 @@ class IBMCobolToCS7Generator(Generator):
     def generate(args, write):
         print('\nGenerating dataset for IBM COBOL --> C# 7')
 
-        gen_vars(write, count=args.vars)
-        # ...
+        gen_vars(write)
+
+        # TODO: Implement remaining data
