@@ -5,7 +5,7 @@ from theory_data_gen.output import create_output_file, deduplicate_lines
 from theory_data_gen.base.cpp_17_to_nodejs_14.generator import Cpp17ToNodeJS14Generator
 from theory_data_gen.base.java_14_to_nodejs_14.generator import Java14ToNodeJS14Generator
 from theory_data_gen.base.java_14_to_python_3.generator import Java14ToPython3Generator
-from theory_data_gen.base.ibm_cobol_to_cs_7.generator import IBMCobolToCS7Generator
+from theory_data_gen.base.cobol_to_cs_7.generator import CobolToCS7Generator
 from theory_data_gen.cases.jdereg.java_util.nodejs_14.generator import JderegJavaUtilToNodeJs14Generator
 
 # Parse args
@@ -55,8 +55,8 @@ elif lvp == LVP.JAVA_14_TO_NODEJS_14:
     Java14ToNodeJS14Generator.generate(args, write_func)
 elif lvp == LVP.JAVA_14_TO_PYTHON_3:
     Java14ToPython3Generator.generate(args, write_func)
-elif lvp == LVP.IBM_COBOL_TO_CS_7:
-    IBMCobolToCS7Generator.generate(args, write_func)
+elif lvp == LVP.COBOL_TO_CS_7:
+    CobolToCS7Generator.generate(args, write_func)
 else:
     raise Exception(f'Unimplemented language-version pair "{lvp.value}".')
 
