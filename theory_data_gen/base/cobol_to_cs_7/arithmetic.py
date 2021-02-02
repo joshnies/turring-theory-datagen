@@ -42,6 +42,32 @@ def __gen_giving_addition(count: int):
     return gen_item(src, tar)
 
 
+def __gen_from_subtraction():
+    """Generate "FROM" syntax subtraction items."""
+
+    # Generate source
+    src = f'SUBTRACT {gen_mask_token(0)} FROM {gen_mask_token(1)}.'
+
+    # Generate target
+    tar = f'{gen_mask_token(1)}.Subtract({gen_mask_token(0)});'
+
+    # Generate item
+    return gen_item(src, tar)
+
+
+def __gen_giving_subtraction():
+    """Generate "GIVING" syntax subtraction items."""
+
+    # Generate source
+    src = f'SUBTRACT {gen_mask_token(0)} FROM {gen_mask_token(1)} GIVING {gen_mask_token(2)}.'
+
+    # Generate target
+    tar = f'{gen_mask_token(2)}.Set({gen_mask_token(1)} - {gen_mask_token(0)});'
+
+    # Generate item
+    return gen_item(src, tar)
+
+
 def gen_arithmetic(write):
     """
     Generate arithmetic expressions.
@@ -55,6 +81,8 @@ def gen_arithmetic(write):
     for count in tqdm(range(1, 11), desc='Generating arithmetic'):
         items.append(__gen_to_addition(count))
         items.append(__gen_giving_addition(count))
+        items.append(__gen_from_subtraction())
+        items.append(__gen_giving_subtraction())
 
         # TODO: Implement subtraction
         # TODO: Implement multiplication
