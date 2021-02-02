@@ -16,7 +16,7 @@ def gen_vars(write):
         m_name = gen_mask_token(1)
         m_size = gen_mask_token(2)
 
-        pairs = list([
+        pairs = [
             # Definitions without default value
             (
                 f'{m_level} {m_name} PIC X({m_size}).',
@@ -100,10 +100,10 @@ def gen_vars(write):
                 f'{m_level} {m_name} PIC S9({m_size})V9({gen_mask_token(3)}) VALUE ZEROES.',
                 f'private COBOLVar {m_name} = new COBOLVar(0.0f, {m_size} + {gen_mask_token(3)});'
             ),
-        ])
+        ]
 
         # Convert pairs to writable items
-        items = map(lambda p: gen_item(p), pairs)
+        items = map(lambda p: gen_item(p[0], p[1]), pairs)
 
         # Write items to output
         for i in items:
