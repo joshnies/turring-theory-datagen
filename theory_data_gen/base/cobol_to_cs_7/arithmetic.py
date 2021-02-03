@@ -94,6 +94,42 @@ def __gen_giving_mult():
     return gen_item(src, tar)
 
 
+def __gen_into_division():
+    """Generate "INTO" syntax division items."""
+
+    items = list()
+
+    # Generate normal
+    src = f'DIVIDE {gen_mask_token(0)} INTO {gen_mask_token(1)}.'
+    tar = f'{gen_mask_token(1)}.DivideBy({gen_mask_token(0)});'
+    items.append(gen_item(src, tar))
+
+    # Generate with remainder
+    src = src[:-1] + f' REMAINDER {gen_mask_token(2)}.'
+    tar = f'{gen_mask_token(1)}.DivideByWithRemainder({gen_mask_token(0)}, {gen_mask_token(2)});'
+    items.append(gen_item(src, tar))
+
+    return items
+
+
+def __gen_by_division():
+    """Generate "BY" syntax division items."""
+
+    items = list()
+
+    # Generate normal
+    src = f'DIVIDE {gen_mask_token(0)} BY {gen_mask_token(1)}.'
+    tar = f'{gen_mask_token(0)}.DivideBy({gen_mask_token(1)});'
+    items.append(gen_item(src, tar))
+
+    # Generate with remainder
+    src = src[:-1] + f' REMAINDER {gen_mask_token(2)}.'
+    tar = f'{gen_mask_token(0)}.DivideByWithRemainder({gen_mask_token(1)}, {gen_mask_token(2)});'
+    items.append(gen_item(src, tar))
+
+    return items
+
+
 def gen_arithmetic(write):
     """
     Generate arithmetic expressions.
@@ -111,8 +147,9 @@ def gen_arithmetic(write):
         items.append(__gen_giving_subtraction())
         items.append(__gen_by_mult())
         items.append(__gen_giving_mult())
+        items.extend(__gen_into_division())
+        items.extend(__gen_by_division())
 
-        # TODO: Implement division
         # TODO: Implement COMPUTE source keyword
         # TODO: Implement ROUNDED source keyword
 
