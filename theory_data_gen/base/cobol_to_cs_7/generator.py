@@ -12,7 +12,7 @@ class CobolToCS7Generator(Generator):
         print('\nGenerating dataset for COBOL --> C# 7')
 
         gen_vars(write)
-        gen_arithmetic(write)
+        gen_arithmetic(write, args.arithmetic)
         gen_stdout(write)
 
         # TODO: Implement remaining data

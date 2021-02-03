@@ -2,6 +2,7 @@ from tqdm import tqdm
 
 from theory_data_gen.common import add_mask_indices, gen_mask_token, gen_item
 from theory_data_gen.constants import MASK_TOKEN
+from utils import join_rand
 
 
 def __gen_to_addition(count: int):
@@ -130,27 +131,60 @@ def __gen_by_division():
     return items
 
 
-def gen_arithmetic(write):
+def __gen_compute(count: int, permutation_count: int):
+    """Generate "COMPUTE" syntax arithmetic items."""
+
+    items = list()
+    mask_start_idx = 1
+
+    # Generate math sequences
+    math_ops = ['+', '-', '*', '/', '**']
+    math_ops = list(map(lambda o: f' {o} ', math_ops))  # add spaces as padding for each operator
+    tokens = [MASK_TOKEN] * count
+
+    for _ in range(permutation_count):
+        math_seq = join_rand(tokens, math_ops)
+
+        # Generate source
+        src = f'COMPUTE {gen_mask_token(0)} = {math_seq}.'
+        src, _ = add_mask_indices(src, start_index=mask_start_idx)
+
+        # Generate target
+        tar = f'{gen_mask_token(0)}.Set({math_seq});'
+        tar, _ = add_mask_indices(tar, start_index=mask_start_idx)
+
+        # Generate item
+        items.append(gen_item(src, tar))
+
+    return items
+
+
+def gen_arithmetic(write, compute_permut_count: int):
     """
     Generate arithmetic expressions.
 
     :param write: CSV output write function.
+    :param compute_count: Number of COBOL "COMPUTE" arithmetic expressions to generate.
     """
 
     items = list()
 
     # Generate items
-    for count in tqdm(range(1, 11), desc='Generating arithmetic'):
+    items.append(__gen_from_subtraction())
+    items.append(__gen_giving_subtraction())
+    items.append(__gen_by_mult())
+    items.append(__gen_giving_mult())
+    items.extend(__gen_into_division())
+    items.extend(__gen_by_division())
+
+    for count in tqdm(range(1, 11), desc='Generating standard arithmetic'):
+        # Generate items with static counts
         items.append(__gen_to_addition(count))
         items.append(__gen_giving_addition(count))
-        items.append(__gen_from_subtraction())
-        items.append(__gen_giving_subtraction())
-        items.append(__gen_by_mult())
-        items.append(__gen_giving_mult())
-        items.extend(__gen_into_division())
-        items.extend(__gen_by_division())
 
-        # TODO: Implement COMPUTE source keyword
+        # Generate items with arbitrary counts (random generation)
+        items.extend(__gen_compute(count, compute_permut_count))
+
         # TODO: Implement ROUNDED source keyword
 
     # Write items
