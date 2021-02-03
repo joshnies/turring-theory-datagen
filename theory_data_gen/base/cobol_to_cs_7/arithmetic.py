@@ -68,6 +68,32 @@ def __gen_giving_subtraction():
     return gen_item(src, tar)
 
 
+def __gen_by_mult():
+    """Generate "BY" syntax multiplication items."""
+
+    # Generate source
+    src = f'MULTIPLY {gen_mask_token(0)} BY {gen_mask_token(1)}.'
+
+    # Generate target
+    tar = f'{gen_mask_token(0)}.MultiplyBy({gen_mask_token(1)});'
+
+    # Generate item
+    return gen_item(src, tar)
+
+
+def __gen_giving_mult():
+    """Generate "GIVING" syntax multiplication items."""
+
+    # Generate source
+    src = f'MULTIPLY {gen_mask_token(0)} BY {gen_mask_token(1)} GIVING {gen_mask_token(2)}.'
+
+    # Generate target
+    tar = f'{gen_mask_token(2)}.Set({gen_mask_token(0)} * {gen_mask_token(1)});'
+
+    # Generate item
+    return gen_item(src, tar)
+
+
 def gen_arithmetic(write):
     """
     Generate arithmetic expressions.
@@ -83,10 +109,12 @@ def gen_arithmetic(write):
         items.append(__gen_giving_addition(count))
         items.append(__gen_from_subtraction())
         items.append(__gen_giving_subtraction())
+        items.append(__gen_by_mult())
+        items.append(__gen_giving_mult())
 
-        # TODO: Implement subtraction
-        # TODO: Implement multiplication
         # TODO: Implement division
+        # TODO: Implement COMPUTE source keyword
+        # TODO: Implement ROUNDED source keyword
 
     # Write items
     for i in items:
