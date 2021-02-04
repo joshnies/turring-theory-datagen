@@ -2,9 +2,9 @@ import random
 
 from tqdm import tqdm
 
-from constants import MASK_TOKEN
-from theory_data_gen.common.cobol import COBOL_BOOL_OP_MAP, COBOL_SIGN_OP_MAP
-from theory_data_gen.common import gen_item, gen_mask_token, add_mask_indices
+from ...constants import MASK_TOKEN
+from ...common import gen_item, gen_mask_token, add_mask_indices
+from ...common.cobol import COBOL_BOOL_OP_MAP, COBOL_SIGN_OP_MAP
 
 
 def __gen_relation_condition():

@@ -1,6 +1,6 @@
 from yaspin import yaspin
 
-from theory_data_gen.common import gen_item, gen_mask_token
+from ...common import gen_item, gen_mask_token
 
 
 def gen_vars(write):

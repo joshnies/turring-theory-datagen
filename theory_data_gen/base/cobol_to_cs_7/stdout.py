@@ -3,8 +3,8 @@ from typing import List
 
 from yaspin import yaspin
 
-from theory_data_gen.common import gen_item, add_mask_indices
-from theory_data_gen.constants import MASK_TOKEN
+from ...common import gen_item, add_mask_indices
+from ...constants import MASK_TOKEN
 
 
 def __gen_write_line(val_list: List[str]):

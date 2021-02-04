@@ -1,4 +1,4 @@
-from theory_data_gen.generator import Generator
+from ...generator import Generator
 from .arithmetic import gen_arithmetic
 from .conditionals import gen_conditionals
 from .stdout import gen_stdout

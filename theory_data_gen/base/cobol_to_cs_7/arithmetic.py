@@ -1,8 +1,8 @@
 from tqdm import tqdm
 
-from theory_data_gen.common import add_mask_indices, gen_mask_token, gen_item
-from theory_data_gen.constants import MASK_TOKEN
-from theory_data_gen.utils import join_rand
+from ...common import add_mask_indices, gen_mask_token, gen_item
+from ...constants import MASK_TOKEN
+from ...utils import join_rand
 
 
 def __gen_to_addition(count: int):
