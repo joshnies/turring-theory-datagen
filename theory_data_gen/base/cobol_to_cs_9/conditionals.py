@@ -116,7 +116,7 @@ def __gen_conditional():
         all_src_conditions.append(c[0])
         all_tar_conditions.append(c[1])
 
-    # Generate item
+    # Generate base item
     src_condition = ' AND '.join(all_src_conditions)
     tar_condition = ' && '.join(all_tar_conditions)
 
@@ -126,6 +126,11 @@ def __gen_conditional():
     tar = f'if ({tar_condition}) {{'
     tar, _ = add_mask_indices(tar)
 
+    items.append(gen_item(src, tar))
+
+    # Generate "else if" item
+    src = 'ELSE-' + src
+    tar = 'else ' + tar
     items.append(gen_item(src, tar))
 
     return items
@@ -145,9 +150,17 @@ def gen_conditionals(write, count: int):
             f'if ({gen_mask_token(0)}) {{'
         ),
         (
+            f'ELSE-IF {gen_mask_token(0)} THEN',
+            f'else if ({gen_mask_token(0)}) {{'
+        ),
+        (
             f'IF NOT {gen_mask_token(0)} THEN',
             f'if (!{gen_mask_token(0)}) {{'
-        )
+        ),
+        (
+            f'ELSE-IF NOT {gen_mask_token(0)} THEN',
+            f'else if (!{gen_mask_token(0)}) {{'
+        ),
     ]
 
     items = list(map(lambda item: gen_item(item[0], item[1]), items))
