@@ -17,4 +17,6 @@ class CobolToCS7Generator(Generator):
         gen_conditionals(write, args.conditionals)
         gen_stdout(write)
 
-        # TODO: Implement remaining data
+        # TODO: Implement loops
+        # TODO: Implement built-in function calls
+        # TODO: Implement COBOL subroutines (freeform function calls)
