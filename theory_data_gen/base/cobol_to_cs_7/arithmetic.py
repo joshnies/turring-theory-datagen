@@ -2,7 +2,7 @@ from tqdm import tqdm
 
 from theory_data_gen.common import add_mask_indices, gen_mask_token, gen_item
 from theory_data_gen.constants import MASK_TOKEN
-from utils import join_rand
+from theory_data_gen.utils import join_rand
 
 
 def __gen_to_addition(count: int):
@@ -141,6 +141,8 @@ def __gen_compute(count: int, permutation_count: int):
     math_ops = ['+', '-', '*', '/', '**']
     math_ops = list(map(lambda o: f' {o} ', math_ops))  # add spaces as padding for each operator
     tokens = [MASK_TOKEN] * count
+
+    # TODO: Add support for parenthese-grouped arithmetic
 
     for _ in range(permutation_count):
         math_seq = join_rand(tokens, math_ops)
