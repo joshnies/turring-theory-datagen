@@ -25,7 +25,7 @@ COBOL_BOOL_OP_MAP = {
 
 
 COBOL_SIGN_OP_MAP = {
-    'IS POSITIVE': '> 0',
-    'IS NEGATIVE': '< 0',
-    'IS ZERO': '== 0',
+    'POSITIVE': '> 0',
+    'NEGATIVE': '< 0',
+    'ZERO': '== 0',
 }

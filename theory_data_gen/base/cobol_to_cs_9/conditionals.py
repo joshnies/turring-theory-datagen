@@ -14,8 +14,10 @@ def __gen_relation_condition():
     src_op = random.choice(list(COBOL_BOOL_OP_MAP.keys()))
     tar_op = COBOL_BOOL_OP_MAP[src_op]
 
+    src_is = 'IS ' if bool(random.getrandbits(1)) else ''
+
     # Generate pair
-    src = f'{MASK_TOKEN} {src_op} {MASK_TOKEN}'
+    src = f'{MASK_TOKEN} {src_is}{src_op} {MASK_TOKEN}'
     tar = f'{MASK_TOKEN} {tar_op} {MASK_TOKEN}'
 
     return src, tar
@@ -28,10 +30,8 @@ def __gen_sign_condition():
     src_op = random.choice(list(COBOL_SIGN_OP_MAP.keys()))
     tar_op = COBOL_SIGN_OP_MAP[src_op]
 
-    src_is = 'IS ' if bool(random.getrandbits(1)) else ''
-
-    # Generate without "IS"
-    src = f'{MASK_TOKEN} {src_is}{src_op} {MASK_TOKEN}'
+    # Generate
+    src = f'{MASK_TOKEN} {src_op} {MASK_TOKEN}'
     tar = f'{MASK_TOKEN} {tar_op} {MASK_TOKEN}'
 
     return src, tar
@@ -81,7 +81,7 @@ def __gen_name_condition():
     return src, tar
 
 
-def __gen_condition():
+def gen_condition():
     """Generate condition pair."""
 
     # Generate condition
@@ -112,7 +112,7 @@ def __gen_conditional():
     all_tar_conditions = list()
 
     for _ in range(random.choice(range(1, 6))):
-        c = __gen_condition()
+        c = gen_condition()
         all_src_conditions.append(c[0])
         all_tar_conditions.append(c[1])
 
