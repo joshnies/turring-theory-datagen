@@ -120,7 +120,7 @@ def __gen_conditional():
     src_condition = ' AND '.join(all_src_conditions)
     tar_condition = ' && '.join(all_tar_conditions)
 
-    src = f'IF {src_condition} THEN'
+    src = f'IF {src_condition}'
     src, _ = add_mask_indices(src)
 
     tar = f'if ({tar_condition}) {{'
