@@ -1,9 +1,8 @@
-import random
-
 from tqdm import tqdm
 
 from .conditionals import gen_condition
 from ...common import gen_mask_token, gen_item, add_mask_indices
+from ...common.cobol import COBOL_BOOL_OP_MAP
 
 
 def __gen_loop_items():
@@ -44,6 +43,19 @@ def __gen_loop_items():
     return items
 
 
+def __gen_varying_loops():
+    """Generate "VARYING UNTIL" loop structure items."""
+
+    items = list()
+
+    for src_op, tar_op in COBOL_BOOL_OP_MAP.items():
+        src = f'PERFORM {gen_mask_token(0)} VARYING {gen_mask_token(1)} 1 BY 1 UNTIL {gen_mask_token(1)} {src_op} {gen_mask_token(2)}.',
+        tar = f'while(!({gen_mask_token(1)} {tar_op} {gen_mask_token(2)})) {gen_mask_token(0)}();',
+        items.append(gen_item(src, tar))
+
+    return items
+
+
 def gen_loops(write, count: int):
     """
     Generate loop structures.
@@ -59,6 +71,7 @@ def gen_loops(write, count: int):
         ),
     ]
 
+    items.extend(__gen_varying_loops())
     items = list(map(lambda item: gen_item(item[0], item[1]), items))
 
     # Generate items
