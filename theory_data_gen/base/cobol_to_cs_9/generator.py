@@ -19,8 +19,5 @@ class CobolToCS9Generator(Generator):
         gen_loops(write, args.loops)
         gen_stdout(write)
 
-        # TODO: Implement COBOL "EVALUATE" statements to C# switch statements
-        # TODO: Implement COBOL subroutines to C# function calls
         # TODO: Implement COBOL reports
         # TODO: Implement COBOL FILLER items
-        # TODO: Implement built-in function calls
