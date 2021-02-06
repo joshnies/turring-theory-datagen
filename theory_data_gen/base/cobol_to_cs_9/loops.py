@@ -1,3 +1,5 @@
+import random
+
 from tqdm import tqdm
 
 from .conditionals import gen_condition
@@ -12,8 +14,8 @@ def __gen_loop_items():
     # Generate conditions
     src_condition, tar_condition = gen_condition()
 
-    # Generate standard "UNTIL" item
-    src = f'PERFORM {gen_mask_token(0)} UNTIL {src_condition}'
+    # Generate "UNTIL" item
+    src = f'PERFORM {gen_mask_token(0)} UNTIL {src_condition}.'
     src, _ = add_mask_indices(src, start_index=1)
 
     tar = f'while(!{tar_condition}) {gen_mask_token(0)}();'
@@ -21,8 +23,8 @@ def __gen_loop_items():
 
     items.append(gen_item(src, tar))
 
-    # Generate "WITH TEST BEFORE" item
-    src = f'PERFORM {gen_mask_token(0)} WITH TEST BEFORE UNTIL {src_condition}'
+    # Generate "WITH TEST BEFORE UNTIL" item
+    src = f'PERFORM {gen_mask_token(0)} WITH TEST BEFORE UNTIL {src_condition}.'
     src, _ = add_mask_indices(src, start_index=1)
 
     tar = f'while(!{tar_condition}) {gen_mask_token(0)}();'
@@ -30,8 +32,8 @@ def __gen_loop_items():
 
     items.append(gen_item(src, tar))
 
-    # Generate "WITH TEST AFTER" item
-    src = f'PERFORM {gen_mask_token(0)} WITH TEST AFTER UNTIL {src_condition}'
+    # Generate "WITH TEST AFTER UNTIL" item
+    src = f'PERFORM {gen_mask_token(0)} WITH TEST AFTER UNTIL {src_condition}.'
     src, _ = add_mask_indices(src, start_index=1)
 
     tar = f'do {{ {gen_mask_token(0)}(); }} while(!{tar_condition});'
@@ -52,9 +54,9 @@ def gen_loops(write, count: int):
 
     items = [
         (
-            f'PERFORM {gen_mask_token(0)} UNTIL {gen_mask_token(1)}',
-            f'while(!{gen_mask_token(1)}) {gen_mask_token(0)}();'
-        )
+            f'PERFORM {gen_mask_token(0)} UNTIL {gen_mask_token(1)}.',
+            f'while(!{gen_mask_token(1)}) {gen_mask_token(0)}();',
+        ),
     ]
 
     items = list(map(lambda item: gen_item(item[0], item[1]), items))
