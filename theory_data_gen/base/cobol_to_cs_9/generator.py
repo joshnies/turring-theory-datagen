@@ -13,11 +13,11 @@ class CobolToCS9Generator(Generator):
     def generate(args, write):
         print('\nGenerating dataset for COBOL --> C# 9')
 
-        # gen_vars(write)
-        # gen_arithmetic(write, args.arithmetic)
-        # gen_conditionals(write, args.conditionals)
+        gen_vars(write)
+        gen_arithmetic(write, args.arithmetic)
+        gen_conditionals(write, args.conditionals)
         gen_loops(write, args.loops)
-        # gen_stdout(write)
+        gen_stdout(write)
 
         # TODO: Implement built-in function calls
         # TODO: Implement COBOL "EVALUATE" statements to C# switch statements
