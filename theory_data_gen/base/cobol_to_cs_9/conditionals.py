@@ -15,10 +15,16 @@ def __gen_relation_condition():
     tar_op = COBOL_BOOL_OP_MAP[src_op]
 
     src_is = 'IS ' if bool(random.getrandbits(1)) else ''
+    val_is_null = src_op in ['=', 'EQUALS', 'EQUAL TO', '!=', 'NOT =', 'NOT EQUALS', 'NOT EQUAL TO'] \
+                  and random.randint(0, 10) == 0
+
+    # Get comparison values
+    src_val = 'NULL' if val_is_null else MASK_TOKEN
+    tar_val = src_val.lower()
 
     # Generate pair
-    src = f'{MASK_TOKEN} {src_is}{src_op} {MASK_TOKEN}'
-    tar = f'{MASK_TOKEN} {tar_op} {MASK_TOKEN}'
+    src = f'{MASK_TOKEN} {src_is}{src_op} {src_val}'
+    tar = f'{MASK_TOKEN} {tar_op} {tar_val}'
 
     return src, tar
 
