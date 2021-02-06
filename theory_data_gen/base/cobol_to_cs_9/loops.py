@@ -7,17 +7,39 @@ from ...common import gen_mask_token, gen_item, add_mask_indices
 def __gen_loop_items():
     """Generate loop structure items."""
 
+    items = list()
+
     # Generate conditions
     src_condition, tar_condition = gen_condition()
 
-    # Generate item
+    # Generate standard "UNTIL" item
     src = f'PERFORM {gen_mask_token(0)} UNTIL {src_condition}'
     src, _ = add_mask_indices(src, start_index=1)
 
     tar = f'while(!{tar_condition}) {gen_mask_token(0)}();'
     tar, _ = add_mask_indices(tar, start_index=1)
 
-    return [gen_item(src, tar)]
+    items.append(gen_item(src, tar))
+
+    # Generate "WITH TEST BEFORE" item
+    src = f'PERFORM {gen_mask_token(0)} WITH TEST BEFORE UNTIL {src_condition}'
+    src, _ = add_mask_indices(src, start_index=1)
+
+    tar = f'while(!{tar_condition}) {gen_mask_token(0)}();'
+    tar, _ = add_mask_indices(tar, start_index=1)
+
+    items.append(gen_item(src, tar))
+
+    # Generate "WITH TEST AFTER" item
+    src = f'PERFORM {gen_mask_token(0)} WITH TEST AFTER UNTIL {src_condition}'
+    src, _ = add_mask_indices(src, start_index=1)
+
+    tar = f'do {{ {gen_mask_token(0)}(); }} while(!{tar_condition});'
+    tar, _ = add_mask_indices(tar, start_index=1)
+
+    items.append(gen_item(src, tar))
+
+    return items
 
 
 def gen_loops(write, count: int):
