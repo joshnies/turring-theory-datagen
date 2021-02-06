@@ -71,10 +71,12 @@ def gen_loops(write, count: int):
         ),
     ]
 
-    items.extend(__gen_varying_loops())
     items = list(map(lambda item: gen_item(item[0], item[1]), items))
 
-    # Generate items
+    # Generate "PERFORM VARYING" loop items
+    items.extend(__gen_varying_loops())
+
+    # Generate all other items
     for _ in tqdm(range(count), desc='Generating loops'):
         items.extend(__gen_loop_items())
 
