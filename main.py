@@ -55,7 +55,7 @@ elif lvp == LVP.JAVA_14_TO_NODEJS_14:
     Java14ToNodeJS14Generator.generate(args, write_func)
 elif lvp == LVP.JAVA_14_TO_PYTHON_3:
     Java14ToPython3Generator.generate(args, write_func)
-elif lvp == LVP.COBOL_TO_CS_9:
+elif lvp == LVP.COBOL_TO_CSHARP_9:
     CobolToCS9Generator.generate(args, write_func)
 else:
     raise Exception(f'Unimplemented language-version pair "{lvp.value}".')
