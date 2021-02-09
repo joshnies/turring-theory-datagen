@@ -18,26 +18,83 @@ def gen_vars(write):
 
         pairs = [
             # Definitions without default value
+            # Alphanumeric
+            (
+                f'{m_level} {m_name} PIC X.',
+                f'var {m_name} = new COBOLVar("", 1);'
+            ),
+            (
+                f'{m_level} {m_name} PIC XX.',
+                f'var {m_name} = new COBOLVar("", 2);'
+            ),
             (
                 f'{m_level} {m_name} PIC X({m_size}).',
                 f'var {m_name} = new COBOLVar("", {m_size});'
+            ),
+            # Alphabetic
+            (
+                f'{m_level} {m_name} PIC A.',
+                f'var {m_name} = new COBOLVar("", 1);'
+            ),
+            (
+                f'{m_level} {m_name} PIC AA.',
+                f'var {m_name} = new COBOLVar("", 2);'
             ),
             (
                 f'{m_level} {m_name} PIC A({m_size}).',
                 f'var {m_name} = new COBOLVar("", {m_size});'
             ),
+            # Integers
+            (
+                f'{m_level} {m_name} PIC 9.',
+                f'var {m_name} = new COBOLVar(0, 1);'
+            ),
+            (
+                f'{m_level} {m_name} PIC 99.',
+                f'var {m_name} = new COBOLVar(0, 2);'
+            ),
+            (
+                f'{m_level} {m_name} PIC 999.',
+                f'var {m_name} = new COBOLVar(0, 3);'
+            ),
+            (
+                f'{m_level} {m_name} PIC 9999.',
+                f'var {m_name} = new COBOLVar(0, 4);'
+            ),
             (
                 f'{m_level} {m_name} PIC 9({m_size}).',
                 f'var {m_name} = new COBOLVar(0, {m_size});'
+            ),
+            # Signed integers
+            (
+                f'{m_level} {m_name} PIC S9.',
+                f'var {m_name} = new COBOLVar(0, 1);'
+            ),
+            (
+                f'{m_level} {m_name} PIC S99.',
+                f'var {m_name} = new COBOLVar(0, 2);'
+            ),
+            (
+                f'{m_level} {m_name} PIC S999.',
+                f'var {m_name} = new COBOLVar(0, 3);'
+            ),
+            (
+                f'{m_level} {m_name} PIC S9999.',
+                f'var {m_name} = new COBOLVar(0, 4);'
             ),
             (
                 f'{m_level} {m_name} PIC S9({m_size}).',
                 f'var {m_name} = new COBOLVar(0, {m_size});'
             ),
+            # Signed floats
+            (
+                f'{m_level} {m_name} PIC S9V9.',
+                f'var {m_name} = new COBOLVar("", 3);'
+            ),
             (
                 f'{m_level} {m_name} PIC S9({m_size})V9({gen_mask_token(3)}).',
                 # NOTE: Literal operations are calculated at compile-time in C#
-                f'var {m_name} = new COBOLVar("", {m_size} + {gen_mask_token(3)});'
+                f'var {m_name} = new COBOLVar("", {m_size} + {gen_mask_token(3)} + 1);'
             ),
         ]
 
@@ -86,7 +143,7 @@ def gen_vars(write):
             (
                 f'{m_level} {m_name} PIC S9({m_size})V9({gen_mask_token(3)}) VALUE {gen_mask_token(4)}.',
                 # NOTE: C# requires "f" suffix for float literals
-                f'var {m_name} = new COBOLVar({gen_mask_token(4)}f, {m_size} + {gen_mask_token(3)});'
+                f'var {m_name} = new COBOLVar({gen_mask_token(4)}f, {m_size} + {gen_mask_token(3)} + 1);'
             ),
             # Integers with literal 0 default value
             (
@@ -117,15 +174,15 @@ def gen_vars(write):
             # Floats with literal 0 default value
             (
                 f'{m_level} {m_name} PIC S9({m_size})V9({gen_mask_token(3)}) VALUE ZERO.',
-                f'var {m_name} = new COBOLVar(0.0f, {m_size} + {gen_mask_token(3)});'
+                f'var {m_name} = new COBOLVar(0.0f, {m_size} + {gen_mask_token(3)} + 1);'
             ),
             (
                 f'{m_level} {m_name} PIC S9({m_size})V9({gen_mask_token(3)}) VALUE ZEROS.',
-                f'var {m_name} = new COBOLVar(0.0f, {m_size} + {gen_mask_token(3)});'
+                f'var {m_name} = new COBOLVar(0.0f, {m_size} + {gen_mask_token(3)} + 1);'
             ),
             (
                 f'{m_level} {m_name} PIC S9({m_size})V9({gen_mask_token(3)}) VALUE ZEROES.',
-                f'var {m_name} = new COBOLVar(0.0f, {m_size} + {gen_mask_token(3)});'
+                f'var {m_name} = new COBOLVar(0.0f, {m_size} + {gen_mask_token(3)} + 1);'
             ),
         ]
 
