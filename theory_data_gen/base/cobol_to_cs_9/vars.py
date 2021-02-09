@@ -1,5 +1,6 @@
 from yaspin import yaspin
 
+from constants import DYNAMIC_NAME_TOKEN
 from ...common import gen_item, gen_mask_token
 
 
@@ -39,6 +40,9 @@ def gen_vars(write):
                 # NOTE: Literal operations are calculated at compile-time in C#
                 f'var {m_name} = new COBOLVar("", {m_size} + {gen_mask_token(3)});'
             ),
+        ]
+
+        pairs_with_values = [
             # Definitions with default value
             (
                 f'{m_level} {m_name} PIC X({m_size}) VALUE \'{gen_mask_token(3)}\'.',
@@ -101,6 +105,16 @@ def gen_vars(write):
                 f'var {m_name} = new COBOLVar(0.0f, {m_size} + {gen_mask_token(3)});'
             ),
         ]
+
+        filler_pairs = list(
+            map(
+                lambda p: (p[0].replace(m_name, 'FILLER'), p[1].replace(m_name, '%filler_n%')),
+                pairs_with_values
+            )
+        )
+
+        pairs.extend(pairs_with_values)
+        pairs.extend(filler_pairs)
 
         # Convert pairs to writable items
         items = map(lambda p: gen_item(p[0], p[1]), pairs)

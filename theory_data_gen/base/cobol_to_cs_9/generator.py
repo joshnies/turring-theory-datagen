@@ -18,6 +18,3 @@ class CobolToCS9Generator(Generator):
         gen_conditionals(write, args.conditionals)
         gen_loops(write, args.loops)
         gen_stdout(write)
-
-        # TODO: Implement COBOL reports
-        # TODO: Implement COBOL FILLER items
