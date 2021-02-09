@@ -1,6 +1,5 @@
 from yaspin import yaspin
 
-from constants import DYNAMIC_NAME_TOKEN
 from ...common import gen_item, gen_mask_token
 
 
