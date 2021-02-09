@@ -48,8 +48,32 @@ def gen_vars(write):
                 f'var {m_name} = new COBOLVar("{gen_mask_token(3)}", {m_size});'
             ),
             (
+                f'{m_level} {m_name} PIC X({m_size}) VALUE "{gen_mask_token(3)}".',
+                f'var {m_name} = new COBOLVar("{gen_mask_token(3)}", {m_size});'
+            ),
+            (
+                f'{m_level} {m_name} PIC X({m_size}) VALUE SPACE.',
+                f'var {m_name} = new COBOLVar(new String(\' \', {m_size}), {m_size});'
+            ),
+            (
+                f'{m_level} {m_name} PIC X({m_size}) VALUE SPACES.',
+                f'var {m_name} = new COBOLVar(new String(\' \', {m_size}), {m_size});'
+            ),
+            (
                 f'{m_level} {m_name} PIC A({m_size}) VALUE \'{gen_mask_token(3)}\'.',
                 f'var {m_name} = new COBOLVar("{gen_mask_token(3)}", {m_size});'
+            ),
+            (
+                f'{m_level} {m_name} PIC A({m_size}) VALUE "{gen_mask_token(3)}".',
+                f'var {m_name} = new COBOLVar("{gen_mask_token(3)}", {m_size});'
+            ),
+            (
+                f'{m_level} {m_name} PIC A({m_size}) VALUE SPACE.',
+                f'var {m_name} = new COBOLVar(new String(\' \', {m_size}), {m_size});'
+            ),
+            (
+                f'{m_level} {m_name} PIC A({m_size}) VALUE SPACES.',
+                f'var {m_name} = new COBOLVar(new String(\' \', {m_size}), {m_size});'
             ),
             (
                 f'{m_level} {m_name} PIC 9({m_size}) VALUE {gen_mask_token(3)}.',
