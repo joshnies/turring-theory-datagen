@@ -1,6 +1,6 @@
-# Theory Data Generator
+# Theory Dataset Generator
 
-Data generator for the Turring Theory translation neural network.
+Dataset generator for Turring Theory's translation neural network.
 
 ## Run
 
@@ -19,19 +19,19 @@ python main.py \
   # Number of classes
   --classes 1000 \
   # Number of class construction statements
-  --class-constructs 10000
+  --class-constructs 10000 \
   # Number of conditionals
-  --conditionals 1000
+  --conditionals 1000 \
   # Number of switch structures
-  --switches 1000
+  --switches 1000 \
   # Number of switch cases
-  --switch-cases 1000
+  --switch-cases 1000 \
   # Number of loop structures (excluding "for" loops)
-  --loops 1000
+  --loops 1000 \
   # Number of "for" loop structures
-  --for-loop-inputs 1000
+  --for-loop-inputs 1000 \
   # Number of arithmetic expressions
-  --arithmetic 1000
+  --arithmetic 1000 \
   # Number of return statements
   --returns 1000
 ```
