@@ -6,7 +6,7 @@ from .vars import gen_vars
 from ...generator import Generator
 
 
-class CobolToCS9Generator(Generator):
+class CobolToCSharp9Generator(Generator):
     """Data generator for COBOL to C# 9."""
 
     @staticmethod
