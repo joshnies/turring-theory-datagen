@@ -102,6 +102,16 @@ def gen_vars(write):
                 f'{m_level} {m_name} PIC S9({m_size})',
                 f'var {m_name} = new COBOLVar(0, {m_size});'
             ),
+            # Floats
+            (
+                f'{m_level} {m_name} PIC 9V9',
+                f'var {m_name} = new COBOLVar(0f, 3);'
+            ),
+            (
+                f'{m_level} {m_name} PIC 9({m_size})V9({gen_mask_token(3)})',
+                # NOTE: Literal operations are calculated at compile-time in C#
+                f'var {m_name} = new COBOLVar(0f, {m_size} + {gen_mask_token(3)} + 1);'
+            ),
             # Signed floats
             (
                 f'{m_level} {m_name} PIC S9V9',

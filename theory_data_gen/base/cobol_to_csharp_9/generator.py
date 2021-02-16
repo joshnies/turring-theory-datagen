@@ -1,6 +1,7 @@
 from .arithmetic import gen_arithmetic
 from .conditionals import gen_conditionals
 from .loops import gen_loops
+from .redefines import gen_redefines
 from .stdout import gen_stdout
 from .vars import gen_vars
 from ...generator import Generator
@@ -14,6 +15,7 @@ class CobolToCSharp9Generator(Generator):
         print('\nGenerating dataset for COBOL --> C# 9')
 
         gen_vars(write)
+        gen_redefines(write)
         gen_arithmetic(write, args.arithmetic)
         gen_conditionals(write, args.conditionals)
         gen_loops(write, args.loops)
