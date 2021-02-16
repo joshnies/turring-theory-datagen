@@ -152,19 +152,19 @@ def gen_conditionals(write, count: int):
 
     items = [
         (
-            f'IF {gen_mask_token(0)} THEN',
+            f'IF {gen_mask_token(0)}',
             f'if ({gen_mask_token(0)}) {{'
         ),
         (
-            f'ELSE-IF {gen_mask_token(0)} THEN',
+            f'ELSE-IF {gen_mask_token(0)}',
             f'else if ({gen_mask_token(0)}) {{'
         ),
         (
-            f'IF NOT {gen_mask_token(0)} THEN',
+            f'IF NOT {gen_mask_token(0)}',
             f'if (!{gen_mask_token(0)}) {{'
         ),
         (
-            f'ELSE-IF NOT {gen_mask_token(0)} THEN',
+            f'ELSE-IF NOT {gen_mask_token(0)}',
             f'else if (!{gen_mask_token(0)}) {{'
         ),
     ]

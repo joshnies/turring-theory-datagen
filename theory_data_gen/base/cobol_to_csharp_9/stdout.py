@@ -12,7 +12,7 @@ def __gen_write_line(val_list: List[str]):
 
     # Generate sources
     src_vals = ' '.join(val_list)
-    src = f'DISPLAY {src_vals}.'
+    src = f'DISPLAY {src_vals}'
     src, _ = add_mask_indices(src)
 
     # Generate targets
@@ -29,7 +29,7 @@ def __gen_write(val_list: List[str]):
 
     # Generate sources
     src_vals = ' '.join(val_list)
-    src = f'DISPLAY {src_vals} WITH NO ADVANCING.'
+    src = f'DISPLAY {src_vals} WITH NO ADVANCING'
     src, _ = add_mask_indices(src)
 
     # Generate targets
