@@ -12,7 +12,7 @@ def __gen_to_addition(count: int):
 
     # Generate source
     src_added_tokens = ' '.join(added_tokens)
-    src = f'ADD {src_added_tokens} TO {MASK_TOKEN}.'
+    src = f'ADD {src_added_tokens} TO {MASK_TOKEN}'
     src, src_last_idx = add_mask_indices(src)
 
     # Generate target
@@ -31,7 +31,7 @@ def __gen_giving_addition(count: int):
 
     # Generate source
     src_added_tokens = ' '.join(added_tokens)
-    src = f'ADD {src_added_tokens} GIVING {MASK_TOKEN}.'
+    src = f'ADD {src_added_tokens} GIVING {MASK_TOKEN}'
     src, src_last_idx = add_mask_indices(src)
 
     # Generate target
@@ -47,7 +47,7 @@ def __gen_from_subtraction():
     """Generate "FROM" syntax subtraction items."""
 
     # Generate source
-    src = f'SUBTRACT {gen_mask_token(0)} FROM {gen_mask_token(1)}.'
+    src = f'SUBTRACT {gen_mask_token(0)} FROM {gen_mask_token(1)}'
 
     # Generate target
     tar = f'{gen_mask_token(1)}.Subtract({gen_mask_token(0)});'
@@ -60,7 +60,7 @@ def __gen_giving_subtraction():
     """Generate "GIVING" syntax subtraction items."""
 
     # Generate source
-    src = f'SUBTRACT {gen_mask_token(0)} FROM {gen_mask_token(1)} GIVING {gen_mask_token(2)}.'
+    src = f'SUBTRACT {gen_mask_token(0)} FROM {gen_mask_token(1)} GIVING {gen_mask_token(2)}'
 
     # Generate target
     tar = f'{gen_mask_token(2)}.Set({gen_mask_token(1)} - {gen_mask_token(0)});'
@@ -73,7 +73,7 @@ def __gen_by_mult():
     """Generate "BY" syntax multiplication items."""
 
     # Generate source
-    src = f'MULTIPLY {gen_mask_token(0)} BY {gen_mask_token(1)}.'
+    src = f'MULTIPLY {gen_mask_token(0)} BY {gen_mask_token(1)}'
 
     # Generate target
     tar = f'{gen_mask_token(0)}.MultiplyBy({gen_mask_token(1)});'
@@ -86,7 +86,7 @@ def __gen_giving_mult():
     """Generate "GIVING" syntax multiplication items."""
 
     # Generate source
-    src = f'MULTIPLY {gen_mask_token(0)} BY {gen_mask_token(1)} GIVING {gen_mask_token(2)}.'
+    src = f'MULTIPLY {gen_mask_token(0)} BY {gen_mask_token(1)} GIVING {gen_mask_token(2)}'
 
     # Generate target
     tar = f'{gen_mask_token(2)}.Set({gen_mask_token(0)} * {gen_mask_token(1)});'
@@ -101,12 +101,12 @@ def __gen_into_division():
     items = list()
 
     # Generate normal
-    src = f'DIVIDE {gen_mask_token(0)} INTO {gen_mask_token(1)}.'
+    src = f'DIVIDE {gen_mask_token(0)} INTO {gen_mask_token(1)}'
     tar = f'{gen_mask_token(1)}.DivideBy({gen_mask_token(0)});'
     items.append(gen_item(src, tar))
 
     # Generate with remainder
-    src = src[:-1] + f' REMAINDER {gen_mask_token(2)}.'
+    src = src[:-1] + f' REMAINDER {gen_mask_token(2)}'
     tar = f'{gen_mask_token(1)}.DivideByWithRemainder({gen_mask_token(0)}, {gen_mask_token(2)});'
     items.append(gen_item(src, tar))
 
@@ -119,12 +119,12 @@ def __gen_by_division():
     items = list()
 
     # Generate normal
-    src = f'DIVIDE {gen_mask_token(0)} BY {gen_mask_token(1)}.'
+    src = f'DIVIDE {gen_mask_token(0)} BY {gen_mask_token(1)}'
     tar = f'{gen_mask_token(0)}.DivideBy({gen_mask_token(1)});'
     items.append(gen_item(src, tar))
 
     # Generate with remainder
-    src = src[:-1] + f' REMAINDER {gen_mask_token(2)}.'
+    src = src[:-1] + f' REMAINDER {gen_mask_token(2)}'
     tar = f'{gen_mask_token(0)}.DivideByWithRemainder({gen_mask_token(1)}, {gen_mask_token(2)});'
     items.append(gen_item(src, tar))
 
@@ -148,7 +148,7 @@ def __gen_compute(count: int, permutation_count: int):
         math_seq = join_rand(tokens, math_ops)
 
         # Generate source
-        src = f'COMPUTE {gen_mask_token(0)} = {math_seq}.'
+        src = f'COMPUTE {gen_mask_token(0)} = {math_seq}'
         src, _ = add_mask_indices(src, start_index=mask_start_idx)
 
         # Generate target
