@@ -127,6 +127,38 @@ def gen_vars(write):
         pairs_with_values = [
             # Definitions with default value
             (
+                f'{m_level} {m_name} PIC X VALUE \'{gen_mask_token(2)}\'',
+                f'var {m_name} = new COBOLVar("{gen_mask_token(2)}", 1);'
+            ),
+            (
+                f'{m_level} {m_name} PIC XX VALUE \'{gen_mask_token(2)}\'',
+                f'var {m_name} = new COBOLVar("{gen_mask_token(2)}", 2);'
+            ),
+            (
+                f'{m_level} {m_name} PIC XXX VALUE \'{gen_mask_token(2)}\'',
+                f'var {m_name} = new COBOLVar("{gen_mask_token(2)}", 3);'
+            ),
+            (
+                f'{m_level} {m_name} PIC XXXX VALUE \'{gen_mask_token(2)}\'',
+                f'var {m_name} = new COBOLVar("{gen_mask_token(2)}", 4);'
+            ),
+            (
+                f'{m_level} {m_name} PIC X VALUE "{gen_mask_token(2)}"',
+                f'var {m_name} = new COBOLVar("{gen_mask_token(2)}", 1);'
+            ),
+            (
+                f'{m_level} {m_name} PIC XX VALUE "{gen_mask_token(2)}"',
+                f'var {m_name} = new COBOLVar("{gen_mask_token(2)}", 2);'
+            ),
+            (
+                f'{m_level} {m_name} PIC XXX VALUE "{gen_mask_token(2)}"',
+                f'var {m_name} = new COBOLVar("{gen_mask_token(2)}", 3);'
+            ),
+            (
+                f'{m_level} {m_name} PIC XXXX VALUE "{gen_mask_token(2)}"',
+                f'var {m_name} = new COBOLVar("{gen_mask_token(2)}", 4);'
+            ),
+            (
                 f'{m_level} {m_name} PIC X({m_size}) VALUE \'{gen_mask_token(3)}\'',
                 f'var {m_name} = new COBOLVar("{gen_mask_token(3)}", {m_size});'
             ),
@@ -141,6 +173,43 @@ def gen_vars(write):
             (
                 f'{m_level} {m_name} PIC X({m_size}) VALUE SPACES',
                 f'var {m_name} = new COBOLVar(new String(\' \', {m_size}), {m_size});'
+            ),
+            (
+                f'{m_level} {m_name} PIC X({m_size}) VALUE NULL',
+                f'var {m_name} = new COBOLVar(null, {m_size});'
+            ),
+            # Alphabetic
+            (
+                f'{m_level} {m_name} PIC A VALUE \'{gen_mask_token(2)}\'',
+                f'var {m_name} = new COBOLVar("{gen_mask_token(2)}", 1);'
+            ),
+            (
+                f'{m_level} {m_name} PIC AA VALUE \'{gen_mask_token(2)}\'',
+                f'var {m_name} = new COBOLVar("{gen_mask_token(2)}", 2);'
+            ),
+            (
+                f'{m_level} {m_name} PIC AAA VALUE \'{gen_mask_token(2)}\'',
+                f'var {m_name} = new COBOLVar("{gen_mask_token(2)}", 3);'
+            ),
+            (
+                f'{m_level} {m_name} PIC AAAA VALUE \'{gen_mask_token(2)}\'',
+                f'var {m_name} = new COBOLVar("{gen_mask_token(2)}", 4);'
+            ),
+            (
+                f'{m_level} {m_name} PIC A VALUE "{gen_mask_token(2)}"',
+                f'var {m_name} = new COBOLVar("{gen_mask_token(2)}", 1);'
+            ),
+            (
+                f'{m_level} {m_name} PIC AA VALUE "{gen_mask_token(2)}"',
+                f'var {m_name} = new COBOLVar("{gen_mask_token(2)}", 2);'
+            ),
+            (
+                f'{m_level} {m_name} PIC AAA VALUE "{gen_mask_token(2)}"',
+                f'var {m_name} = new COBOLVar("{gen_mask_token(2)}", 3);'
+            ),
+            (
+                f'{m_level} {m_name} PIC AAAA VALUE "{gen_mask_token(2)}"',
+                f'var {m_name} = new COBOLVar("{gen_mask_token(2)}", 4);'
             ),
             (
                 f'{m_level} {m_name} PIC A({m_size}) VALUE \'{gen_mask_token(3)}\'',
@@ -159,17 +228,33 @@ def gen_vars(write):
                 f'var {m_name} = new COBOLVar(new String(\' \', {m_size}), {m_size});'
             ),
             (
+                f'{m_level} {m_name} PIC A({m_size}) VALUE NULL',
+                f'var {m_name} = new COBOLVar(null, {m_size});'
+            ),
+            # Integers
+            (
+                f'{m_level} {m_name} PIC 9 VALUE {gen_mask_token(2)}',
+                f'var {m_name} = new COBOLVar({gen_mask_token(2)}, 1);'
+            ),
+            (
+                f'{m_level} {m_name} PIC 99 VALUE {gen_mask_token(2)}',
+                f'var {m_name} = new COBOLVar({gen_mask_token(2)}, 2);'
+            ),
+            (
+                f'{m_level} {m_name} PIC 999 VALUE {gen_mask_token(2)}',
+                f'var {m_name} = new COBOLVar({gen_mask_token(2)}, 3);'
+            ),
+            (
+                f'{m_level} {m_name} PIC 9999 VALUE {gen_mask_token(2)}',
+                f'var {m_name} = new COBOLVar({gen_mask_token(2)}, 4);'
+            ),
+            (
                 f'{m_level} {m_name} PIC 9({m_size}) VALUE {gen_mask_token(3)}',
                 f'var {m_name} = new COBOLVar({gen_mask_token(3)}, {m_size});'
             ),
             (
-                f'{m_level} {m_name} PIC S9({m_size}) VALUE {gen_mask_token(3)}',
-                f'var {m_name} = new COBOLVar({gen_mask_token(3)}, {m_size});'
-            ),
-            (
-                f'{m_level} {m_name} PIC S9({m_size})V9({gen_mask_token(3)}) VALUE {gen_mask_token(4)}',
-                # NOTE: C# requires "f" suffix for float literals
-                f'var {m_name} = new COBOLVar({gen_mask_token(4)}f, {m_size} + {gen_mask_token(3)} + 1);'
+                f'{m_level} {m_name} PIC 9({m_size}) VALUE NULL',
+                f'var {m_name} = new COBOLVar(null, {m_size});'
             ),
             # Integers with literal 0 default value
             (
@@ -183,6 +268,42 @@ def gen_vars(write):
             (
                 f'{m_level} {m_name} PIC 9({m_size}) VALUE ZEROES',
                 f'var {m_name} = new COBOLVar(0, {m_size});'
+            ),
+            # Signed integers
+            (
+                f'{m_level} {m_name} PIC S9 VALUE {gen_mask_token(2)}',
+                f'var {m_name} = new COBOLVar({gen_mask_token(2)}, 1);'
+            ),
+            (
+                f'{m_level} {m_name} PIC S99 VALUE {gen_mask_token(2)}',
+                f'var {m_name} = new COBOLVar({gen_mask_token(2)}, 2);'
+            ),
+            (
+                f'{m_level} {m_name} PIC S999 VALUE {gen_mask_token(2)}',
+                f'var {m_name} = new COBOLVar({gen_mask_token(2)}, 3);'
+            ),
+            (
+                f'{m_level} {m_name} PIC S9999 VALUE {gen_mask_token(2)}',
+                f'var {m_name} = new COBOLVar({gen_mask_token(2)}, 4);'
+            ),
+            (
+                f'{m_level} {m_name} PIC S9({m_size}) VALUE {gen_mask_token(3)}',
+                f'var {m_name} = new COBOLVar({gen_mask_token(3)}, {m_size});'
+            ),
+            (
+                f'{m_level} {m_name} PIC S9({m_size}) VALUE NULL',
+                f'var {m_name} = new COBOLVar(null, {m_size});'
+            ),
+            # Floats
+            (
+                f'{m_level} {m_name} PIC S9({m_size})V9({gen_mask_token(3)}) VALUE {gen_mask_token(4)}',
+                # NOTE: C# requires "f" suffix for float literals
+                f'var {m_name} = new COBOLVar({gen_mask_token(4)}f, {m_size} + {gen_mask_token(3)} + 1);'
+            ),
+            (
+                f'{m_level} {m_name} PIC S9({m_size})V9({gen_mask_token(3)}) VALUE NULL',
+                # NOTE: C# requires "f" suffix for float literals
+                f'var {m_name} = new COBOLVar(null, {m_size} + {gen_mask_token(3)} + 1);'
             ),
             # Signed integers with literal 0 default value
             (
@@ -212,9 +333,19 @@ def gen_vars(write):
             ),
         ]
 
+        # Add "FILLER" syntax pairs
         filler_pairs = list(
             map(
-                lambda p: (p[0].replace(m_name, 'FILLER'), p[1].replace(m_name, '%filler_n%')),
+                lambda p: (
+                    p[0].replace(m_name, 'FILLER')
+                        .replace(gen_mask_token(2), gen_mask_token(1))
+                        .replace(gen_mask_token(3), gen_mask_token(2))
+                        .replace(gen_mask_token(4), gen_mask_token(3)),
+                    p[1].replace(m_name, '%filler_n%')
+                        .replace(gen_mask_token(2), gen_mask_token(1))
+                        .replace(gen_mask_token(3), gen_mask_token(2))
+                        .replace(gen_mask_token(4), gen_mask_token(3))
+                ),
                 pairs_with_values
             )
         )
