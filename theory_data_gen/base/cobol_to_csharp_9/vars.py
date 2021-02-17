@@ -333,9 +333,19 @@ def gen_vars(write):
             ),
         ]
 
+        # Add "FILLER" syntax pairs
         filler_pairs = list(
             map(
-                lambda p: (p[0].replace(m_name, 'FILLER'), p[1].replace(m_name, '%filler_n%')),
+                lambda p: (
+                    p[0].replace(m_name, 'FILLER')
+                        .replace(gen_mask_token(2), gen_mask_token(1))
+                        .replace(gen_mask_token(3), gen_mask_token(2))
+                        .replace(gen_mask_token(4), gen_mask_token(3)),
+                    p[1].replace(m_name, '%filler_n%')
+                        .replace(gen_mask_token(2), gen_mask_token(1))
+                        .replace(gen_mask_token(3), gen_mask_token(2))
+                        .replace(gen_mask_token(4), gen_mask_token(3))
+                ),
                 pairs_with_values
             )
         )
