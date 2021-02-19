@@ -176,19 +176,19 @@ def gen_vars(write):
             ),
             (
                 f'{m_level} {m_name} PIC X({m_size}) VALUE \' \'',
-                f'var {m_name} = new COBOLVar(new String(\' \', {m_size}), {m_size});'
+                f'var {m_name} = new COBOLVar(new string(\' \', {m_size}), {m_size});'
             ),
             (
                 f'{m_level} {m_name} PIC X({m_size}) VALUE " "',
-                f'var {m_name} = new COBOLVar(new String(\' \', {m_size}), {m_size});'
+                f'var {m_name} = new COBOLVar(new string(\' \', {m_size}), {m_size});'
             ),
             (
                 f'{m_level} {m_name} PIC X({m_size}) VALUE SPACE',
-                f'var {m_name} = new COBOLVar(new String(\' \', {m_size}), {m_size});'
+                f'var {m_name} = new COBOLVar(new string(\' \', {m_size}), {m_size});'
             ),
             (
                 f'{m_level} {m_name} PIC X({m_size}) VALUE SPACES',
-                f'var {m_name} = new COBOLVar(new String(\' \', {m_size}), {m_size});'
+                f'var {m_name} = new COBOLVar(new string(\' \', {m_size}), {m_size});'
             ),
             (
                 f'{m_level} {m_name} PIC X({m_size}) VALUE NULL',
@@ -245,19 +245,19 @@ def gen_vars(write):
             ),
             (
                 f'{m_level} {m_name} PIC A({m_size}) VALUE \' \'',
-                f'var {m_name} = new COBOLVar(new String(\' \', {m_size}), {m_size});'
+                f'var {m_name} = new COBOLVar(new string(\' \', {m_size}), {m_size});'
             ),
             (
                 f'{m_level} {m_name} PIC A({m_size}) VALUE " "',
-                f'var {m_name} = new COBOLVar(new String(\' \', {m_size}), {m_size});'
+                f'var {m_name} = new COBOLVar(new string(\' \', {m_size}), {m_size});'
             ),
             (
                 f'{m_level} {m_name} PIC A({m_size}) VALUE SPACE',
-                f'var {m_name} = new COBOLVar(new String(\' \', {m_size}), {m_size});'
+                f'var {m_name} = new COBOLVar(new string(\' \', {m_size}), {m_size});'
             ),
             (
                 f'{m_level} {m_name} PIC A({m_size}) VALUE SPACES',
-                f'var {m_name} = new COBOLVar(new String(\' \', {m_size}), {m_size});'
+                f'var {m_name} = new COBOLVar(new string(\' \', {m_size}), {m_size});'
             ),
             (
                 f'{m_level} {m_name} PIC A({m_size}) VALUE NULL',
