@@ -16,8 +16,8 @@ def gen_vars(write):
         m_name = gen_mask_token(1)
         m_size = gen_mask_token(2)
 
+        # Definitions without default value
         pairs = [
-            # Definitions without default value
             # Alphanumeric
             (
                 f'{m_level} {m_name} PIC X',
@@ -124,8 +124,12 @@ def gen_vars(write):
             ),
         ]
 
+        # Definitions with default value
         pairs_with_values = [
-            # Definitions with default value
+            (
+                f'{m_level} {m_name} VALUE NULL',
+                f'var {m_name} = new COBOLVar(null, 1);'
+            ),
             (
                 f'{m_level} {m_name} PIC X VALUE \' \'',
                 f'var {m_name} = new COBOLVar("{gen_mask_token(2)}", 1);'
