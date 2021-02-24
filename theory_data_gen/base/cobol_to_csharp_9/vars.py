@@ -16,69 +16,70 @@ STR_TYPES = ['X', 'A']
 def __gen_vars():
     """Generate variable definitions."""
 
+    # Generate static mask tokens
+    m_size = gen_mask_token(2)
+
     pairs = list()
     types = TYPE_DEF_VAL_MAP.keys()
 
     # Generate variables
     for t in types:
-        for i in range(1, 100):
-            pairs.append((
-                f'{MASK_TOKEN} {MASK_TOKEN} PIC {t * i}',
-                f'var {MASK_TOKEN} = new COBOLVar({TYPE_DEF_VAL_MAP[t]}, {i});',
-            ))
-
-            pairs.append((
-                f'{MASK_TOKEN} {MASK_TOKEN} PIC {t}({i})',
-                f'var {MASK_TOKEN} = new COBOLVar({TYPE_DEF_VAL_MAP[t]}, {i});',
-            ))
-
+        for i in range(1, 50):
             # Default values
-            pairs.append((
-                f'{MASK_TOKEN} {MASK_TOKEN} PIC {t * i} VALUE NULL',
-                f'var {MASK_TOKEN} = new COBOLVar(null, {i});',
-            ))
+            for combined_type_idx, combined_type in enumerate([t * i, f'{t}({m_size})']):
+                tar_size = i if combined_type_idx == 0 else m_size
 
-            pairs.append((
-                f'{MASK_TOKEN} {MASK_TOKEN} PIC {t * i} VALUE {MASK_TOKEN}',
-                f'var {MASK_TOKEN} = new COBOLVar({MASK_TOKEN}, {i});',
-            ))
+                pairs.append((
+                    f'{MASK_TOKEN} {MASK_TOKEN} PIC {combined_type}',
+                    f'var {MASK_TOKEN} = new COBOLVar({TYPE_DEF_VAL_MAP[t]}, {tar_size});',
+                ))
 
-            pairs.append((
-                f'{MASK_TOKEN} {MASK_TOKEN} PIC {t * i} VALUE "{MASK_TOKEN}"',
-                f'var {MASK_TOKEN} = new COBOLVar("{MASK_TOKEN}", {i});',
-            ))
+                pairs.append((
+                    f'{MASK_TOKEN} {MASK_TOKEN} PIC {combined_type} VALUE NULL',
+                    f'var {MASK_TOKEN} = new COBOLVar(null, {tar_size});',
+                ))
 
-            pairs.append((
-                f"{MASK_TOKEN} {MASK_TOKEN} PIC {t * i} VALUE '{MASK_TOKEN}'",
-                f'var {MASK_TOKEN} = new COBOLVar("{MASK_TOKEN}", {i});',
-            ))
+                pairs.append((
+                    f'{MASK_TOKEN} {MASK_TOKEN} PIC {combined_type} VALUE {MASK_TOKEN}',
+                    f'var {MASK_TOKEN} = new COBOLVar({MASK_TOKEN}, {tar_size});',
+                ))
 
-            # String-specific default values
-            if t in STR_TYPES:
-                for val in ['SPACE', 'SPACES']:
-                    pairs.append((
-                        f'{MASK_TOKEN} {MASK_TOKEN} PIC {t * i} VALUE {val}',
-                        f'var {MASK_TOKEN} = new COBOLVar(new string(" ", {i}), {i});',
-                    ))
+                pairs.append((
+                    f'{MASK_TOKEN} {MASK_TOKEN} PIC {combined_type} VALUE "{MASK_TOKEN}"',
+                    f'var {MASK_TOKEN} = new COBOLVar("{MASK_TOKEN}", {tar_size});',
+                ))
 
-                for quote in ['"', "'"]:
-                    pairs.append((
-                        f'{MASK_TOKEN} {MASK_TOKEN} PIC {t * i} VALUE {quote * 2}',
-                        f'var {MASK_TOKEN} = new COBOLVar("", {i});',
-                    ))
+                pairs.append((
+                    f"{MASK_TOKEN} {MASK_TOKEN} PIC {combined_type} VALUE '{MASK_TOKEN}'",
+                    f'var {MASK_TOKEN} = new COBOLVar("{MASK_TOKEN}", {tar_size});',
+                ))
 
-                    pairs.append((
-                        f'{MASK_TOKEN} {MASK_TOKEN} PIC {t * i} VALUE {quote} {quote}',
-                        f'var {MASK_TOKEN} = new COBOLVar(" ", {i});',
-                    ))
-            # Numeric-specific default values
-            else:
-                tar_val = TYPE_DEF_VAL_MAP[t]
-                for val in ['ZERO', 'ZEROS', 'ZEROES']:
-                    pairs.append((
-                        f'{MASK_TOKEN} {MASK_TOKEN} PIC {t * i} VALUE {val}',
-                        f'var {MASK_TOKEN} = new COBOLVar({tar_val}, {i});',
-                    ))
+                # String-specific default values
+                if t in STR_TYPES:
+                    for val in ['SPACE', 'SPACES']:
+                        pairs.append((
+                            f'{MASK_TOKEN} {MASK_TOKEN} PIC {combined_type} VALUE {val}',
+                            f'var {MASK_TOKEN} = new COBOLVar(new string(" ", {tar_size}), {tar_size});',
+                        ))
+
+                    for quote in ['"', "'"]:
+                        pairs.append((
+                            f'{MASK_TOKEN} {MASK_TOKEN} PIC {combined_type} VALUE {quote * 2}',
+                            f'var {MASK_TOKEN} = new COBOLVar("", {tar_size});',
+                        ))
+
+                        pairs.append((
+                            f'{MASK_TOKEN} {MASK_TOKEN} PIC {combined_type} VALUE {quote} {quote}',
+                            f'var {MASK_TOKEN} = new COBOLVar(" ", {tar_size});',
+                        ))
+                # Numeric-specific default values
+                else:
+                    tar_val = TYPE_DEF_VAL_MAP[t]
+                    for val in ['ZERO', 'ZEROS', 'ZEROES']:
+                        pairs.append((
+                            f'{MASK_TOKEN} {MASK_TOKEN} PIC {combined_type} VALUE {val}',
+                            f'var {MASK_TOKEN} = new COBOLVar({tar_val}, {tar_size});',
+                        ))
 
     # Add mask indices
     items = list()
