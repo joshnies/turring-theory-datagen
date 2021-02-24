@@ -8,6 +8,7 @@ class JderegJavaUtilToNodeJs14Generator(Generator):
     Case generator for "jdereg/java-util":
     https://github.com/jdereg/java-util
 
+    Source: Java
     Target: Node.js 14
     """
 

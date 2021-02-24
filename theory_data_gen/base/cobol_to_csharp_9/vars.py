@@ -31,27 +31,27 @@ def __gen_vars():
 
                 pairs.append((
                     f'{MASK_TOKEN} {MASK_TOKEN} PIC {combined_type}',
-                    f'var {MASK_TOKEN} = new COBOLVar({TYPE_DEF_VAL_MAP[t]}, {tar_size});',
+                    f'var {MASK_TOKEN} = new COBOLVar({TYPE_DEF_VAL_MAP[t]}, size: {tar_size});',
                 ))
 
                 pairs.append((
                     f'{MASK_TOKEN} {MASK_TOKEN} PIC {combined_type} VALUE NULL',
-                    f'var {MASK_TOKEN} = new COBOLVar(null, {tar_size});',
+                    f'var {MASK_TOKEN} = new COBOLVar(null, size: {tar_size});',
                 ))
 
                 pairs.append((
                     f'{MASK_TOKEN} {MASK_TOKEN} PIC {combined_type} VALUE {MASK_TOKEN}',
-                    f'var {MASK_TOKEN} = new COBOLVar({MASK_TOKEN}, {tar_size});',
+                    f'var {MASK_TOKEN} = new COBOLVar({MASK_TOKEN}, size: {tar_size});',
                 ))
 
                 pairs.append((
                     f'{MASK_TOKEN} {MASK_TOKEN} PIC {combined_type} VALUE "{MASK_TOKEN}"',
-                    f'var {MASK_TOKEN} = new COBOLVar("{MASK_TOKEN}", {tar_size});',
+                    f'var {MASK_TOKEN} = new COBOLVar("{MASK_TOKEN}", size: {tar_size});',
                 ))
 
                 pairs.append((
                     f"{MASK_TOKEN} {MASK_TOKEN} PIC {combined_type} VALUE '{MASK_TOKEN}'",
-                    f'var {MASK_TOKEN} = new COBOLVar("{MASK_TOKEN}", {tar_size});',
+                    f'var {MASK_TOKEN} = new COBOLVar("{MASK_TOKEN}", size: {tar_size});',
                 ))
 
                 # String-specific default values
@@ -59,18 +59,18 @@ def __gen_vars():
                     for val in ['SPACE', 'SPACES']:
                         pairs.append((
                             f'{MASK_TOKEN} {MASK_TOKEN} PIC {combined_type} VALUE {val}',
-                            f'var {MASK_TOKEN} = new COBOLVar(new string(" ", {tar_size}), {tar_size});',
+                            f'var {MASK_TOKEN} = new COBOLVar(new string(" ", {tar_size}), size: {tar_size});',
                         ))
 
                     for quote in ['"', "'"]:
                         pairs.append((
                             f'{MASK_TOKEN} {MASK_TOKEN} PIC {combined_type} VALUE {quote * 2}',
-                            f'var {MASK_TOKEN} = new COBOLVar("", {tar_size});',
+                            f'var {MASK_TOKEN} = new COBOLVar("", size: {tar_size});',
                         ))
 
                         pairs.append((
                             f'{MASK_TOKEN} {MASK_TOKEN} PIC {combined_type} VALUE {quote} {quote}',
-                            f'var {MASK_TOKEN} = new COBOLVar(" ", {tar_size});',
+                            f'var {MASK_TOKEN} = new COBOLVar(" ", size: {tar_size});',
                         ))
                 # Numeric-specific default values
                 else:
@@ -78,7 +78,7 @@ def __gen_vars():
                     for val in ['ZERO', 'ZEROS', 'ZEROES']:
                         pairs.append((
                             f'{MASK_TOKEN} {MASK_TOKEN} PIC {combined_type} VALUE {val}',
-                            f'var {MASK_TOKEN} = new COBOLVar({tar_val}, {tar_size});',
+                            f'var {MASK_TOKEN} = new COBOLVar({tar_val}, size: {tar_size});',
                         ))
 
     # Add mask indices
@@ -115,41 +115,41 @@ def gen_vars(write):
             (
                 f'{m_level} {m_name} PIC 9({m_size})V9({gen_mask_token(3)})',
                 # NOTE: Literal operations are calculated at compile-time in C#
-                f'var {m_name} = new COBOLVar(0f, {m_size} + {gen_mask_token(3)} + 1);'
+                f'var {m_name} = new COBOLVar(0f, size: {m_size} + {gen_mask_token(3)} + 1);'
             ),
             # Signed floats
             (
                 f'{m_level} {m_name} PIC S9V9',
-                f'var {m_name} = new COBOLVar(0f, 3);'
+                f'var {m_name} = new COBOLVar(0f, size: 3);'
             ),
             (
                 f'{m_level} {m_name} PIC S9({m_size})V9({gen_mask_token(3)})',
                 # NOTE: Literal operations are calculated at compile-time in C#
-                f'var {m_name} = new COBOLVar(0f, {m_size} + {gen_mask_token(3)} + 1);'
+                f'var {m_name} = new COBOLVar(0f, size: {m_size} + {gen_mask_token(3)} + 1);'
             ),
             # Floats with default value
             (
                 f'{m_level} {m_name} PIC S9({m_size})V9({gen_mask_token(3)}) VALUE {gen_mask_token(4)}',
                 # NOTE: C# requires "f" suffix for float literals
-                f'var {m_name} = new COBOLVar({gen_mask_token(4)}f, {m_size} + {gen_mask_token(3)} + 1);'
+                f'var {m_name} = new COBOLVar({gen_mask_token(4)}f, size: {m_size} + {gen_mask_token(3)} + 1);'
             ),
             (
                 f'{m_level} {m_name} PIC S9({m_size})V9({gen_mask_token(3)}) VALUE NULL',
                 # NOTE: C# requires "f" suffix for float literals
-                f'var {m_name} = new COBOLVar(null, {m_size} + {gen_mask_token(3)} + 1);'
+                f'var {m_name} = new COBOLVar(null, size: {m_size} + {gen_mask_token(3)} + 1);'
             ),
             # Floats with literal 0 default value
             (
                 f'{m_level} {m_name} PIC S9({m_size})V9({gen_mask_token(3)}) VALUE ZERO',
-                f'var {m_name} = new COBOLVar(0f, {m_size} + {gen_mask_token(3)} + 1);'
+                f'var {m_name} = new COBOLVar(0f, size: {m_size} + {gen_mask_token(3)} + 1);'
             ),
             (
                 f'{m_level} {m_name} PIC S9({m_size})V9({gen_mask_token(3)}) VALUE ZEROS',
-                f'var {m_name} = new COBOLVar(0f, {m_size} + {gen_mask_token(3)} + 1);'
+                f'var {m_name} = new COBOLVar(0f, size: {m_size} + {gen_mask_token(3)} + 1);'
             ),
             (
                 f'{m_level} {m_name} PIC S9({m_size})V9({gen_mask_token(3)}) VALUE ZEROES',
-                f'var {m_name} = new COBOLVar(0f, {m_size} + {gen_mask_token(3)} + 1);'
+                f'var {m_name} = new COBOLVar(0f, size: {m_size} + {gen_mask_token(3)} + 1);'
             ),
         ])
 
