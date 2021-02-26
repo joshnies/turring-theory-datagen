@@ -33,8 +33,7 @@ COBOL_EQUALITY_OPS = [
     '=',
     'EQUALS',
     'EQUAL TO',
-    '!=',
     'NOT =',
     'NOT EQUALS',
-    'NOT EQUAL TO'
+    'NOT EQUAL TO',
 ]
