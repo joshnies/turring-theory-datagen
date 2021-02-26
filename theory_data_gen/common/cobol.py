@@ -23,9 +23,18 @@ COBOL_BOOL_OP_MAP = {
     'NOT LESS OR EQUAL THAN': '!<=',
 }
 
-
 COBOL_SIGN_OP_MAP = {
     'POSITIVE': '> 0',
     'NEGATIVE': '< 0',
     'ZERO': '== 0',
 }
+
+COBOL_EQUALITY_OPS = [
+    '=',
+    'EQUALS',
+    'EQUAL TO',
+    '!=',
+    'NOT =',
+    'NOT EQUALS',
+    'NOT EQUAL TO'
+]
