@@ -1,6 +1,7 @@
 from yaspin import yaspin
 
 from constants import MASK_TOKEN
+from .common import gen_filler_pairs
 from ...common import gen_item, gen_mask_token, add_mask_indices
 
 TYPE_DEF_VAL_MAP = {
@@ -154,23 +155,7 @@ def gen_vars(write):
         ])
 
         # Add "FILLER" syntax pairs
-        filler_pairs = list(
-            map(
-                lambda p: (
-                    p[0].replace(m_name, 'FILLER')
-                        .replace(gen_mask_token(2), gen_mask_token(1))
-                        .replace(gen_mask_token(3), gen_mask_token(2))
-                        .replace(gen_mask_token(4), gen_mask_token(3)),
-                    p[1].replace(m_name, '%filler_n%')
-                        .replace(gen_mask_token(2), gen_mask_token(1))
-                        .replace(gen_mask_token(3), gen_mask_token(2))
-                        .replace(gen_mask_token(4), gen_mask_token(3))
-                ),
-                pairs
-            )
-        )
-
-        pairs.extend(filler_pairs)
+        pairs = gen_filler_pairs(pairs)
 
         # Convert pairs to writable items
         items = map(lambda p: gen_item(p[0], p[1]), pairs)
