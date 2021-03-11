@@ -61,102 +61,102 @@ def gen_redefines(write):
         # Integers
         (
             f'{m_level} {m_name} REDEFINES {m_from} PIC 9',
-            f'{m_name} = new COBOLVar(int.Parse({m_from}), 1);'
+            f'{m_name} = new COBOLVar(int.Parse({m_from}.value), 1);'
         ),
         (
             f'{m_level} {m_name} REDEFINES {m_from} PIC 99',
-            f'{m_name} = new COBOLVar(int.Parse({m_from}), 2);'
+            f'{m_name} = new COBOLVar(int.Parse({m_from}.value), 2);'
         ),
         (
             f'{m_level} {m_name} REDEFINES {m_from} PIC 999',
-            f'{m_name} = new COBOLVar(int.Parse({m_from}), 3);'
+            f'{m_name} = new COBOLVar(int.Parse({m_from}.value), 3);'
         ),
         (
             f'{m_level} {m_name} REDEFINES {m_from} PIC 9999',
-            f'{m_name} = new COBOLVar(int.Parse({m_from}), 4);'
+            f'{m_name} = new COBOLVar(int.Parse({m_from}.value), 4);'
         ),
         (
             f'{m_level} {m_name} REDEFINES {m_from} PIC 9({m_size})',
-            f'{m_name} = new COBOLVar(int.Parse({m_from}), {m_size});'
+            f'{m_name} = new COBOLVar(int.Parse({m_from}.value), {m_size});'
         ),
         # Signed integers
         (
             f'{m_level} {m_name} REDEFINES {m_from} PIC S9',
-            f'{m_name} = new COBOLVar(int.Parse({m_from}), 1);'
+            f'{m_name} = new COBOLVar(int.Parse({m_from}.value), 1);'
         ),
         (
             f'{m_level} {m_name} REDEFINES {m_from} PIC S99',
-            f'{m_name} = new COBOLVar(int.Parse({m_from}), 2);'
+            f'{m_name} = new COBOLVar(int.Parse({m_from}.value), 2);'
         ),
         (
             f'{m_level} {m_name} REDEFINES {m_from} PIC S999',
-            f'{m_name} = new COBOLVar(int.Parse({m_from}), 3);'
+            f'{m_name} = new COBOLVar(int.Parse({m_from}.value), 3);'
         ),
         (
             f'{m_level} {m_name} REDEFINES {m_from} PIC S9999',
-            f'{m_name} = new COBOLVar(int.Parse({m_from}), 4);'
+            f'{m_name} = new COBOLVar(int.Parse({m_from}.value), 4);'
         ),
         (
             f'{m_level} {m_name} REDEFINES {m_from} PIC S9({m_size})',
-            f'{m_name} = new COBOLVar(int.Parse({m_from}), {m_size});'
+            f'{m_name} = new COBOLVar(int.Parse({m_from}.value), {m_size});'
         ),
         # Floats
         (
             f'{m_level} {m_name} REDEFINES {m_from} PIC 9V9',
-            f'{m_name} = new COBOLVar(float.Parse({m_from}), 3);'
+            f'{m_name} = new COBOLVar(float.Parse({m_from}.value), 3);'
         ),
         (
             f'{m_level} {m_name} REDEFINES {m_from} PIC 9V99',
-            f'{m_name} = new COBOLVar(float.Parse({m_from}), 4);'
+            f'{m_name} = new COBOLVar(float.Parse({m_from}.value), 4);'
         ),
         (
             f'{m_level} {m_name} REDEFINES {m_from} PIC 9V999',
-            f'{m_name} = new COBOLVar(float.Parse({m_from}), 5);'
+            f'{m_name} = new COBOLVar(float.Parse({m_from}.value), 5);'
         ),
         (
             f'{m_level} {m_name} REDEFINES {m_from} PIC 99V99',
-            f'{m_name} = new COBOLVar(float.Parse({m_from}), 5);'
+            f'{m_name} = new COBOLVar(float.Parse({m_from}.value), 5);'
         ),
         (
             f'{m_level} {m_name} REDEFINES {m_from} PIC 99V999',
-            f'{m_name} = new COBOLVar(float.Parse({m_from}), 6);'
+            f'{m_name} = new COBOLVar(float.Parse({m_from}.value), 6);'
         ),
         (
             f'{m_level} {m_name} REDEFINES {m_from} PIC 99V9999',
-            f'{m_name} = new COBOLVar(float.Parse({m_from}), 7);'
+            f'{m_name} = new COBOLVar(float.Parse({m_from}.value), 7);'
         ),
         (
             f'{m_level} {m_name} REDEFINES {m_from} PIC 9({m_size})V9({gen_mask_token(4)})',
-            f'{m_name} = new COBOLVar(float.Parse({m_from}), {m_size} + {gen_mask_token(4)} + 1);'
+            f'{m_name} = new COBOLVar(float.Parse({m_from}.value), {m_size} + {gen_mask_token(4)} + 1);'
         ),
         # Signed floats
         (
             f'{m_level} {m_name} REDEFINES {m_from} PIC S9V9',
-            f'{m_name} = new COBOLVar(float.Parse({m_from}), 3);'
+            f'{m_name} = new COBOLVar(float.Parse({m_from}.value), 3);'
         ),
         (
             f'{m_level} {m_name} REDEFINES {m_from} PIC S9V99',
-            f'{m_name} = new COBOLVar(float.Parse({m_from}), 4);'
+            f'{m_name} = new COBOLVar(float.Parse({m_from}.value), 4);'
         ),
         (
             f'{m_level} {m_name} REDEFINES {m_from} PIC S9V999',
-            f'{m_name} = new COBOLVar(float.Parse({m_from}), 5);'
+            f'{m_name} = new COBOLVar(float.Parse({m_from}.value), 5);'
         ),
         (
             f'{m_level} {m_name} REDEFINES {m_from} PIC S99V99',
-            f'{m_name} = new COBOLVar(float.Parse({m_from}), 5);'
+            f'{m_name} = new COBOLVar(float.Parse({m_from}.value), 5);'
         ),
         (
             f'{m_level} {m_name} REDEFINES {m_from} PIC S99V999',
-            f'{m_name} = new COBOLVar(float.Parse({m_from}), 6);'
+            f'{m_name} = new COBOLVar(float.Parse({m_from}.value), 6);'
         ),
         (
             f'{m_level} {m_name} REDEFINES {m_from} PIC S99V9999',
-            f'{m_name} = new COBOLVar(float.Parse({m_from}), 7);'
+            f'{m_name} = new COBOLVar(float.Parse({m_from}.value), 7);'
         ),
         (
             f'{m_level} {m_name} REDEFINES {m_from} PIC S9({m_size})V9({gen_mask_token(4)})',
-            f'{m_name} = new COBOLVar(float.Parse({m_from}), {m_size} + {gen_mask_token(4)} + 1);'
+            f'{m_name} = new COBOLVar(float.Parse({m_from}.value), {m_size} + {gen_mask_token(4)} + 1);'
         ),
     ]
 
