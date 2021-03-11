@@ -18,7 +18,7 @@ class FGREGGTaxExtensionToCSharp9Generator(Generator):
         items = [
             gen_item(
                 f'{gen_mask_token(0)} {gen_mask_token(1)} OCCURS {gen_mask_token(2)} TIMES PIC XX',
-                f'var {gen_mask_token(1)} = new COBOLVar(new string("", 2), size: 2, occurs: {gen_mask_token(2)});'
+                f"var {gen_mask_token(1)} = new COBOLVar(new string(' ', 2), size: 2, occurs: {gen_mask_token(2)});"
             ),
         ]
 
