@@ -4,7 +4,7 @@ from tqdm import tqdm
 
 from ...constants import MASK_TOKEN
 from ...common import gen_item, gen_mask_token, add_mask_indices
-from ...common.cobol import COBOL_BOOL_OP_MAP, COBOL_SIGN_OP_MAP
+from ...common.cobol import COBOL_BOOL_OP_MAP, COBOL_SIGN_OP_MAP, COBOL_EQUALITY_OPS
 
 
 def __gen_relation_condition():
@@ -15,12 +15,34 @@ def __gen_relation_condition():
     tar_op = COBOL_BOOL_OP_MAP[src_op]
 
     src_is = 'IS ' if bool(random.getrandbits(1)) else ''
-    val_is_null = src_op in ['=', 'EQUALS', 'EQUAL TO', '!=', 'NOT =', 'NOT EQUALS', 'NOT EQUAL TO'] \
-                  and random.randint(0, 10) == 0
 
-    # Get comparison values
-    src_val = 'NULL' if val_is_null else MASK_TOKEN
-    tar_val = src_val.lower()
+    # Generate value
+    val_choice = random.randint(0, 3)
+
+    if val_choice == 0:
+        # Mask token
+        src_val = MASK_TOKEN
+        tar_val = MASK_TOKEN
+    elif val_choice == 1:
+        # Null
+        src_val = 'NULL'
+        tar_val = 'null'
+
+        # Ensure operator is compatible
+        src_op = random.choice(COBOL_EQUALITY_OPS)
+        tar_op = COBOL_BOOL_OP_MAP[src_op]
+    elif val_choice == 2:
+        # ZERO constant
+        src_val = 'ZERO'
+        tar_val = '0'
+    else:
+        # SPACE constant
+        src_val = 'SPACE'
+        tar_val = '" "'
+
+        # Ensure operator is compatible
+        src_op = random.choice(COBOL_EQUALITY_OPS)
+        tar_op = COBOL_BOOL_OP_MAP[src_op]
 
     # Generate pair
     src = f'{MASK_TOKEN} {src_is}{src_op} {src_val}'
