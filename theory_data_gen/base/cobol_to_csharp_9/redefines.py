@@ -1,6 +1,79 @@
 from base.cobol_to_csharp_9.common import gen_filler_pairs
 from common import gen_mask_token, gen_item
 
+# Generate static mask tokens
+m_level = gen_mask_token(0)
+m_name = gen_mask_token(1)
+m_from = gen_mask_token(2)
+m_size = gen_mask_token(3)
+
+
+def __gen_str_redefines():
+    pairs = [
+        (
+            f'{m_level} {m_name} REDEFINES {m_from} PIC X({m_size})',
+            f'{m_name} = new COBOLVar({m_from}.ToString(), {m_size});'
+        ),
+    ]
+
+    for src_type in ['X', 'A']:
+        for i in range(1, 21):
+            pairs.append((
+                f"{m_level} {m_name} REDEFINES {m_from} PIC {src_type * i}",
+                f'{m_name} = new COBOLVar({m_from}.ToString(), {i});'
+            ))
+
+    return pairs
+
+
+def __gen_int_redefines():
+    pairs = list()
+
+    for is_signed in range(2):
+        prefix = 'S' if is_signed else ''
+        src_type = f'{prefix}9'
+
+        pairs.append((
+            f'{m_level} {m_name} REDEFINES {m_from} PIC {src_type}({m_size})',
+            f'{m_name} = new COBOLVar(int.Parse({m_from}.value), {m_size});'
+        ))
+
+        for i in range(1, 11):
+            type_range = '9' * i
+
+            pairs.append((
+                f"{m_level} {m_name} REDEFINES {m_from} PIC {prefix + type_range}",
+                f'{m_name} = new COBOLVar(int.Parse({m_from}.value), {i});'
+            ))
+
+    return pairs
+
+
+def __gen_float_redefines():
+    pairs = list()
+
+    for is_signed in range(2):
+        prefix = 'S' if is_signed else ''
+        src_type = f'{prefix}9'
+
+        pairs.append((
+            f'{m_level} {m_name} REDEFINES {m_from} PIC {src_type}({m_size})V9({gen_mask_token(4)})',
+            f'{m_name} = new COBOLVar(float.Parse({m_from}.value), {m_size} + {gen_mask_token(4)} + 1);'
+        ), )
+
+        for i in range(1, 11):
+            whole_type_range = '9' * i
+
+            for k in range(1, 11):
+                dec_type_range = '9' * i
+
+                pairs.append((
+                    f"{m_level} {m_name} REDEFINES {m_from} PIC {prefix + whole_type_range}V{dec_type_range}",
+                    f'{m_name} = new COBOLVar(float.Parse({m_from}.value), {i + k});'
+                ))
+
+    return pairs
+
 
 def gen_redefines(write):
     """
@@ -9,156 +82,10 @@ def gen_redefines(write):
     :param write: CSV output write function.
     """
 
-    # Generate static mask tokens
-    m_level = gen_mask_token(0)
-    m_name = gen_mask_token(1)
-    m_from = gen_mask_token(2)
-    m_size = gen_mask_token(3)
-
-    pairs = [
-        # Alphanumeric
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC X',
-            f'{m_name} = new COBOLVar({m_from}.ToString(), 1);'
-        ),
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC XX',
-            f'{m_name} = new COBOLVar({m_from}.ToString(), 2);'
-        ),
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC XXX',
-            f'{m_name} = new COBOLVar({m_from}.ToString(), 3);'
-        ),
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC XXXX',
-            f'{m_name} = new COBOLVar({m_from}.ToString(), 4);'
-        ),
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC X({m_size})',
-            f'{m_name} = new COBOLVar({m_from}.ToString(), {m_size});'
-        ),
-        # Alphabetic
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC A',
-            f'{m_name} = new COBOLVar({m_from}.ToString(), 1);'
-        ),
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC AA',
-            f'{m_name} = new COBOLVar({m_from}.ToString(), 2);'
-        ),
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC AAA',
-            f'{m_name} = new COBOLVar({m_from}.ToString(), 3);'
-        ),
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC AAAA',
-            f'{m_name} = new COBOLVar({m_from}.ToString(), 4);'
-        ),
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC A({m_size})',
-            f'{m_name} = new COBOLVar({m_from}.ToString(), {m_size});'
-        ),
-        # Integers
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC 9',
-            f'{m_name} = new COBOLVar(int.Parse({m_from}.value), 1);'
-        ),
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC 99',
-            f'{m_name} = new COBOLVar(int.Parse({m_from}.value), 2);'
-        ),
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC 999',
-            f'{m_name} = new COBOLVar(int.Parse({m_from}.value), 3);'
-        ),
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC 9999',
-            f'{m_name} = new COBOLVar(int.Parse({m_from}.value), 4);'
-        ),
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC 9({m_size})',
-            f'{m_name} = new COBOLVar(int.Parse({m_from}.value), {m_size});'
-        ),
-        # Signed integers
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC S9',
-            f'{m_name} = new COBOLVar(int.Parse({m_from}.value), 1);'
-        ),
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC S99',
-            f'{m_name} = new COBOLVar(int.Parse({m_from}.value), 2);'
-        ),
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC S999',
-            f'{m_name} = new COBOLVar(int.Parse({m_from}.value), 3);'
-        ),
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC S9999',
-            f'{m_name} = new COBOLVar(int.Parse({m_from}.value), 4);'
-        ),
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC S9({m_size})',
-            f'{m_name} = new COBOLVar(int.Parse({m_from}.value), {m_size});'
-        ),
-        # Floats
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC 9V9',
-            f'{m_name} = new COBOLVar(float.Parse({m_from}.value), 3);'
-        ),
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC 9V99',
-            f'{m_name} = new COBOLVar(float.Parse({m_from}.value), 4);'
-        ),
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC 9V999',
-            f'{m_name} = new COBOLVar(float.Parse({m_from}.value), 5);'
-        ),
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC 99V99',
-            f'{m_name} = new COBOLVar(float.Parse({m_from}.value), 5);'
-        ),
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC 99V999',
-            f'{m_name} = new COBOLVar(float.Parse({m_from}.value), 6);'
-        ),
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC 99V9999',
-            f'{m_name} = new COBOLVar(float.Parse({m_from}.value), 7);'
-        ),
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC 9({m_size})V9({gen_mask_token(4)})',
-            f'{m_name} = new COBOLVar(float.Parse({m_from}.value), {m_size} + {gen_mask_token(4)} + 1);'
-        ),
-        # Signed floats
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC S9V9',
-            f'{m_name} = new COBOLVar(float.Parse({m_from}.value), 3);'
-        ),
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC S9V99',
-            f'{m_name} = new COBOLVar(float.Parse({m_from}.value), 4);'
-        ),
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC S9V999',
-            f'{m_name} = new COBOLVar(float.Parse({m_from}.value), 5);'
-        ),
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC S99V99',
-            f'{m_name} = new COBOLVar(float.Parse({m_from}.value), 5);'
-        ),
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC S99V999',
-            f'{m_name} = new COBOLVar(float.Parse({m_from}.value), 6);'
-        ),
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC S99V9999',
-            f'{m_name} = new COBOLVar(float.Parse({m_from}.value), 7);'
-        ),
-        (
-            f'{m_level} {m_name} REDEFINES {m_from} PIC S9({m_size})V9({gen_mask_token(4)})',
-            f'{m_name} = new COBOLVar(float.Parse({m_from}.value), {m_size} + {gen_mask_token(4)} + 1);'
-        ),
-    ]
+    pairs = list()
+    pairs.extend(__gen_str_redefines())
+    pairs.extend(__gen_int_redefines())
+    pairs.extend(__gen_float_redefines())
 
     # Add "FILLER" syntax pairs
     pairs = gen_filler_pairs(pairs)
