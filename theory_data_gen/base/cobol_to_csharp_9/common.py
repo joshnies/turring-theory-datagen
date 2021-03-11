@@ -21,7 +21,7 @@ def gen_filler_pairs(pairs: List[Tuple[str, str]]) -> List[Tuple[str, str]]:
                     .replace(gen_mask_token(2), gen_mask_token(1))
                     .replace(gen_mask_token(3), gen_mask_token(2))
                     .replace(gen_mask_token(4), gen_mask_token(3)),
-                p[1].replace(m_name, '%filler_n%')
+                p[1].replace(m_name, '%FillerX%')
                     .replace(gen_mask_token(2), gen_mask_token(1))
                     .replace(gen_mask_token(3), gen_mask_token(2))
                     .replace(gen_mask_token(4), gen_mask_token(3))
