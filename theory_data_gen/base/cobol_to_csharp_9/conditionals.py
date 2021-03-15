@@ -179,7 +179,7 @@ def __gen_conditional():
 
     # Generate "else if" item
     src = 'ELSE-' + src
-    tar = 'else ' + tar
+    tar = '} else ' + tar
     items.append(gen_item(src, tar))
 
     return items
