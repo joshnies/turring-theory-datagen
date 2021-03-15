@@ -71,27 +71,27 @@ def __gen_class_condition():
     # Generate pair
     type_selection = random.choice(range(6))
 
-    is_keyword = 'IS ' if bool(random.getrandbits(1)) else ''
+    src_is = 'IS ' if bool(random.getrandbits(1)) else ''
 
     if type_selection == 0:
         # Numeric
-        src = f'{MASK_TOKEN} {is_keyword}NUMERIC'
+        src = f'{MASK_TOKEN} {src_is}NUMERIC'
         tar = f'{MASK_TOKEN}.IsNumeric()'
     elif type_selection == 1:
         # Alphabetic
-        src = f'{MASK_TOKEN} {is_keyword}ALPHABETIC'
+        src = f'{MASK_TOKEN} {src_is}ALPHABETIC'
         tar = f'{MASK_TOKEN}.IsAlphabetic()'
     elif type_selection == 2:
         # Alphanumeric
-        src = f'{MASK_TOKEN} {is_keyword}ALPHANUMERIC'
+        src = f'{MASK_TOKEN} {src_is}ALPHANUMERIC'
         tar = f'{MASK_TOKEN}.IsAlphanumeric()'
     elif type_selection == 3:
         # Alphabetic (lowercase)
-        src = f'{MASK_TOKEN} {is_keyword}ALPHABETIC-LOWER'
+        src = f'{MASK_TOKEN} {src_is}ALPHABETIC-LOWER'
         tar = f'{MASK_TOKEN}.IsAlphabeticLower()'
     else:
         # Alphabetic (uppercase)
-        src = f'{MASK_TOKEN} {is_keyword}ALPHABETIC-UPPER'
+        src = f'{MASK_TOKEN} {src_is}ALPHABETIC-UPPER'
         tar = f'{MASK_TOKEN}.IsAlphabeticUpper()'
 
     return src, tar
