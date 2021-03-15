@@ -7,6 +7,9 @@ from ...common import gen_item, gen_mask_token, add_mask_indices
 from ...common.cobol import COBOL_BOOL_OP_MAP, COBOL_SIGN_OP_MAP, COBOL_EQUALITY_OPS
 
 
+SRC_SUBVALUE = f'({MASK_TOKEN})'
+TAR_SUBVALUE = f'.GetSubvalue(start: {MASK_TOKEN})'
+
 def __gen_relation_condition():
     """Generate relation condition pair."""
 
@@ -14,7 +17,13 @@ def __gen_relation_condition():
     src_op = random.choice(list(COBOL_BOOL_OP_MAP.keys()))
     tar_op = COBOL_BOOL_OP_MAP[src_op]
 
+    # Generate random keywords and clauses
     src_is = 'IS ' if bool(random.getrandbits(1)) else ''
+
+    src_subvalue_a = ''
+    src_subvalue_b = ''
+    tar_subvalue_a = ''
+    tar_subvalue_b = ''
 
     # Generate value
     val_choice = random.randint(0, 3)
@@ -23,6 +32,11 @@ def __gen_relation_condition():
         # Mask token
         src_val = MASK_TOKEN
         tar_val = MASK_TOKEN
+
+        src_subvalue_a = SRC_SUBVALUE if bool(random.getrandbits(1)) else ''
+        src_subvalue_b = SRC_SUBVALUE if bool(random.getrandbits(1)) else ''
+        tar_subvalue_a = TAR_SUBVALUE if bool(random.getrandbits(1)) else ''
+        tar_subvalue_b = TAR_SUBVALUE if bool(random.getrandbits(1)) else ''
     elif val_choice == 1:
         # Null
         src_val = 'NULL'
@@ -45,8 +59,8 @@ def __gen_relation_condition():
         tar_op = COBOL_BOOL_OP_MAP[src_op]
 
     # Generate pair
-    src = f'{MASK_TOKEN} {src_is}{src_op} {src_val}'
-    tar = f'{MASK_TOKEN} {tar_op} {tar_val}'
+    src = f'{MASK_TOKEN}{src_subvalue_a} {src_is}{src_op} {src_val}{src_subvalue_b}'
+    tar = f'{MASK_TOKEN}{tar_subvalue_a} {tar_op} {tar_val}{tar_subvalue_b}'
 
     return src, tar
 
@@ -58,9 +72,11 @@ def __gen_sign_condition():
     src_op = random.choice(list(COBOL_SIGN_OP_MAP.keys()))
     tar_op = COBOL_SIGN_OP_MAP[src_op]
 
+    src_is = 'IS ' if bool(random.getrandbits(1)) else ''
+
     # Generate
-    src = f'{MASK_TOKEN} {src_op} {MASK_TOKEN}'
-    tar = f'{MASK_TOKEN} {tar_op} {MASK_TOKEN}'
+    src = f'{MASK_TOKEN} {src_is}{src_op}'
+    tar = f'{MASK_TOKEN} {tar_op}'
 
     return src, tar
 
@@ -104,9 +120,12 @@ def __gen_name_condition():
     src_not = 'NOT ' if is_negated else ''
     tar_not = '!' if is_negated else ''
 
+    src_subvalue_a = SRC_SUBVALUE if bool(random.getrandbits(1)) else ''
+    tar_subvalue_a = TAR_SUBVALUE if bool(random.getrandbits(1)) else ''
+
     # Generate positive condition
-    src = f'{src_not}{MASK_TOKEN}'
-    tar = f'{tar_not}{MASK_TOKEN}'
+    src = f'{src_not}{MASK_TOKEN}{src_subvalue_a}'
+    tar = f'{tar_not}{MASK_TOKEN}{tar_subvalue_a}'
 
     return src, tar
 
