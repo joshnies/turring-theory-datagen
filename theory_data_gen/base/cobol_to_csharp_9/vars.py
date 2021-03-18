@@ -56,7 +56,6 @@ def __gen_vars():
 
                         # Offset "size" mask token based on previous clauses in source
                         m_size = gen_mask_token(2 + int(use_occurs) + int(use_indexed))
-                        print(f'm_size = 2 + [use_occurs: {use_occurs}] + [use_indexed: {use_indexed}] = {m_size}')
 
                         prefix = 'S' if is_signed and t == '9' else ''
                         type_range = t * i
