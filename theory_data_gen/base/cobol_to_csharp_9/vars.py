@@ -47,23 +47,26 @@ def __gen_vars():
     # Generate variables
     for t in types:
         for i in range(1, 21):
-            for is_signed_int in range(2):
-                for use_occurs in range(2):
-                    for use_indexed in range(2):
-                        # Offset "size" mask token based on previous clauses in source
-                        m_size = gen_mask_token(2 + use_occurs + use_indexed)
+            for i_is_signed in range(2):
+                for i_use_occurs in range(2):
+                    for i_use_indexed in range(2):
+                        is_signed = bool(i_is_signed)
+                        use_occurs = bool(i_use_occurs)
+                        use_indexed = use_occurs and bool(i_use_indexed)
 
-                        prefix = 'S' if bool(is_signed_int) and t == '9' else ''
+                        # Offset "size" mask token based on previous clauses in source
+                        m_size = gen_mask_token(2 + int(use_occurs) + int(use_indexed))
+                        print(f'm_size = 2 + [use_occurs: {use_occurs}] + [use_indexed: {use_indexed}] = {m_size}')
+
+                        prefix = 'S' if is_signed and t == '9' else ''
                         type_range = t * i
                         src_type = prefix + type_range
 
-                        src_occurs = f' OCCURS {m_occurrence} TIMES ' if bool(use_occurs) else ' '
-                        src_indexed = f'INDEXED BY {m_indexed_by} ' \
-                            if bool(use_occurs) and bool(use_indexed) else ''
+                        src_occurs = f' OCCURS {m_occurrence} TIMES ' if use_occurs else ' '
+                        src_indexed = f'INDEXED BY {m_indexed_by} ' if use_indexed else ''
 
-                        tar_occurs = f', occurs: {m_occurrence}' if bool(use_occurs) else ''
-                        tar_indexed = fr'\n{m_indexed_by} = new COBOLVar(0, size: 10);' \
-                            if bool(use_occurs) and bool(use_indexed) else ''
+                        tar_occurs = f', occurs: {m_occurrence}' if use_occurs else ''
+                        tar_indexed = fr'\n{m_indexed_by} = new COBOLVar(0, size: 10);' if use_indexed else ''
 
                         for combined_type_idx, combined_type in enumerate([src_type, f'{t}({m_size})']):
                             tar_size = i if combined_type_idx == 0 else m_size
