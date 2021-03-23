@@ -1,6 +1,6 @@
 import random
 
-from constants import MASK_TOKEN
+from ...constants import MASK_TOKEN
 from theory_data_gen.utils import join
 
 # C++ primitive types (not replaced with mask token)

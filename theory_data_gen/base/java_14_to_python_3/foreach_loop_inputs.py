@@ -2,7 +2,7 @@ import random
 
 from tqdm import tqdm
 
-from constants import MASK_TOKEN
+from ...constants import MASK_TOKEN
 from theory_data_gen.common import gen_mask_token, add_mask_indices, gen_item
 from .entity_chains import gen_entity_chain_pair
 from .lvp import TYPE_MAP

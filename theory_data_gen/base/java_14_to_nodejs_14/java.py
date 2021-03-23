@@ -1,4 +1,4 @@
-from constants import MEMBER_TOKEN
+from ...constants import MEMBER_TOKEN
 from theory_data_gen.common import gen_item
 from theory_data_gen.common.java import JAVA_ACCESS_MODIFIERS
 

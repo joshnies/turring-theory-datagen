@@ -1,12 +1,12 @@
 import argparse
 
-from cases.fgregg.tax_extension.csharp_9.generator import FGREGGTaxExtensionToCSharp9Generator
 from theory_data_gen.lvp import LVP
 from theory_data_gen.output import create_output_file, deduplicate_lines
 from theory_data_gen.base.cpp_17_to_nodejs_14.generator import Cpp17ToNodeJS14Generator
 from theory_data_gen.base.java_14_to_nodejs_14.generator import Java14ToNodeJS14Generator
 from theory_data_gen.base.java_14_to_python_3.generator import Java14ToPython3Generator
 from theory_data_gen.base.cobol_to_csharp_9.generator import CobolToCSharp9Generator
+from theory_data_gen.cases.fgregg.tax_extension.csharp_9.generator import FGREGGTaxExtensionToCSharp9Generator
 from theory_data_gen.cases.jdereg.java_util.nodejs_14.generator import JderegJavaUtilToNodeJs14Generator
 
 # Parse args
@@ -50,14 +50,14 @@ og_file_name = f'{args.out[:-4]}_DUP.csv'
 dup_file, write_func = create_output_file(og_file_name)
 
 # Generate base LVP data
-if lvp == LVP.CPP_17_TO_NODEJS_14:
+if lvp == LVP.COBOL_TO_CSHARP_9:
+    CobolToCSharp9Generator.generate(args, write_func)
+elif lvp == LVP.CPP_17_TO_NODEJS_14:
     Cpp17ToNodeJS14Generator.generate(args, write_func)
 elif lvp == LVP.JAVA_14_TO_NODEJS_14:
     Java14ToNodeJS14Generator.generate(args, write_func)
 elif lvp == LVP.JAVA_14_TO_PYTHON_3:
     Java14ToPython3Generator.generate(args, write_func)
-elif lvp == LVP.COBOL_TO_CSHARP_9:
-    CobolToCSharp9Generator.generate(args, write_func)
 else:
     raise Exception(f'Unimplemented language-version pair "{lvp.value}".')
 

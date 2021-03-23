@@ -1,5 +1,5 @@
-from base.cobol_to_csharp_9.common import gen_filler_pairs
-from common import gen_mask_token, gen_item
+from .common import gen_filler_pairs
+from ...common import gen_mask_token, gen_item
 
 # Generate static mask tokens
 m_level = gen_mask_token(0)

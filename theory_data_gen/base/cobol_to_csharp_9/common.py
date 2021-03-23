@@ -1,6 +1,6 @@
 from typing import List, Tuple
 
-from common import gen_mask_token
+from ...common import gen_mask_token
 
 
 def gen_filler_pairs(pairs: List[Tuple[str, str]]) -> List[Tuple[str, str]]:

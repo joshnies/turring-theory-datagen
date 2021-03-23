@@ -1,6 +1,6 @@
 import random
 
-from common import gen_type_generics
+from . import gen_type_generics
 from theory_data_gen.constants import MASK_TOKEN
 
 # Java primitive types (not replaced with mask token)

@@ -1,6 +1,6 @@
 from yaspin import yaspin
 
-from constants import MASK_TOKEN
+from ...constants import MASK_TOKEN
 from .common import gen_filler_pairs
 from ...common import gen_item, gen_mask_token, add_mask_indices
 
