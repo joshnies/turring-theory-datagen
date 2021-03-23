@@ -6,9 +6,9 @@ from ...constants import MASK_TOKEN
 from ...common import gen_item, gen_mask_token, add_mask_indices
 from ...common.cobol import COBOL_BOOL_OP_MAP, COBOL_SIGN_OP_MAP, COBOL_EQUALITY_OPS
 
-
 SRC_SUBVALUE = f'({MASK_TOKEN})'
 TAR_SUBVALUE = f'.GetSubvalue(start: {MASK_TOKEN})'
+
 
 def __gen_relation_condition():
     """Generate relation condition pair."""
@@ -89,29 +89,36 @@ def __gen_class_condition():
 
     # Generate pair
     type_selection = random.choice(range(6))
+    negate = bool(random.getrandbits(1))
 
     src_is = 'IS ' if bool(random.getrandbits(1)) else ''
+    src_negate = 'NOT ' if negate else ''
+    tar_negate = '!' if negate else ''
+
+    has_subvalue = bool(random.getrandbits(1))
+    src_subvalue = SRC_SUBVALUE if has_subvalue else ''
+    tar_subvalue = TAR_SUBVALUE if has_subvalue else ''
 
     if type_selection == 0:
         # Numeric
-        src = f'{MASK_TOKEN} {src_is}NUMERIC'
-        tar = f'{MASK_TOKEN}.IsNumeric()'
+        src = f'{MASK_TOKEN}{src_subvalue} {src_is}{src_negate}NUMERIC'
+        tar = f'{tar_negate}{MASK_TOKEN}{tar_subvalue}.IsNumeric()'
     elif type_selection == 1:
         # Alphabetic
-        src = f'{MASK_TOKEN} {src_is}ALPHABETIC'
-        tar = f'{MASK_TOKEN}.IsAlphabetic()'
+        src = f'{MASK_TOKEN}{src_subvalue} {src_is}{src_negate}ALPHABETIC'
+        tar = f'{tar_negate}{MASK_TOKEN}{tar_subvalue}.IsAlphabetic()'
     elif type_selection == 2:
         # Alphanumeric
-        src = f'{MASK_TOKEN} {src_is}ALPHANUMERIC'
-        tar = f'{MASK_TOKEN}.IsAlphanumeric()'
+        src = f'{MASK_TOKEN}{src_subvalue} {src_is}{src_negate}ALPHANUMERIC'
+        tar = f'{tar_negate}{MASK_TOKEN}{tar_subvalue}.IsAlphanumeric()'
     elif type_selection == 3:
         # Alphabetic (lowercase)
-        src = f'{MASK_TOKEN} {src_is}ALPHABETIC-LOWER'
-        tar = f'{MASK_TOKEN}.IsAlphabeticLower()'
+        src = f'{MASK_TOKEN}{src_subvalue} {src_is}{src_negate}ALPHABETIC-LOWER'
+        tar = f'{tar_negate}{MASK_TOKEN}{tar_subvalue}.IsAlphabeticLower()'
     else:
         # Alphabetic (uppercase)
-        src = f'{MASK_TOKEN} {src_is}ALPHABETIC-UPPER'
-        tar = f'{MASK_TOKEN}.IsAlphabeticUpper()'
+        src = f'{MASK_TOKEN}{src_subvalue} {src_is}{src_negate}ALPHABETIC-UPPER'
+        tar = f'{tar_negate}{MASK_TOKEN}{tar_subvalue}.IsAlphabeticUpper()'
 
     return src, tar
 
