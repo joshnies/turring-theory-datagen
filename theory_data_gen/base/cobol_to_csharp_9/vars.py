@@ -117,7 +117,7 @@ def __gen_vars():
                                 tar_val = __gen_default_val(t, tar_size)
                                 for val in ['ZERO', 'ZEROS', 'ZEROES']:
                                     pairs.append((
-                                        f'{m_level} {m_name} PIC {combined_type} VALUE {val}',
+                                        f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE {val}',
                                         f'{m_name} = new COBOLVar({tar_val}, size: {tar_size}{tar_occurs});{tar_indexed}',
                                     ))
 
