@@ -50,11 +50,15 @@ def __gen_relation_condition():
         tar_op = COBOL_BOOL_OP_MAP[src_op]
     elif val_choice == 2:
         # ZERO constant
-        src_val = 'ZERO'
+        is_plural = bool(random.getrandbits(1))
+        plural = 'S' if is_plural else ''
+        extra_e = 'E' if is_plural and bool(random.getrandbits(1)) else ''
+        src_val = f'ZERO{extra_e}{plural}'
         tar_val = '0'
     else:
         # SPACE constant
-        src_val = 'SPACE'
+        plural = 'S' if bool(random.getrandbits(1)) else ''
+        src_val = f'SPACE{plural}'
         tar_val = '" "'
 
         # Ensure operator is compatible
