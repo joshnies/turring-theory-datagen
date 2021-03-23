@@ -33,10 +33,13 @@ def __gen_relation_condition():
         src_val = MASK_TOKEN
         tar_val = MASK_TOKEN
 
-        src_subvalue_a = SRC_SUBVALUE if bool(random.getrandbits(1)) else ''
-        src_subvalue_b = SRC_SUBVALUE if bool(random.getrandbits(1)) else ''
-        tar_subvalue_a = TAR_SUBVALUE if bool(random.getrandbits(1)) else ''
-        tar_subvalue_b = TAR_SUBVALUE if bool(random.getrandbits(1)) else ''
+        has_subvalue_a = bool(random.getrandbits(1))
+        has_subvalue_b = bool(random.getrandbits(1))
+
+        src_subvalue_a = SRC_SUBVALUE if has_subvalue_a else ''
+        src_subvalue_b = SRC_SUBVALUE if has_subvalue_a else ''
+        tar_subvalue_a = TAR_SUBVALUE if has_subvalue_b else ''
+        tar_subvalue_b = TAR_SUBVALUE if has_subvalue_b else ''
     elif val_choice == 1:
         # Null
         src_val = 'NULL'
@@ -120,12 +123,13 @@ def __gen_name_condition():
     src_not = 'NOT ' if is_negated else ''
     tar_not = '!' if is_negated else ''
 
-    src_subvalue_a = SRC_SUBVALUE if bool(random.getrandbits(1)) else ''
-    tar_subvalue_a = TAR_SUBVALUE if bool(random.getrandbits(1)) else ''
+    has_subvalue = bool(random.getrandbits(1))
+    src_subvalue = SRC_SUBVALUE if has_subvalue else ''
+    tar_subvalue = TAR_SUBVALUE if has_subvalue else ''
 
     # Generate positive condition
-    src = f'{src_not}{MASK_TOKEN}{src_subvalue_a}'
-    tar = f'{tar_not}{MASK_TOKEN}{tar_subvalue_a}'
+    src = f'{src_not}{MASK_TOKEN}{src_subvalue}'
+    tar = f'{tar_not}{MASK_TOKEN}{tar_subvalue}'
 
     return src, tar
 
