@@ -57,7 +57,8 @@ def __gen_vars():
                             use_z = bool(i_use_z)
 
                             # Offset "size" mask token based on previous clauses in source
-                            m_size = gen_mask_token(2 + int(use_occurs) + int(use_indexed))
+                            m_size_index = 2 + int(use_occurs) + int(use_indexed)
+                            m_size = gen_mask_token(m_size_index)
 
                             prefix = 'S' if is_signed and t == '9' else ''
 
@@ -74,8 +75,9 @@ def __gen_vars():
                             tar_occurs = f', occurs: {m_occurrence}' if use_occurs else ''
                             tar_indexed = fr'\n{m_indexed_by} = new COBOLVar(0, size: 10);' if use_indexed else ''
 
-                            for combined_type_idx, combined_type in enumerate([src_type, f'{t}({m_size})']):
+                            for combined_type_idx, combined_type in enumerate([src_type, f'{prefix}{t}({m_size})']):
                                 tar_size = i if combined_type_idx == 0 else m_size
+                                m_val = gen_mask_token(m_size_index + combined_type_idx)
 
                                 # No default value
                                 pairs.append((
@@ -91,14 +93,14 @@ def __gen_vars():
 
                                 # Masked default value
                                 pairs.append((
-                                    f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE {MASK_TOKEN}',
-                                    f'{m_name} = new COBOLVar({MASK_TOKEN}, size: {tar_size}{tar_occurs});{tar_indexed}',
+                                    f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE {m_val}',
+                                    f'{m_name} = new COBOLVar({m_val}, size: {tar_size}{tar_occurs});{tar_indexed}',
                                 ))
 
                                 for quote in QUOTES:
                                     pairs.append((
-                                        f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE {quote}{MASK_TOKEN}{quote}',
-                                        f'{m_name} = new COBOLVar("{MASK_TOKEN}", size: {tar_size}{tar_occurs});{tar_indexed}',
+                                        f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE {quote}{m_val}{quote}',
+                                        f'{m_name} = new COBOLVar("{m_val}", size: {tar_size}{tar_occurs});{tar_indexed}',
                                     ))
 
                                 # String-specific default values
@@ -128,14 +130,7 @@ def __gen_vars():
                                         f'{m_name} = new COBOLVar({tar_val}, size: {tar_size}{tar_occurs});{tar_indexed}',
                                     ))
 
-    # Add mask indices
-    items = list()
-    for src, tar in pairs:
-        new_src, _ = add_mask_indices(src, start_index=2)
-        new_tar, _ = add_mask_indices(tar, start_index=2)
-        items.append((new_src, new_tar))
-
-    return items
+    return pairs
 
 
 def gen_vars(write):
