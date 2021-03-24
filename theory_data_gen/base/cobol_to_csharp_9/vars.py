@@ -50,76 +50,83 @@ def __gen_vars():
             for i_is_signed in range(2):
                 for i_use_occurs in range(2):
                     for i_use_indexed in range(2):
-                        is_signed = bool(i_is_signed)
-                        use_occurs = bool(i_use_occurs)
-                        use_indexed = use_occurs and bool(i_use_indexed)
+                        for i_use_z in range(2):
+                            is_signed = bool(i_is_signed)
+                            use_occurs = bool(i_use_occurs)
+                            use_indexed = use_occurs and bool(i_use_indexed)
+                            use_z = bool(i_use_z)
 
-                        # Offset "size" mask token based on previous clauses in source
-                        m_size = gen_mask_token(2 + int(use_occurs) + int(use_indexed))
+                            # Offset "size" mask token based on previous clauses in source
+                            m_size = gen_mask_token(2 + int(use_occurs) + int(use_indexed))
 
-                        prefix = 'S' if is_signed and t == '9' else ''
-                        type_range = t * i
-                        src_type = prefix + type_range
+                            prefix = 'S' if is_signed and t == '9' else ''
 
-                        src_occurs = f' OCCURS {m_occurrence} TIMES ' if use_occurs else ' '
-                        src_indexed = f'INDEXED BY {m_indexed_by} ' if use_indexed else ''
+                            if use_z:
+                                z_range = 'Z' * (i - 1)
+                                src_type = z_range + prefix + t
+                            else:
+                                type_range = t * i
+                                src_type = prefix + type_range
 
-                        tar_occurs = f', occurs: {m_occurrence}' if use_occurs else ''
-                        tar_indexed = fr'\n{m_indexed_by} = new COBOLVar(0, size: 10);' if use_indexed else ''
+                            src_occurs = f' OCCURS {m_occurrence} TIMES ' if use_occurs else ' '
+                            src_indexed = f'INDEXED BY {m_indexed_by} ' if use_indexed else ''
 
-                        for combined_type_idx, combined_type in enumerate([src_type, f'{t}({m_size})']):
-                            tar_size = i if combined_type_idx == 0 else m_size
+                            tar_occurs = f', occurs: {m_occurrence}' if use_occurs else ''
+                            tar_indexed = fr'\n{m_indexed_by} = new COBOLVar(0, size: 10);' if use_indexed else ''
 
-                            # No default value
-                            pairs.append((
-                                f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type}',
-                                f'{m_name} = new COBOLVar({__gen_default_val(t, tar_size)}, size: {tar_size}{tar_occurs});{tar_indexed}',
-                            ))
+                            for combined_type_idx, combined_type in enumerate([src_type, f'{t}({m_size})']):
+                                tar_size = i if combined_type_idx == 0 else m_size
 
-                            # Null default value
-                            pairs.append((
-                                f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE NULL',
-                                f'{m_name} = new COBOLVar(null, size: {tar_size}{tar_occurs});{tar_indexed}',
-                            ))
-
-                            # Masked default value
-                            pairs.append((
-                                f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE {MASK_TOKEN}',
-                                f'{m_name} = new COBOLVar({MASK_TOKEN}, size: {tar_size}{tar_occurs});{tar_indexed}',
-                            ))
-
-                            for quote in QUOTES:
+                                # No default value
                                 pairs.append((
-                                    f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE {quote}{MASK_TOKEN}{quote}',
-                                    f'{m_name} = new COBOLVar("{MASK_TOKEN}", size: {tar_size}{tar_occurs});{tar_indexed}',
+                                    f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type}',
+                                    f'{m_name} = new COBOLVar({__gen_default_val(t, tar_size)}, size: {tar_size}{tar_occurs});{tar_indexed}',
                                 ))
 
-                            # String-specific default values
-                            if t in COBOL_STR_TYPES:
-                                for val in ['SPACE', 'SPACES']:
-                                    pairs.append((
-                                        f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE {val}',
-                                        f"{m_name} = new COBOLVar(new string(' ', {tar_size}), size: {tar_size}{tar_occurs});{tar_indexed}",
-                                    ))
+                                # Null default value
+                                pairs.append((
+                                    f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE NULL',
+                                    f'{m_name} = new COBOLVar(null, size: {tar_size}{tar_occurs});{tar_indexed}',
+                                ))
+
+                                # Masked default value
+                                pairs.append((
+                                    f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE {MASK_TOKEN}',
+                                    f'{m_name} = new COBOLVar({MASK_TOKEN}, size: {tar_size}{tar_occurs});{tar_indexed}',
+                                ))
 
                                 for quote in QUOTES:
                                     pairs.append((
-                                        f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE {quote * 2}',
-                                        f'{m_name} = new COBOLVar("", size: {tar_size}{tar_occurs});{tar_indexed}',
+                                        f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE {quote}{MASK_TOKEN}{quote}',
+                                        f'{m_name} = new COBOLVar("{MASK_TOKEN}", size: {tar_size}{tar_occurs});{tar_indexed}',
                                     ))
 
+                                # String-specific default values
+                                if t in COBOL_STR_TYPES:
+                                    for val in ['SPACE', 'SPACES']:
+                                        pairs.append((
+                                            f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE {val}',
+                                            f"{m_name} = new COBOLVar(new string(' ', {tar_size}), size: {tar_size}{tar_occurs});{tar_indexed}",
+                                        ))
+
+                                    for quote in QUOTES:
+                                        pairs.append((
+                                            f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE {quote * 2}',
+                                            f'{m_name} = new COBOLVar("", size: {tar_size}{tar_occurs});{tar_indexed}',
+                                        ))
+
+                                        pairs.append((
+                                            f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE {quote} {quote}',
+                                            f'{m_name} = new COBOLVar(" ", size: {tar_size}{tar_occurs});{tar_indexed}',
+                                        ))
+
+                                # Zero default value
+                                tar_val = f"new string('0', {tar_size})" if t in COBOL_STR_TYPES else '0'
+                                for val in ['ZERO', 'ZEROS', 'ZEROES']:
                                     pairs.append((
-                                        f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE {quote} {quote}',
-                                        f'{m_name} = new COBOLVar(" ", size: {tar_size}{tar_occurs});{tar_indexed}',
+                                        f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE {val}',
+                                        f'{m_name} = new COBOLVar({tar_val}, size: {tar_size}{tar_occurs});{tar_indexed}',
                                     ))
-
-                            # Zero default value
-                            tar_val = f"new string('0', {tar_size})" if t in COBOL_STR_TYPES else '0'
-                            for val in ['ZERO', 'ZEROS', 'ZEROES']:
-                                pairs.append((
-                                    f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE {val}',
-                                    f'{m_name} = new COBOLVar({tar_val}, size: {tar_size}{tar_occurs});{tar_indexed}',
-                                ))
 
     # Add mask indices
     items = list()
