@@ -112,14 +112,14 @@ def __gen_vars():
                                         f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE {quote} {quote}',
                                         f'{m_name} = new COBOLVar(" ", size: {tar_size}{tar_occurs});{tar_indexed}',
                                     ))
-                            # Numeric-specific default values
-                            else:
-                                tar_val = __gen_default_val(t, tar_size)
-                                for val in ['ZERO', 'ZEROS', 'ZEROES']:
-                                    pairs.append((
-                                        f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE {val}',
-                                        f'{m_name} = new COBOLVar({tar_val}, size: {tar_size}{tar_occurs});{tar_indexed}',
-                                    ))
+
+                            # Zero default value
+                            tar_val = f"new string('0', {tar_size})" if t in COBOL_STR_TYPES else '0'
+                            for val in ['ZERO', 'ZEROS', 'ZEROES']:
+                                pairs.append((
+                                    f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE {val}',
+                                    f'{m_name} = new COBOLVar({tar_val}, size: {tar_size}{tar_occurs});{tar_indexed}',
+                                ))
 
     # Add mask indices
     items = list()
