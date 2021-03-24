@@ -20,6 +20,10 @@ class FGREGGTaxExtensionToCSharp9Generator(Generator):
                 f"DISPLAY '{gen_mask_token(0)}' '{gen_mask_token(1)}' {gen_mask_token(2)} ({gen_mask_token(3)})",
                 f'Console.WriteLine("{gen_mask_token(0)}" + "{gen_mask_token(1)}" + {gen_mask_token(2)}.GetSubvalue(start: {gen_mask_token(3)}));'
             ),
+            gen_item(
+                f'{gen_mask_token(0)} {gen_mask_token(1)} PIC XXBXXBX({gen_mask_token(2)})',
+                f"{gen_mask_token(1)} = new COBOLVar(new string(' ', 7), size: 7);"
+            )
         ]
 
         for i in items:
