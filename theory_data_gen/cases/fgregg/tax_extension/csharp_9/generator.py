@@ -23,7 +23,11 @@ class FGREGGTaxExtensionToCSharp9Generator(Generator):
             gen_item(
                 f'{gen_mask_token(0)} {gen_mask_token(1)} PIC XXBXXBX({gen_mask_token(2)})',
                 f"{gen_mask_token(1)} = new COBOLVar(new string(' ', 7), size: 7);"
-            )
+            ),
+            gen_item(
+                f'{gen_mask_token(0)} {gen_mask_token(1)} PIC XXBXXXBX({gen_mask_token(2)})',
+                f"{gen_mask_token(1)} = new COBOLVar(new string(' ', 8), size: 8);"
+            ),
         ]
 
         for i in items:
