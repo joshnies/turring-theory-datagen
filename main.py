@@ -1,7 +1,7 @@
 import argparse
 
 from theory_data_gen.lvp import LVP
-from theory_data_gen.output import create_output_file, deduplicate_lines
+from theory_data_gen.output import create_output_file, deduplicate_lines, split_dataset
 from theory_data_gen.base.cpp_17_to_nodejs_14.generator import Cpp17ToNodeJS14Generator
 from theory_data_gen.base.java_14_to_nodejs_14.generator import Java14ToNodeJS14Generator
 from theory_data_gen.base.java_14_to_python_3.generator import Java14ToPython3Generator
@@ -16,6 +16,8 @@ parser.add_argument('-c', '--case', help='Case module used for additional data g
 parser.add_argument('-o', '--out', help='Output file path', required=True)
 parser.add_argument('--minimal', help='Whether to only generate minimal required data for the LVP. Intended for use ' +
                                       'with a case module.', action='store_true')
+parser.add_argument('--valid-split', help='Percentage (float) of data to reserve for validation dataset', type=float,
+                    default=0.2)
 parser.add_argument('--vars', help='Number of variables', type=int, default=0)
 parser.add_argument('--arr-vars', help='Number of array variables', type=int, default=0)
 parser.add_argument('--arr-var-defs', help='Number of array variable definitions (with no default value)', type=int,
@@ -48,30 +50,41 @@ case_name = args.case.lower() if args.case is not None else None
 # Create output file
 og_file_name = f'{args.out[:-4]}_DUP.csv'
 dup_file, write_func = create_output_file(og_file_name)
+base_generator = None
+case_generator = None
 
-# Generate base LVP data
+# Choose base generator
 if lvp == LVP.COBOL_TO_CSHARP_9:
-    CobolToCSharp9Generator.generate(args, write_func)
+    base_generator = CobolToCSharp9Generator
 elif lvp == LVP.CPP_17_TO_NODEJS_14:
-    Cpp17ToNodeJS14Generator.generate(args, write_func)
+    base_generator = Cpp17ToNodeJS14Generator
 elif lvp == LVP.JAVA_14_TO_NODEJS_14:
-    Java14ToNodeJS14Generator.generate(args, write_func)
+    base_generator = Java14ToNodeJS14Generator
 elif lvp == LVP.JAVA_14_TO_PYTHON_3:
-    Java14ToPython3Generator.generate(args, write_func)
+    base_generator = Java14ToPython3Generator
 else:
     raise Exception(f'Unimplemented language-version pair "{lvp.value}".')
 
-# Generate case data
+# Choose case generator
 if case_name == 'jdereg/java_util_to_nodejs_14':
-    JderegJavaUtilToNodeJs14Generator.generate(args, write_func)
+    case_generator = JderegJavaUtilToNodeJs14Generator
 elif case_name == 'fgregg/tax_extension_to_csharp_9':
-    FGREGGTaxExtensionToCSharp9Generator.generate(args, write_func)
+    case_generator = FGREGGTaxExtensionToCSharp9Generator
 elif case_name is not None:
     raise Exception(f'Unimplemented case "{case_name}".')
 
-dup_file.close()
+# Generate base data
+base_generator.generate(args, write_func)
+
+# Generate case data
+if case_name is not None:
+    case_generator.generate(args, write_func)
 
 # Remove duplicated lines
+dup_file.close()
 deduplicate_lines(og_file_name, args.out)
+
+# Split datasets
+split_dataset(args.out, args.valid_split)
 
 print('Output to {}'.format(args.out))

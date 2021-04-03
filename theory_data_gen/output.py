@@ -1,5 +1,6 @@
 import csv
 import os
+import random
 
 CSV_COLUMNS = ['source', 'target']
 
@@ -47,3 +48,30 @@ def deduplicate_lines(input_file_path: str, output_file_path: str):
 
     # Delete input file
     os.remove(input_file_path)
+
+
+def split_dataset(file_path: str, split: int):
+    """
+    Split dataset between training and validation.
+
+    :param file_path: Dataset file path.
+    :param split: Split percentage.
+    """
+
+    lines = open(file_path).readlines()
+    header = lines[0]
+    lines = lines[1:]
+    random.shuffle(lines)
+    line_count = len(lines)
+    split_idx = int(line_count * (1 - split))
+
+    train_lines = [header]
+    train_lines.extend(lines[:split_idx - 1])
+    valid_lines = [header]
+    valid_lines.extend(lines[split_idx:])
+
+    open(f'{file_path[:-4]}_train.csv', 'w').writelines(train_lines)
+    open(f'{file_path[:-4]}_valid.csv', 'w').writelines(valid_lines)
+
+    # Delete original dataset
+    os.remove(file_path)
