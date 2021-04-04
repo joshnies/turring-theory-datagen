@@ -122,6 +122,18 @@ def __gen_vars():
                                             f'{m_name} = new COBOLVar(" ", size: {tar_size}{tar_occurs});{tar_indexed}',
                                         ))
 
+                                # Integer default values
+                                if t in COBOL_INT_TYPES:
+                                    # "HIGH/LOW-VALUES" default values
+                                    pairs.extend((
+                                        f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE HIGH-VALUES',
+                                        f"{m_name} = new COBOLVar(new string('.', {tar_size}), size: {tar_size}{tar_occurs});{tar_indexed}",
+                                    ))
+                                    pairs.extend((
+                                        f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE LOW-VALUES',
+                                        f'{m_name} = new COBOLVar(string.Concat(Enumerable.Repeat("<NUL>", {tar_size})), size: {tar_size}{tar_occurs});{tar_indexed}',
+                                    ))
+
                                 # Zero default value
                                 tar_val = f"new string('0', {tar_size})" if t in COBOL_STR_TYPES else '0'
                                 for val in ['ZERO', 'ZEROS', 'ZEROES']:
