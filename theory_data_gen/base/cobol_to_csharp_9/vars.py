@@ -122,8 +122,6 @@ def __gen_vars():
                                             f'{m_name} = new COBOLVar(" ", size: {tar_size}{tar_occurs});{tar_indexed}',
                                         ))
 
-                                # Integer default values
-                                if t in COBOL_INT_TYPES:
                                     # "HIGH/LOW-VALUES" default values
                                     pairs.extend((
                                         f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE HIGH-VALUES',
