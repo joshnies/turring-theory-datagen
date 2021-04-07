@@ -1,7 +1,8 @@
 import argparse
+import csv
 
 from theory_data_gen.lvp import LVP
-from theory_data_gen.output import create_output_file, deduplicate_lines, split_dataset
+from theory_data_gen.output import create_output_file, deduplicate_lines, split_dataset, CSV_COLUMNS
 from theory_data_gen.base.cpp_17_to_nodejs_14.generator import Cpp17ToNodeJS14Generator
 from theory_data_gen.base.java_14_to_nodejs_14.generator import Java14ToNodeJS14Generator
 from theory_data_gen.base.java_14_to_python_3.generator import Java14ToPython3Generator
@@ -73,12 +74,12 @@ elif case_name == 'fgregg/tax_extension_to_csharp_9':
 elif case_name is not None:
     raise Exception(f'Unimplemented case "{case_name}".')
 
-# Generate base data
-base_generator.generate(args, write_func)
+# Generate random base data
+base_generator.generate_random(args, write_func)
 
-# Generate case data
+# Generate random case data
 if case_name is not None:
-    case_generator.generate(args, write_func)
+    case_generator.generate_random(args, write_func)
 
 # Remove duplicated lines
 dup_file.close()
@@ -86,5 +87,14 @@ deduplicate_lines(og_file_name, args.out)
 
 # Split datasets
 split_dataset(args.out, args.valid_split)
+
+train_write_func = csv.DictWriter(open(f'{args.out[:-4]}_train.csv', 'a', newline=''), fieldnames=CSV_COLUMNS).writerow
+
+# Generate required base data (training dataset only)
+base_generator.generate_required(args, train_write_func)
+
+# Generate required case data (training dataset only)
+if case_name is not None:
+    case_generator.generate_required(args, train_write_func)
 
 print('Output to {}'.format(args.out))
