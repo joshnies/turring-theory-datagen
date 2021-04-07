@@ -145,13 +145,13 @@ def __gen_vars():
                                             dec_nines = '9' * dec_count
                                             pairs.append((
                                                 f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {z}9.{dec_nines}',
-                                                f'{m_name} = new COBOLVar(0f, size: {z_count + dec_count + 1}{tar_occurs});{tar_indexed}'
+                                                f'{m_name} = new COBOLVar(0f, size: {z_count + dec_count + 2}{tar_occurs});{tar_indexed}'
                                             ))
 
                                             dec_z = 'Z' * (dec_count - 1)
                                             pairs.append((
                                                 f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {z}9.{dec_z}9',
-                                                f'{m_name} = new COBOLVar(0f, size: {z_count + dec_count + 1}{tar_occurs});{tar_indexed}'
+                                                f'{m_name} = new COBOLVar(0f, size: {z_count + dec_count + 2}{tar_occurs});{tar_indexed}'
                                             ))
 
                                 # Zero default value
