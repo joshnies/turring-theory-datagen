@@ -123,14 +123,36 @@ def __gen_vars():
                                         ))
 
                                     # "HIGH/LOW-VALUES" default values
-                                    pairs.extend((
+                                    pairs.append((
                                         f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE HIGH-VALUES',
                                         f"{m_name} = new COBOLVar(new string('.', {tar_size}), size: {tar_size}{tar_occurs});{tar_indexed}",
                                     ))
-                                    pairs.extend((
+                                    pairs.append((
                                         f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE LOW-VALUES',
                                         f'{m_name} = new COBOLVar(string.Concat(Enumerable.Repeat("<NUL>", {tar_size})), size: {tar_size}{tar_occurs});{tar_indexed}',
                                     ))
+
+                                # Generate decimal type vars
+                                if t == '9':
+                                    for z_count in range(0, 6):
+                                        z = 'Z' * z_count
+                                        pairs.append((
+                                            f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {z}9',
+                                            f'{m_name} = new COBOLVar(0f, size: {z_count + 1}{tar_occurs});{tar_indexed}'
+                                        ))
+
+                                        for dec_count in range(1, 6):
+                                            dec_nines = '9' * dec_count
+                                            pairs.append((
+                                                f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {z}9.{dec_nines}',
+                                                f'{m_name} = new COBOLVar(0f, size: {z_count + dec_count + 1}{tar_occurs});{tar_indexed}'
+                                            ))
+
+                                            dec_z = 'Z' * (dec_count - 1)
+                                            pairs.append((
+                                                f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {z}9.{dec_z}9',
+                                                f'{m_name} = new COBOLVar(0f, size: {z_count + dec_count + 1}{tar_occurs});{tar_indexed}'
+                                            ))
 
                                 # Zero default value
                                 tar_val = f"new string('0', {tar_size})" if t in COBOL_STR_TYPES else '0'
