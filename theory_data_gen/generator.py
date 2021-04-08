@@ -2,9 +2,9 @@ class Generator:
     """Base class for data generator."""
 
     @staticmethod
-    def generate_random(args, write):
+    def generate_datasets(args, write):
         """
-        Generate random data for this LVP.
+        Generate random data for this LVP's datasets.
 
         :param args: Command line arguments.
         :param write: Function called to write to the output file.
@@ -12,9 +12,9 @@ class Generator:
         pass
 
     @staticmethod
-    def generate_required(args, write):
+    def generate_map_data(args, write):
         """
-        Generate required data for this LVP.
+        Generate finite amount of data for this LVP that will be added to the data map file.
 
         :param args: Command line arguments.
         :param write: Function called to write to the output file.

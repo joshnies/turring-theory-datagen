@@ -1,5 +1,7 @@
 import argparse
 import csv
+import shutil
+import os
 
 from theory_data_gen.lvp import LVP
 from theory_data_gen.output import create_output_file, deduplicate_lines, split_dataset, CSV_COLUMNS
@@ -74,27 +76,44 @@ elif case_name == 'fgregg/tax_extension_to_csharp_9':
 elif case_name is not None:
     raise Exception(f'Unimplemented case "{case_name}".')
 
-# Generate random base data
-base_generator.generate_random(args, write_func)
 
-# Generate random case data
-if case_name is not None:
-    case_generator.generate_random(args, write_func)
+def gen_datasets():
+    # Generate base data for datasets
+    base_generator.generate_datasets(args, write_func)
 
-# Remove duplicated lines
-dup_file.close()
-deduplicate_lines(og_file_name, args.out)
+    # Generate case data for datasets
+    if case_name is not None:
+        case_generator.generate_datasets(args, write_func)
 
-# Split datasets
-split_dataset(args.out, args.valid_split)
+    # Remove duplicated lines
+    dup_file.close()
+    deduplicate_lines(og_file_name, args.out)
 
-train_write_func = csv.DictWriter(open(f'{args.out[:-4]}_train.csv', 'a', newline=''), fieldnames=CSV_COLUMNS).writerow
+    # Split datasets
+    split_dataset(args.out, args.valid_split)
 
-# Generate required base data (training dataset only)
-base_generator.generate_required(args, train_write_func)
 
-# Generate required case data (training dataset only)
-if case_name is not None:
-    case_generator.generate_required(args, train_write_func)
+def gen_data_map():
+    full_dataset_path = f'{args.out[:-4]}.csv'
+    data_map_path = f'{args.out[:-4]}_map.csv'
 
-print('Output to {}'.format(args.out))
+    # Create data map file from full (without train/valid split) dataset file
+    shutil.copy(full_dataset_path, data_map_path)
+
+    # Open data map file as CSV writer
+    data_map_file = open(data_map_path, 'a', newline='')
+    map_write_func = csv.DictWriter(data_map_file, fieldnames=CSV_COLUMNS).writerow
+
+    # Generate base data for data map
+    base_generator.generate_map_data(args, map_write_func)
+
+    # Generate case data for data map
+    if case_name is not None:
+        case_generator.generate_map_data(args, map_write_func)
+
+
+gen_datasets()
+gen_data_map()
+
+# Delete full dataset file
+os.remove(args.out)

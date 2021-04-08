@@ -72,6 +72,3 @@ def split_dataset(file_path: str, split: int):
 
     open(f'{file_path[:-4]}_train.csv', 'w').writelines(train_lines)
     open(f'{file_path[:-4]}_valid.csv', 'w').writelines(valid_lines)
-
-    # Delete original dataset
-    os.remove(file_path)
