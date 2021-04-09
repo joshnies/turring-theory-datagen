@@ -1,8 +1,7 @@
 from yaspin import yaspin
 
-from ...constants import MASK_TOKEN
 from .common import gen_filler_pairs
-from ...common import gen_item, gen_mask_token, add_mask_indices
+from ...common import gen_item, gen_mask_token
 
 COBOL_STR_TYPES = ['X', 'A']
 COBOL_INT_TYPES = ['9', 'S9']
