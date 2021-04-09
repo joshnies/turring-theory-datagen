@@ -97,12 +97,6 @@ def __gen_vars():
                                     f'{m_name} = new COBOLVar({m_val}, size: {tar_size}{tar_occurs});{tar_indexed}',
                                 ))
 
-                                for quote in QUOTES:
-                                    pairs.append((
-                                        f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE {quote}{m_val}{quote}',
-                                        f'{m_name} = new COBOLVar("{m_val}", size: {tar_size}{tar_occurs});{tar_indexed}',
-                                    ))
-
                                 # String-specific default values
                                 if t in COBOL_STR_TYPES:
                                     for val in ['SPACE', 'SPACES']:
@@ -112,14 +106,34 @@ def __gen_vars():
                                         ))
 
                                     for quote in QUOTES:
+                                        # Empty string
                                         pairs.append((
                                             f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE {quote * 2}',
                                             f'{m_name} = new COBOLVar("", size: {tar_size}{tar_occurs});{tar_indexed}',
                                         ))
 
+                                        # User-defined string
+                                        pairs.append((
+                                            f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE {quote}{m_val}{quote}',
+                                            f'{m_name} = new COBOLVar("{m_val}", size: {tar_size}{tar_occurs});{tar_indexed}',
+                                        ))
+
+                                        # User-defined string (repeating)
+                                        pairs.append((
+                                            f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE ALL {quote}{m_val}{quote}',
+                                            f'{m_name} = new COBOLVar(string.Concat(Enumerable.Repeat("{m_val}", {tar_size})), size: {tar_size}{tar_occurs});{tar_indexed}',
+                                        ))
+
+                                        # Single space
                                         pairs.append((
                                             f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE {quote} {quote}',
                                             f'{m_name} = new COBOLVar(" ", size: {tar_size}{tar_occurs});{tar_indexed}',
+                                        ))
+
+                                        # Single space (repeating)
+                                        pairs.append((
+                                            f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE ALL {quote} {quote}',
+                                            f"{m_name} = new COBOLVar(new string(' ', {tar_size}), size: {tar_size}{tar_occurs});{tar_indexed}",
                                         ))
 
                                     # "HIGH/LOW-VALUE(S)" default values
