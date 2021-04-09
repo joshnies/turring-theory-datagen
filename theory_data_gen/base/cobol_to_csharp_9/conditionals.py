@@ -37,8 +37,8 @@ def __gen_relation_condition():
         has_subvalue_b = bool(random.getrandbits(1))
 
         src_subvalue_a = SRC_SUBVALUE if has_subvalue_a else ''
-        src_subvalue_b = SRC_SUBVALUE if has_subvalue_a else ''
-        tar_subvalue_a = TAR_SUBVALUE if has_subvalue_b else ''
+        src_subvalue_b = SRC_SUBVALUE if has_subvalue_b else ''
+        tar_subvalue_a = TAR_SUBVALUE if has_subvalue_a else ''
         tar_subvalue_b = TAR_SUBVALUE if has_subvalue_b else ''
     elif val_choice == 1:
         # Null
@@ -175,7 +175,7 @@ def __gen_conditional():
     all_src_conditions = list()
     all_tar_conditions = list()
 
-    for _ in range(random.choice(range(1, 6))):
+    for _ in range(random.choice(range(1, 7))):
         c = gen_condition()
         all_src_conditions.append(c[0])
         all_tar_conditions.append(c[1])
