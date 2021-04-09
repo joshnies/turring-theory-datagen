@@ -122,15 +122,18 @@ def __gen_vars():
                                             f'{m_name} = new COBOLVar(" ", size: {tar_size}{tar_occurs});{tar_indexed}',
                                         ))
 
-                                    # "HIGH/LOW-VALUES" default values
-                                    pairs.append((
-                                        f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE HIGH-VALUES',
-                                        f"{m_name} = new COBOLVar(new string('.', {tar_size}), size: {tar_size}{tar_occurs});{tar_indexed}",
-                                    ))
-                                    pairs.append((
-                                        f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE LOW-VALUES',
-                                        f'{m_name} = new COBOLVar(string.Concat(Enumerable.Repeat("<NUL>", {tar_size})), size: {tar_size}{tar_occurs});{tar_indexed}',
-                                    ))
+                                    # "HIGH/LOW-VALUE(S)" default values
+                                    for i_plural in range(2):
+                                        plural = 'S' if bool(i_plural) else ''
+
+                                        pairs.append((
+                                            f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE HIGH-VALUE{plural}',
+                                            f"{m_name} = new COBOLVar(new string('.', {tar_size}), size: {tar_size}{tar_occurs});{tar_indexed}",
+                                        ))
+                                        pairs.append((
+                                            f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {combined_type} VALUE LOW-VALUE{plural}',
+                                            f'{m_name} = new COBOLVar(string.Concat(Enumerable.Repeat("<NUL>", {tar_size})), size: {tar_size}{tar_occurs});{tar_indexed}',
+                                        ))
 
                                 # Generate decimal type vars
                                 if t == '9':
