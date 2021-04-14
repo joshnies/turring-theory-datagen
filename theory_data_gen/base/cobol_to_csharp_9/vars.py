@@ -148,27 +148,46 @@ def __gen_vars():
                                             f'{m_name} = new COBOLVar(string.Concat(Enumerable.Repeat("<NUL>", {tar_size})), size: {tar_size}{tar_occurs});{tar_indexed}',
                                         ))
 
-                                # Generate decimal type vars
                                 if t == '9':
-                                    for z_count in range(0, 6):
-                                        z = 'Z' * z_count
-                                        pairs.append((
-                                            f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {z}9',
-                                            f'{m_name} = new COBOLVar(0f, size: {z_count + 1}{tar_occurs});{tar_indexed}'
-                                        ))
+                                    # Negative numerics
+                                    pairs.append((
+                                        f'{m_level} {m_name}{src_occurs}{src_indexed}PIC -{combined_type}',
+                                        f'{m_name} = new COBOLVar({__gen_default_val(t, tar_size)}, size: {tar_size}{tar_occurs});{tar_indexed}',
+                                    ))
 
-                                        for dec_count in range(1, 6):
-                                            dec_nines = '9' * dec_count
+                                    pairs.append((
+                                        f'{m_level} {m_name}{src_occurs}{src_indexed}PIC -{combined_type} VALUE NULL',
+                                        f'{m_name} = new COBOLVar(null, size: {tar_size}{tar_occurs});{tar_indexed}',
+                                    ))
+
+                                    pairs.append((
+                                        f'{m_level} {m_name}{src_occurs}{src_indexed}PIC -{combined_type} VALUE {m_val}',
+                                        f'{m_name} = new COBOLVar({m_val}, size: {tar_size}{tar_occurs});{tar_indexed}',
+                                    ))
+
+                                    # Generate decimal type vars
+                                    for i_is_negative in range(2):
+                                        negative = '-' if bool(i_is_negative) else ''
+
+                                        for z_count in range(0, 6):
+                                            z = 'Z' * z_count
                                             pairs.append((
-                                                f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {z}9.{dec_nines}',
-                                                f'{m_name} = new COBOLVar(0f, size: {z_count + dec_count + 2}{tar_occurs});{tar_indexed}'
+                                                f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {negative}{z}9',
+                                                f'{m_name} = new COBOLVar(0f, size: {z_count + 1}{tar_occurs});{tar_indexed}'
                                             ))
 
-                                            dec_z = 'Z' * (dec_count - 1)
-                                            pairs.append((
-                                                f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {z}9.{dec_z}9',
-                                                f'{m_name} = new COBOLVar(0f, size: {z_count + dec_count + 2}{tar_occurs});{tar_indexed}'
-                                            ))
+                                            for dec_count in range(1, 6):
+                                                dec_nines = '9' * dec_count
+                                                pairs.append((
+                                                    f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {negative}{z}9.{dec_nines}',
+                                                    f'{m_name} = new COBOLVar(0f, size: {z_count + dec_count + 2}{tar_occurs});{tar_indexed}'
+                                                ))
+
+                                                dec_z = 'Z' * (dec_count - 1)
+                                                pairs.append((
+                                                    f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {negative}{z}9.{dec_z}9',
+                                                    f'{m_name} = new COBOLVar(0f, size: {z_count + dec_count + 2}{tar_occurs});{tar_indexed}'
+                                                ))
 
                                 # Zero default value
                                 tar_val = f"new string('0', {tar_size})" if t in COBOL_STR_TYPES else '0'
