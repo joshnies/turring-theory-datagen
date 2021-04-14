@@ -96,13 +96,14 @@ def gen_datasets():
 def gen_data_map():
     full_dataset_path = f'{args.out[:-4]}.csv'
     data_map_path = f'{args.out[:-4]}_map.csv'
+    data_map_dup_path = f'{args.out[:-4]}_map_DUP.csv'
 
     # Create data map file from full (without train/valid split) dataset file
-    shutil.copy(full_dataset_path, data_map_path)
+    shutil.copy(full_dataset_path, data_map_dup_path)
 
     # Open data map file as CSV writer
-    data_map_file = open(data_map_path, 'a', newline='')
-    map_write_func = csv.DictWriter(data_map_file, fieldnames=CSV_COLUMNS).writerow
+    data_map_dup_file = open(data_map_dup_path, 'a', newline='')
+    map_write_func = csv.DictWriter(data_map_dup_file, fieldnames=CSV_COLUMNS).writerow
 
     # Generate base data for data map
     base_generator.generate_map_data(args, map_write_func)
@@ -110,6 +111,10 @@ def gen_data_map():
     # Generate case data for data map
     if case_name is not None:
         case_generator.generate_map_data(args, map_write_func)
+
+    # Remove duplicated lines
+    data_map_dup_file.close()
+    deduplicate_lines(data_map_dup_path, data_map_path)
 
 
 gen_datasets()
