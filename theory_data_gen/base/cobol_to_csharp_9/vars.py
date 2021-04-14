@@ -168,26 +168,31 @@ def __gen_vars():
                                     # Generate decimal type vars
                                     for i_is_negative in range(2):
                                         negative = '-' if bool(i_is_negative) else ''
+                                        recurring_symbols = ['Z']
 
-                                        for z_count in range(0, 6):
-                                            z = 'Z' * z_count
-                                            pairs.append((
-                                                f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {negative}{z}9',
-                                                f'{m_name} = new COBOLVar(0f, size: {z_count + 1}{tar_occurs});{tar_indexed}'
-                                            ))
+                                        if negative:
+                                            recurring_symbols.append('-')
 
-                                            for dec_count in range(1, 6):
-                                                dec_nines = '9' * dec_count
+                                        for recurring_count in range(0, 6):
+                                            for s in recurring_symbols:
+                                                recurring_symbol = s * recurring_count
                                                 pairs.append((
-                                                    f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {negative}{z}9.{dec_nines}',
-                                                    f'{m_name} = new COBOLVar(0f, size: {z_count + dec_count + 2}{tar_occurs});{tar_indexed}'
+                                                    f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {negative}{recurring_symbol}9',
+                                                    f'{m_name} = new COBOLVar(0f, size: {recurring_count + 1}{tar_occurs});{tar_indexed}'
                                                 ))
 
-                                                dec_z = 'Z' * (dec_count - 1)
-                                                pairs.append((
-                                                    f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {negative}{z}9.{dec_z}9',
-                                                    f'{m_name} = new COBOLVar(0f, size: {z_count + dec_count + 2}{tar_occurs});{tar_indexed}'
-                                                ))
+                                                for dec_count in range(1, 6):
+                                                    dec_nines = '9' * dec_count
+                                                    pairs.append((
+                                                        f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {negative}{recurring_symbol}9.{dec_nines}',
+                                                        f'{m_name} = new COBOLVar(0f, size: {recurring_count + dec_count + 2}{tar_occurs});{tar_indexed}'
+                                                    ))
+
+                                                    dec_z = 'Z' * (dec_count - 1)
+                                                    pairs.append((
+                                                        f'{m_level} {m_name}{src_occurs}{src_indexed}PIC {negative}{recurring_symbol}9.{dec_z}9',
+                                                        f'{m_name} = new COBOLVar(0f, size: {recurring_count + dec_count + 2}{tar_occurs});{tar_indexed}'
+                                                    ))
 
                                 # Zero default value
                                 tar_val = f"new string('0', {tar_size})" if t in COBOL_STR_TYPES else '0'
