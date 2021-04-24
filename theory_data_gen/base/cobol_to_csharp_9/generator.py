@@ -2,6 +2,7 @@ from .arithmetic import gen_arithmetic
 from .conditionals import gen_conditionals
 from .loops import gen_loops
 from .redefines import gen_redefines
+from .sort import gen_sort_statements
 from .stdout import gen_stdout
 from .vars import gen_vars
 from ...generator import Generator
@@ -25,3 +26,4 @@ class CobolToCSharp9Generator(Generator):
         gen_vars(write)
         gen_redefines(write)
         gen_stdout(write)
+        gen_sort_statements(write)
