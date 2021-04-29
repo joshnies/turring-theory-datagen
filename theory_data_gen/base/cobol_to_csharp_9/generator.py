@@ -18,6 +18,7 @@ class CobolToCSharp9Generator(Generator):
         gen_arithmetic(write, args.arithmetic)
         gen_conditionals(write, args.conditionals)
         gen_loops(write, args.loops)
+        gen_stdout(write)
 
     @staticmethod
     def generate_map_data(args, write):
@@ -25,5 +26,4 @@ class CobolToCSharp9Generator(Generator):
 
         gen_vars(write)
         gen_redefines(write)
-        gen_stdout(write)
         gen_sort_statements(write)
