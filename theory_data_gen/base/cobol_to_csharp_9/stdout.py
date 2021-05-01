@@ -52,8 +52,8 @@ def gen_stdout(write):
 
     with yaspin(text='Generating stdout...', color='magenta'):
         for quote in ['"', "'"]:
-            for str_count in range(0, 5):
-                for var_count in range(0, 5):
+            for str_count in range(0, 6):
+                for var_count in range(0, 6):
                     # Skip case where both counts are 0
                     if str_count == 0 and var_count == 0:
                         continue
