@@ -237,6 +237,11 @@ def gen_vars(write):
                 f'{m_name} = new COBOLVar(0f, size: 3);'
             ),
             (
+                f'{m_level} {m_name} PIC S9({m_size})V99',
+                # NOTE: Literal operations are calculated at compile-time in C#
+                f'{m_name} = new COBOLVar(0f, size: {m_size} + 1);'
+            ),
+            (
                 f'{m_level} {m_name} PIC S9({m_size})V9({gen_mask_token(3)})',
                 # NOTE: Literal operations are calculated at compile-time in C#
                 f'{m_name} = new COBOLVar(0f, size: {m_size} + {gen_mask_token(3)} + 1);'
@@ -253,6 +258,30 @@ def gen_vars(write):
                 f'{m_name} = new COBOLVar(null, size: {m_size} + {gen_mask_token(3)} + 1);'
             ),
             # Floats with literal 0 default value
+            (
+                f'{m_level} {m_name} PIC S9V9 VALUE ZERO',
+                f'{m_name} = new COBOLVar(0f, size: 3);'
+            ),
+            (
+                f'{m_level} {m_name} PIC S9V9 VALUE ZEROS',
+                f'{m_name} = new COBOLVar(0f, size: 3);'
+            ),
+            (
+                f'{m_level} {m_name} PIC S9V9 VALUE ZEROES',
+                f'{m_name} = new COBOLVar(0f, size: 3);'
+            ),
+            (
+                f'{m_level} {m_name} PIC S9({m_size})V99 VALUE ZERO',
+                f'{m_name} = new COBOLVar(0f, size: {m_size} + 1);'
+            ),
+            (
+                f'{m_level} {m_name} PIC S9({m_size})V99 VALUE ZEROS',
+                f'{m_name} = new COBOLVar(0f, size: {m_size} + 1);'
+            ),
+            (
+                f'{m_level} {m_name} PIC S9({m_size})V99 VALUE ZEROES',
+                f'{m_name} = new COBOLVar(0f, size: {m_size} + 1);'
+            ),
             (
                 f'{m_level} {m_name} PIC S9({m_size})V9({gen_mask_token(3)}) VALUE ZERO',
                 f'{m_name} = new COBOLVar(0f, size: {m_size} + {gen_mask_token(3)} + 1);'
