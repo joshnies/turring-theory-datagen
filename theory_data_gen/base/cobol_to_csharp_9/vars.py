@@ -248,6 +248,14 @@ def gen_vars(write):
             ),
             # Floats with default value
             (
+                f'{m_level} {m_name} PIC S9({m_size})V99 VALUE {gen_mask_token(3)}',
+                f'{m_name} = new COBOLVar({gen_mask_token(3)}f, size: {m_size});'
+            ),
+            (
+                f'{m_level} {m_name} PIC S9({m_size})V99 VALUE NULL',
+                f'{m_name} = new COBOLVar(null, size: {m_size});'
+            ),
+            (
                 f'{m_level} {m_name} PIC S9({m_size})V9({gen_mask_token(3)}) VALUE {gen_mask_token(4)}',
                 # NOTE: C# requires "f" suffix for float literals
                 f'{m_name} = new COBOLVar({gen_mask_token(4)}f, size: {m_size} + {gen_mask_token(3)} + 1);'
