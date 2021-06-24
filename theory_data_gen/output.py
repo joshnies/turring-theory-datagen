@@ -72,3 +72,33 @@ def split_dataset(file_path: str, split: int):
 
     open(f'{file_path[:-4]}_train.csv', 'w').writelines(train_lines)
     open(f'{file_path[:-4]}_valid.csv', 'w').writelines(valid_lines)
+
+
+def output_json_from_csv(file_path: str, delete_csv: bool = False):
+    """
+    Create JSON file from CSV file.
+
+    :param file_path: CSV file name.
+    :param delete_csv: Whether to delete the CSV file afterwards.
+    """
+
+    # Open new JSON file for writing
+    with open(f'{file_path[:-4]}.json', 'a') as json_file:
+        # Add open bracket
+        json_file.write('{\n\t')
+
+        # Open CSV file for reading
+        with open(file_path, newline='') as csv_file:
+            csv_reader = csv.reader(csv_file)
+            next(csv_reader)  # Skip header
+
+            # Write rows to JSON file
+            for row in csv_reader:
+                json_file.write(f'"{row[0]}": "{row[1]}",\n\t')
+
+            # Add closing bracket
+            json_file.write('}')
+
+    # Delete CSV file
+    if delete_csv:
+        os.remove(file_path)

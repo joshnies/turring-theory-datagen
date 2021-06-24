@@ -2,9 +2,11 @@ import argparse
 import csv
 import shutil
 import os
+from yaspin import yaspin
 
 from theory_data_gen.lvp import LVP
-from theory_data_gen.output import create_output_file, deduplicate_lines, split_dataset, CSV_COLUMNS
+from theory_data_gen.output import create_output_file, deduplicate_lines, split_dataset, CSV_COLUMNS, \
+    output_json_from_csv
 from theory_data_gen.base.cpp_17_to_nodejs_14.generator import Cpp17ToNodeJS14Generator
 from theory_data_gen.base.java_14_to_nodejs_14.generator import Java14ToNodeJS14Generator
 from theory_data_gen.base.java_14_to_python_3.generator import Java14ToPython3Generator
@@ -115,6 +117,10 @@ def gen_data_map():
     # Remove duplicated lines
     data_map_dup_file.close()
     deduplicate_lines(data_map_dup_path, data_map_path)
+
+    # Create JSON data map
+    with yaspin(text='Creating JSON map...', color='magenta'):
+        output_json_from_csv(data_map_path, delete_csv=True)
 
 
 gen_datasets()
