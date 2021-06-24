@@ -119,7 +119,7 @@ def gen_data_map():
     deduplicate_lines(data_map_dup_path, data_map_path)
 
     # Create JSON data map
-    with yaspin(text='Creating JSON map...', color='magenta'):
+    with yaspin(text='Creating JSON data map...', color='magenta'):
         output_json_from_csv(data_map_path, delete_csv=True)
 
 
