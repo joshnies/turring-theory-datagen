@@ -20,10 +20,11 @@ def __gen_relation_condition():
     # Generate random keywords and clauses
     src_is = 'IS ' if bool(random.getrandbits(1)) else ''
 
-    src_subvalue_a = ''
-    src_subvalue_b = ''
-    tar_subvalue_a = ''
-    tar_subvalue_b = ''
+    has_subvalue_a = bool(random.getrandbits(1))
+    src_subvalue_a = SRC_SUBVALUE if has_subvalue_a else ''
+    tar_subvalue_a = TAR_SUBVALUE if has_subvalue_a else '.value'
+    src_subvalue_b = ''  # empty unless value is mask token
+    tar_subvalue_b = ''  # empty unless value is mask token
 
     # Generate value
     val_choice = random.randint(0, 3)
@@ -33,13 +34,9 @@ def __gen_relation_condition():
         src_val = MASK_TOKEN
         tar_val = MASK_TOKEN
 
-        has_subvalue_a = bool(random.getrandbits(1))
         has_subvalue_b = bool(random.getrandbits(1))
-
-        src_subvalue_a = SRC_SUBVALUE if has_subvalue_a else ''
         src_subvalue_b = SRC_SUBVALUE if has_subvalue_b else ''
-        tar_subvalue_a = TAR_SUBVALUE if has_subvalue_a else ''
-        tar_subvalue_b = TAR_SUBVALUE if has_subvalue_b else ''
+        tar_subvalue_b = TAR_SUBVALUE if has_subvalue_b else '.value'
     elif val_choice == 1:
         # Null
         src_val = 'NULL'
@@ -83,7 +80,7 @@ def __gen_sign_condition():
 
     # Generate
     src = f'{MASK_TOKEN} {src_is}{src_op}'
-    tar = f'{MASK_TOKEN} {tar_op}'
+    tar = f'{MASK_TOKEN}.value {tar_op}'
 
     return src, tar
 
@@ -136,7 +133,7 @@ def __gen_name_condition():
 
     has_subvalue = bool(random.getrandbits(1))
     src_subvalue = SRC_SUBVALUE if has_subvalue else ''
-    tar_subvalue = TAR_SUBVALUE if has_subvalue else ''
+    tar_subvalue = TAR_SUBVALUE if has_subvalue else '.value'
 
     # Generate positive condition
     src = f'{src_not}{MASK_TOKEN}{src_subvalue}'
